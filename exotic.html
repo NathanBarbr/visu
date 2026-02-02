@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Agricole — RPG 2023</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #1c1c1e;
+            --card-bg: #2c2c2e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #86868b;
+            --border: #3a3a3c;
+            --accent-blue: #0a84ff;
+            --accent-pink: #ff375f;
+            --accent-green: #30d158;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden;
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #visualization {
+            flex-grow: 1;
+            position: relative;
+            background: radial-gradient(circle at center, #2c2c2e 0%, #1c1c1e 100%);
+        }
+
+        #sidebar {
+            width: 340px;
+            background: var(--card-bg);
+            border-left: 1px solid var(--border);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+        }
+
+        .info-panel {
+            margin-top: 32px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .info-panel.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #back-btn {
+            margin-top: auto;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s;
+        }
+
+        #back-btn:hover {
+            background: var(--card-bg);
+            border-color: var(--text-muted);
+        }
+
+        .stat-box {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .circle-hover {
+            stroke: white;
+            stroke-width: 2px;
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="visualization"></div>
+
+    <div id="sidebar">
+        <a href="index.html" class="back-link">← Retour au menu</a>
+        <h1>Cosmos Agricole</h1>
+        <div class="breadcrumbs">Survolez les sphères pour explorer</div>
+
+        <div id="details" class="info-panel">
+            <div class="stat-box" style="border-color: var(--accent-pink);">
+                <div class="stat-value" id="d-name">--</div>
+                <div class="stat-label">Catégorie</div>
+            </div>
+
+            <div class="stat-box" style="border-color: var(--accent-blue);">
+                <div class="stat-value" id="d-surface">0</div>
+                <div class="stat-label">Hectares</div>
+            </div>
+
+            <div class="stat-box" style="border-color: var(--accent-green);">
+                <div class="stat-value" id="d-count">0</div>
+                <div class="stat-label">Parcelles</div>
+            </div>
+
+            <p id="d-desc" style="color: var(--text-secondary); line-height: 1.6; margin-top: 16px;"></p>
+        </div>
+
+        <div id="back-btn">← Retourner à la vue globale</div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="exotic.js"></script>
+</body>
+
+</html>

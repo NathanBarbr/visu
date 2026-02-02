@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Ferme France — RPG 2023</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #1c1c1e;
+            --card-bg: #2c2c2e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #86868b;
+            --border: #3a3a3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            position: relative;
+        }
+
+        a.back-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        a.back-link:hover {
+            color: var(--text-primary);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .scale-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .content {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .waffle-grid {
+            display: grid;
+            grid-template-columns: repeat(25, 1fr);
+            gap: 3px;
+            width: 550px;
+            padding: 16px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .unit {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .unit:hover {
+            transform: scale(1.4);
+            z-index: 10;
+        }
+
+        .legend {
+            max-width: 320px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 16px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .legend-item:hover {
+            transform: translateX(6px);
+            border-color: #4a4a4c;
+        }
+
+        .color-box {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            margin-right: 16px;
+        }
+
+        .legend-info {
+            flex: 1;
+        }
+
+        .legend-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .legend-val {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        .legend-pct {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        #tooltip {
+            position: absolute;
+            pointer-events: none;
+            background: var(--card-bg);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            display: none;
+            z-index: 100;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .waffle-grid {
+                width: 100%;
+                max-width: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Retour au menu</a>
+
+        <header>
+            <h1>La « Ferme France »</h1>
+            <div class="subtitle">Si l'agriculture française tenait dans 500 carrés</div>
+            <div class="scale-info">1 carré ≈ 60 000 hectares</div>
+        </header>
+
+        <div class="content">
+            <div class="waffle-grid" id="waffle"></div>
+            <div class="legend" id="legend"></div>
+        </div>
+    </div>
+
+    <div id="tooltip"></div>
+
+    <script>
+        const CATEGORIES = {
+            "CEREALES": {
+                label: "Céréales",
+                codes: ["1", "2", "3", "4", "7", "9"],
+                color: "#ffd60a",
+                desc: "Blé, Maïs, Orge, Riz..."
+            },
+            "PRAIRIES": {
+                label: "Prairies & Fourrages",
+                codes: ["17", "18", "19"],
+                color: "#30d158",
+                desc: "Herbe, Pâturages"
+            },
+            "OLEAGINEUX": {
+                label: "Huiles & Protéines",
+                codes: ["5", "6", "8", "10"],
+                color: "#ff9f0a",
+                desc: "Colza, Tournesol, Soja"
+            },
+            "VIGNES_VERGERS": {
+                label: "Vignes & Fruits",
+                codes: ["16", "20", "22", "23", "26"],
+                color: "#bf5af2",
+                desc: "Vin, Fruits, Olives"
+            },
+            "LEGUMES": {
+                label: "Légumes & Racines",
+                codes: ["11", "14", "15", "21"],
+                color: "#ff453a",
+                desc: "Pommes de terre, Betteraves"
+            },
+            "AUTRES": {
+                label: "Divers / Jachères",
+                codes: ["24", "25", "28", "12", "13"],
+                color: "#636366",
+                desc: "Jachères, Fleurs, Divers"
+            }
+        };
+
+        async function init() {
+            try {
+                const response = await fetch('data_summary_france.json');
+                const data = await response.json();
+                processData(data.group);
+            } catch (e) { console.error(e); }
+        }
+
+        function processData(groups) {
+            const totals = {};
+            Object.keys(CATEGORIES).forEach(k => totals[k] = 0);
+
+            let totalSurf = 0;
+
+            groups.forEach(g => {
+                const code = g.code;
+                let found = false;
+                for (const [catKey, catDef] of Object.entries(CATEGORIES)) {
+                    if (catDef.codes.includes(code)) {
+                        totals[catKey] += g.surface;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) totals["AUTRES"] += g.surface;
+                totalSurf += g.surface;
+            });
+
+            const TOTAL_UNITS = 500;
+            const distribution = [];
+
+            Object.entries(totals).forEach(([key, val]) => {
+                const count = Math.round((val / totalSurf) * TOTAL_UNITS);
+                distribution.push({ key, val, count });
+            });
+
+            const currentCount = distribution.reduce((sum, d) => sum + d.count, 0);
+            const diff = TOTAL_UNITS - currentCount;
+            if (diff !== 0) {
+                distribution.sort((a, b) => b.val - a.val)[0].count += diff;
+            }
+
+            renderWaffle(distribution, totalSurf);
+            renderLegend(distribution, totalSurf);
+        }
+
+        function renderWaffle(dist, totalSurf) {
+            const grid = document.getElementById('waffle');
+            grid.innerHTML = "";
+
+            const order = ["PRAIRIES", "CEREALES", "OLEAGINEUX", "VIGNES_VERGERS", "LEGUMES", "AUTRES"];
+
+            order.forEach(catKey => {
+                const item = dist.find(d => d.key === catKey);
+                if (!item) return;
+
+                const color = CATEGORIES[catKey].color;
+                const label = CATEGORIES[catKey].label;
+
+                for (let i = 0; i < item.count; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'unit';
+                    div.style.backgroundColor = color;
+                    div.dataset.cat = catKey;
+
+                    div.onmouseover = (e) => showTooltip(e, label);
+                    div.onmousemove = (e) => moveTooltip(e);
+                    div.onmouseout = hideTooltip;
+
+                    grid.appendChild(div);
+                }
+            });
+
+            const allUnits = document.querySelectorAll('.unit');
+            allUnits.forEach((u, i) => {
+                u.style.opacity = 0;
+                setTimeout(() => {
+                    u.style.opacity = 1;
+                }, i * 1.5);
+            });
+        }
+
+        function renderLegend(dist, totalSurf) {
+            const container = document.getElementById('legend');
+            const legendData = dist.map(d => ({
+                ...d,
+                cat: CATEGORIES[d.key],
+                percent: (d.val / totalSurf * 100).toFixed(1)
+            })).sort((a, b) => b.val - a.val);
+
+            legendData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'legend-item';
+                div.innerHTML = `
+                    <div class="color-box" style="background: ${item.cat.color}"></div>
+                    <div class="legend-info">
+                        <div class="legend-name">${item.cat.label}</div>
+                        <div class="legend-val">${item.cat.desc}</div>
+                    </div>
+                    <div class="legend-pct">${item.percent}%</div>
+                `;
+
+                div.onmouseover = () => {
+                    document.querySelectorAll('.unit').forEach(u => {
+                        u.style.opacity = u.dataset.cat === item.key ? 1 : 0.2;
+                    });
+                };
+                div.onmouseout = () => {
+                    document.querySelectorAll('.unit').forEach(u => u.style.opacity = 1);
+                };
+
+                container.appendChild(div);
+            });
+        }
+
+        const tooltip = document.getElementById('tooltip');
+        function showTooltip(e, text) {
+            tooltip.style.display = 'block';
+            tooltip.innerText = text;
+        }
+        function moveTooltip(e) {
+            tooltip.style.left = (e.pageX + 15) + 'px';
+            tooltip.style.top = (e.pageY + 15) + 'px';
+        }
+        function hideTooltip() {
+            tooltip.style.display = 'none';
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

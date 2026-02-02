@@ -1,0 +1,352 @@
+{
+  "Île-de-France": {
+    "total_surface": 11005.92999999998,
+    "top_cultures": [
+      {
+        "code": "BTH",
+        "surface": 3684.5299999999984
+      },
+      {
+        "code": "ORH",
+        "surface": 1079.4199999999994
+      },
+      {
+        "code": "CZH",
+        "surface": 1048.2299999999998
+      },
+      {
+        "code": "MIS",
+        "surface": 965.1599999999997
+      },
+      {
+        "code": "ORP",
+        "surface": 924.6899999999999
+      }
+    ]
+  },
+  "Centre-Val de Loire": {
+    "total_surface": 46227.770000000164,
+    "top_cultures": [
+      {
+        "code": "BTH",
+        "surface": 11217.380000000003
+      },
+      {
+        "code": "CZH",
+        "surface": 5844.410000000005
+      },
+      {
+        "code": "ORH",
+        "surface": 4500.8600000000015
+      },
+      {
+        "code": "PPH",
+        "surface": 4452.8
+      },
+      {
+        "code": "MIS",
+        "surface": 2447.9600000000028
+      }
+    ]
+  },
+  "Bourgogne-Franche-Comté": {
+    "total_surface": 48257.6099999999,
+    "top_cultures": [
+      {
+        "code": "PPH",
+        "surface": 20499.210000000014
+      },
+      {
+        "code": "BTH",
+        "surface": 7314.910000000015
+      },
+      {
+        "code": "ORH",
+        "surface": 2634.790000000001
+      },
+      {
+        "code": "CZH",
+        "surface": 2140.409999999999
+      },
+      {
+        "code": "PRL",
+        "surface": 1783.8200000000004
+      }
+    ]
+  },
+  "Normandie": {
+    "total_surface": 38725.70999999998,
+    "top_cultures": [
+      {
+        "code": "PPH",
+        "surface": 11743.320000000027
+      },
+      {
+        "code": "BTH",
+        "surface": 8883.580000000009
+      },
+      {
+        "code": "MIE",
+        "surface": 4458.059999999999
+      },
+      {
+        "code": "ORH",
+        "surface": 2415.09
+      },
+      {
+        "code": "CZH",
+        "surface": 2332.9999999999986
+      }
+    ]
+  },
+  "Hauts-de-France": {
+    "total_surface": 43022.34999999992,
+    "top_cultures": [
+      {
+        "code": "BTH",
+        "surface": 16188.880000000006
+      },
+      {
+        "code": "PPH",
+        "surface": 5442.860000000006
+      },
+      {
+        "code": "BTN",
+        "surface": 3913.6100000000024
+      },
+      {
+        "code": "CZH",
+        "surface": 2773.5599999999995
+      },
+      {
+        "code": "PTC",
+        "surface": 2330.570000000001
+      }
+    ]
+  },
+  "Grand Est": {
+    "total_surface": 60754.4499999998,
+    "top_cultures": [
+      {
+        "code": "PPH",
+        "surface": 14408.200000000024
+      },
+      {
+        "code": "BTH",
+        "surface": 13835.659999999987
+      },
+      {
+        "code": "ORH",
+        "surface": 4670.559999999995
+      },
+      {
+        "code": "ORP",
+        "surface": 4364.920000000001
+      },
+      {
+        "code": "MIS",
+        "surface": 3647.390000000003
+      }
+    ]
+  },
+  "Pays de la Loire": {
+    "total_surface": 42567.21999999995,
+    "top_cultures": [
+      {
+        "code": "PPH",
+        "surface": 9139.140000000014
+      },
+      {
+        "code": "BTH",
+        "surface": 7202.190000000007
+      },
+      {
+        "code": "MIE",
+        "surface": 4781.069999999994
+      },
+      {
+        "code": "PTR",
+        "surface": 3684.3099999999995
+      },
+      {
+        "code": "PRL",
+        "surface": 3071.229999999999
+      }
+    ]
+  },
+  "Bretagne": {
+    "total_surface": 32266.73999999992,
+    "top_cultures": [
+      {
+        "code": "BTH",
+        "surface": 5682.350000000011
+      },
+      {
+        "code": "MIE",
+        "surface": 5478.900000000005
+      },
+      {
+        "code": "PRL",
+        "surface": 4080.060000000004
+      },
+      {
+        "code": "PTR",
+        "surface": 3431.2100000000037
+      },
+      {
+        "code": "MIS",
+        "surface": 3123.309999999995
+      }
+    ]
+  },
+  "Nouvelle-Aquitaine": {
+    "total_surface": 80181.07000000008,
+    "top_cultures": [
+      {
+        "code": "PPH",
+        "surface": 17648.37999999999
+      },
+      {
+        "code": "BTH",
+        "surface": 10012.520000000019
+      },
+      {
+        "code": "MIS",
+        "surface": 7909.060000000005
+      },
+      {
+        "code": "PRL",
+        "surface": 6681.380000000004
+      },
+      {
+        "code": "PTR",
+        "surface": 5064.789999999994
+      }
+    ]
+  },
+  "Occitanie": {
+    "total_surface": 73652.88999999982,
+    "top_cultures": [
+      {
+        "code": "PPH",
+        "surface": 12486.100000000035
+      },
+      {
+        "code": "SPH",
+        "surface": 12101.859999999999
+      },
+      {
+        "code": "BTH",
+        "surface": 5065.030000000006
+      },
+      {
+        "code": "VRC",
+        "surface": 4044.7899999999986
+      },
+      {
+        "code": "SPL",
+        "surface": 4023.7699999999986
+      }
+    ]
+  },
+  "Auvergne-Rhône-Alpes": {
+    "total_surface": 62083.81000000007,
+    "top_cultures": [
+      {
+        "code": "PPH",
+        "surface": 28405.779999999915
+      },
+      {
+        "code": "SPH",
+        "surface": 6474.160000000004
+      },
+      {
+        "code": "BTH",
+        "surface": 4460.249999999997
+      },
+      {
+        "code": "PRL",
+        "surface": 3611.2699999999963
+      },
+      {
+        "code": "PTR",
+        "surface": 3314.2300000000005
+      }
+    ]
+  },
+  "Provence-Alpes-Côte d'Azur": {
+    "total_surface": 20282.17999999996,
+    "top_cultures": [
+      {
+        "code": "SPH",
+        "surface": 8587.98
+      },
+      {
+        "code": "SPL",
+        "surface": 2403.7699999999995
+      },
+      {
+        "code": "PPH",
+        "surface": 1986.7799999999982
+      },
+      {
+        "code": "VRC",
+        "surface": 1309.0000000000016
+      },
+      {
+        "code": "BOP",
+        "surface": 1253.82
+      }
+    ]
+  },
+  "Corse": {
+    "total_surface": 7596.879999999993,
+    "top_cultures": [
+      {
+        "code": "SPL",
+        "surface": 3659.669999999999
+      },
+      {
+        "code": "SNE",
+        "surface": 952.0799999999997
+      },
+      {
+        "code": "CEE",
+        "surface": 828.6399999999999
+      },
+      {
+        "code": "SPH",
+        "surface": 806.5000000000002
+      },
+      {
+        "code": "PPH",
+        "surface": 608.4000000000004
+      }
+    ]
+  },
+  "Inconnu": {
+    "total_surface": 306.6499999999999,
+    "top_cultures": [
+      {
+        "code": "J6P",
+        "surface": 141.6
+      },
+      {
+        "code": "SPH",
+        "surface": 27.740000000000002
+      },
+      {
+        "code": "PPH",
+        "surface": 22.959999999999997
+      },
+      {
+        "code": "BTH",
+        "surface": 22.149999999999995
+      },
+      {
+        "code": "ORH",
+        "surface": 15.639999999999997
+      }
+    ]
+  }
+}

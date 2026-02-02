@@ -1,0 +1,231 @@
+/* Style unifié - Inspiration Midjourney */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --bg-dark: #1c1c1e;
+    --card-bg: #2c2c2e;
+    --card-bg-hover: #3a3a3c;
+    --text-primary: #f5f5f7;
+    --text-secondary: #a1a1a6;
+    --text-muted: #86868b;
+    --accent: #0a84ff;
+    --accent-hover: #409cff;
+    --success: #30d158;
+    --warning: #ffd60a;
+    --danger: #ff453a;
+    --border: #3a3a3c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-top: 1rem;
+}
+
+h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Back Link */
+.back-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: var(--text-primary);
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Cards */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+}
+
+.card:hover {
+    border-color: #4a4a4c;
+}
+
+.card h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+/* KPI Cards */
+.kpi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.kpi-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+.kpi-value {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+}
+
+.kpi-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Charts */
+.chart-container {
+    width: 100%;
+    min-height: 400px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    padding: 0.75rem 1rem;
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    pointer-events: none;
+    font-size: 0.85rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+    color: var(--text-primary);
+}
+
+/* D3 Elements */
+.bar {
+    fill: var(--accent);
+    transition: fill 0.2s;
+}
+
+.bar:hover {
+    fill: var(--accent-hover);
+}
+
+.axis-label {
+    fill: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.domain,
+.tick line {
+    stroke: var(--border);
+}
+
+.tick text {
+    fill: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+.arc path {
+    stroke: var(--card-bg);
+    stroke-width: 2px;
+    transition: opacity 0.2s;
+}
+
+.arc path:hover {
+    opacity: 0.85;
+}
+
+/* Legend */
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.legend-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,776 @@
+{
+  "culture": [
+    {
+      "code": "PPH",
+      "count": 653413,
+      "surface": 1611284.900000086
+    },
+    {
+      "code": "SPH",
+      "count": 35755,
+      "surface": 291182.06000000116
+    },
+    {
+      "code": "BTH",
+      "count": 68985,
+      "surface": 210447.52000000127
+    },
+    {
+      "code": "MIS",
+      "count": 59522,
+      "surface": 184290.66000000027
+    },
+    {
+      "code": "PTR",
+      "count": 100752,
+      "surface": 170904.51000000062
+    },
+    {
+      "code": "SPL",
+      "count": 17706,
+      "surface": 63795.33000000004
+    },
+    {
+      "code": "ORH",
+      "count": 25661,
+      "surface": 62423.07999999987
+    },
+    {
+      "code": "TTH",
+      "count": 28818,
+      "surface": 60953.17000000019
+    },
+    {
+      "code": "TRN",
+      "count": 12885,
+      "surface": 43355.7600000001
+    },
+    {
+      "code": "CZH",
+      "count": 11318,
+      "surface": 43198.820000000036
+    },
+    {
+      "code": "MLG",
+      "count": 20033,
+      "surface": 40721.859999999986
+    },
+    {
+      "code": "LUZ",
+      "count": 23624,
+      "surface": 40720.03000000005
+    },
+    {
+      "code": "VRC",
+      "count": 44758,
+      "surface": 36559.749999999956
+    },
+    {
+      "code": "JAC",
+      "count": 29162,
+      "surface": 18173.570000000178
+    },
+    {
+      "code": "SOJ",
+      "count": 5420,
+      "surface": 17189.649999999994
+    },
+    {
+      "code": "SNE",
+      "count": 52531,
+      "surface": 16697.670000003855
+    },
+    {
+      "code": "NOX",
+      "count": 11366,
+      "surface": 12371.810000000025
+    },
+    {
+      "code": "MCR",
+      "count": 5410,
+      "surface": 10448.279999999988
+    },
+    {
+      "code": "SGH",
+      "count": 6494,
+      "surface": 10224.16999999999
+    },
+    {
+      "code": "VRG",
+      "count": 12305,
+      "surface": 9984.220000000072
+    },
+    {
+      "code": "BDH",
+      "count": 3714,
+      "surface": 9687.680000000031
+    },
+    {
+      "code": "LAV",
+      "count": 8016,
+      "surface": 8824.410000000016
+    },
+    {
+      "code": "SOG",
+      "count": 4808,
+      "surface": 8692.169999999976
+    },
+    {
+      "code": "CPL",
+      "count": 3348,
+      "surface": 7001.049999999999
+    },
+    {
+      "code": "TRE",
+      "count": 3053,
+      "surface": 6284.160000000016
+    },
+    {
+      "code": "ORP",
+      "count": 2657,
+      "surface": 5126.160000000017
+    },
+    {
+      "code": "MLC",
+      "count": 1619,
+      "surface": 3967.1000000000004
+    },
+    {
+      "code": "MLF",
+      "count": 1712,
+      "surface": 3514.670000000004
+    },
+    {
+      "code": "LEC",
+      "count": 2389,
+      "surface": 3444.449999999996
+    },
+    {
+      "code": "BTA",
+      "count": 23670,
+      "surface": 3443.8500000000645
+    },
+    {
+      "code": "EPE",
+      "count": 1480,
+      "surface": 3078.849999999997
+    },
+    {
+      "code": "SRS",
+      "count": 1369,
+      "surface": 2752.6600000000003
+    },
+    {
+      "code": "PTC",
+      "count": 4650,
+      "surface": 2652.819999999983
+    },
+    {
+      "code": "CTG",
+      "count": 3684,
+      "surface": 2636.7900000000013
+    },
+    {
+      "code": "BOR",
+      "count": 22685,
+      "surface": 2156.199999999711
+    },
+    {
+      "code": "PEP",
+      "count": 1293,
+      "surface": 1982.649999999998
+    },
+    {
+      "code": "SAI",
+      "count": 1740,
+      "surface": 1915.380000000003
+    },
+    {
+      "code": "AVP",
+      "count": 1452,
+      "surface": 1722.1199999999956
+    },
+    {
+      "code": "CBT",
+      "count": 3337,
+      "surface": 1699.4699999999982
+    },
+    {
+      "code": "FLA",
+      "count": 3565,
+      "surface": 1691.7999999999759
+    },
+    {
+      "code": "AVH",
+      "count": 900,
+      "surface": 1671.7400000000002
+    },
+    {
+      "code": "MPC",
+      "count": 550,
+      "surface": 1468.8200000000006
+    },
+    {
+      "code": "PHI",
+      "count": 576,
+      "surface": 1380.0999999999997
+    },
+    {
+      "code": "PVT",
+      "count": 1662,
+      "surface": 1379.4100000000026
+    },
+    {
+      "code": "AIL",
+      "count": 598,
+      "surface": 1299.8699999999988
+    },
+    {
+      "code": "MDI",
+      "count": 3416,
+      "surface": 1262.6999999999832
+    },
+    {
+      "code": "TRU",
+      "count": 2271,
+      "surface": 1255.3299999999947
+    },
+    {
+      "code": "OLI",
+      "count": 2945,
+      "surface": 1212.8899999999949
+    },
+    {
+      "code": "SIN",
+      "count": 439,
+      "surface": 1201.9499999999994
+    },
+    {
+      "code": "BTP",
+      "count": 616,
+      "surface": 1121.93
+    },
+    {
+      "code": "FVL",
+      "count": 420,
+      "surface": 818.92
+    },
+    {
+      "code": "OIG",
+      "count": 413,
+      "surface": 755.7099999999992
+    },
+    {
+      "code": "PCH",
+      "count": 389,
+      "surface": 670.7400000000005
+    },
+    {
+      "code": "ARP",
+      "count": 887,
+      "surface": 644.0599999999993
+    },
+    {
+      "code": "PPR",
+      "count": 261,
+      "surface": 621.0399999999998
+    },
+    {
+      "code": "LIH",
+      "count": 153,
+      "surface": 584.59
+    },
+    {
+      "code": "PWT",
+      "count": 808,
+      "surface": 517.7800000000002
+    },
+    {
+      "code": "BTN",
+      "count": 259,
+      "surface": 496.95000000000033
+    },
+    {
+      "code": "BDP",
+      "count": 242,
+      "surface": 484.57999999999976
+    },
+    {
+      "code": "MID",
+      "count": 232,
+      "surface": 481.06999999999994
+    },
+    {
+      "code": "AAR",
+      "count": 397,
+      "surface": 472.9699999999997
+    },
+    {
+      "code": "TTP",
+      "count": 359,
+      "surface": 471.82999999999953
+    },
+    {
+      "code": "MSW",
+      "count": 296,
+      "surface": 453.8700000000001
+    },
+    {
+      "code": "POT",
+      "count": 504,
+      "surface": 417.0299999999998
+    },
+    {
+      "code": "MOH",
+      "count": 272,
+      "surface": 409.4400000000002
+    },
+    {
+      "code": "PFR",
+      "count": 1319,
+      "surface": 400.96999999999906
+    },
+    {
+      "code": "FLP",
+      "count": 873,
+      "surface": 399.17999999999955
+    },
+    {
+      "code": "TOM",
+      "count": 261,
+      "surface": 379.10999999999996
+    },
+    {
+      "code": "LBF",
+      "count": 207,
+      "surface": 343.6599999999997
+    },
+    {
+      "code": "VES",
+      "count": 235,
+      "surface": 333.67
+    },
+    {
+      "code": "FRA",
+      "count": 814,
+      "surface": 328.41999999999956
+    },
+    {
+      "code": "GRA",
+      "count": 89,
+      "surface": 277.96000000000004
+    },
+    {
+      "code": "PRU",
+      "count": 754,
+      "surface": 275.5399999999997
+    },
+    {
+      "code": "BFS",
+      "count": 2624,
+      "surface": 260.98000000000053
+    },
+    {
+      "code": "PME",
+      "count": 372,
+      "surface": 240.67000000000004
+    },
+    {
+      "code": "AME",
+      "count": 326,
+      "surface": 234.58000000000013
+    },
+    {
+      "code": "MCS",
+      "count": 150,
+      "surface": 234.07000000000016
+    },
+    {
+      "code": "CAR",
+      "count": 211,
+      "surface": 233.97
+    },
+    {
+      "code": "CCN",
+      "count": 196,
+      "surface": 227.15000000000012
+    },
+    {
+      "code": "LIP",
+      "count": 86,
+      "surface": 219.30000000000007
+    },
+    {
+      "code": "CID",
+      "count": 211,
+      "surface": 215.82999999999993
+    },
+    {
+      "code": "CHU",
+      "count": 228,
+      "surface": 197.25999999999996
+    },
+    {
+      "code": "PEV",
+      "count": 171,
+      "surface": 184.56999999999996
+    },
+    {
+      "code": "MLT",
+      "count": 74,
+      "surface": 176.83000000000004
+    },
+    {
+      "code": "CSS",
+      "count": 308,
+      "surface": 176.24000000000004
+    },
+    {
+      "code": "PHF",
+      "count": 109,
+      "surface": 174.72000000000006
+    },
+    {
+      "code": "POR",
+      "count": 171,
+      "surface": 171.98999999999995
+    },
+    {
+      "code": "NOS",
+      "count": 170,
+      "surface": 169.8000000000001
+    },
+    {
+      "code": "CHV",
+      "count": 87,
+      "surface": 162.82
+    },
+    {
+      "code": "MOT",
+      "count": 133,
+      "surface": 137.89000000000007
+    },
+    {
+      "code": "PHS",
+      "count": 65,
+      "surface": 131.32000000000002
+    },
+    {
+      "code": "AFG",
+      "count": 146,
+      "surface": 128.95999999999998
+    },
+    {
+      "code": "FVP",
+      "count": 78,
+      "surface": 127.04999999999998
+    },
+    {
+      "code": "CZP",
+      "count": 71,
+      "surface": 126.72000000000003
+    },
+    {
+      "code": "MLO",
+      "count": 133,
+      "surface": 114.63000000000005
+    },
+    {
+      "code": "RDI",
+      "count": 95,
+      "surface": 96.28000000000002
+    },
+    {
+      "code": "SGP",
+      "count": 113,
+      "surface": 94.48000000000005
+    },
+    {
+      "code": "TAB",
+      "count": 117,
+      "surface": 93.42999999999999
+    },
+    {
+      "code": "CML",
+      "count": 51,
+      "surface": 89.61999999999999
+    },
+    {
+      "code": "EPI",
+      "count": 50,
+      "surface": 83.21
+    },
+    {
+      "code": "LDH",
+      "count": 27,
+      "surface": 72.21000000000001
+    },
+    {
+      "code": "PPP",
+      "count": 215,
+      "surface": 71.46000000000001
+    },
+    {
+      "code": "TCR",
+      "count": 80,
+      "surface": 67.57000000000001
+    },
+    {
+      "code": "PSL",
+      "count": 35,
+      "surface": 67.25
+    },
+    {
+      "code": "PAG",
+      "count": 33,
+      "surface": 64.81
+    },
+    {
+      "code": "SNU",
+      "count": 72,
+      "surface": 64.31
+    },
+    {
+      "code": "OAG",
+      "count": 63,
+      "surface": 58.58999999999999
+    },
+    {
+      "code": "CAG",
+      "count": 40,
+      "surface": 50.91999999999999
+    },
+    {
+      "code": "PRF",
+      "count": 115,
+      "surface": 48.66
+    },
+    {
+      "code": "NVT",
+      "count": 87,
+      "surface": 46.830000000000005
+    },
+    {
+      "code": "CEL",
+      "count": 39,
+      "surface": 39.300000000000004
+    },
+    {
+      "code": "ACP",
+      "count": 11,
+      "surface": 39.300000000000004
+    },
+    {
+      "code": "LDP",
+      "count": 26,
+      "surface": 39.15
+    },
+    {
+      "code": "CIT",
+      "count": 21,
+      "surface": 38.58
+    },
+    {
+      "code": "HPC",
+      "count": 44,
+      "surface": 36.06
+    },
+    {
+      "code": "CSE",
+      "count": 46,
+      "surface": 26.999999999999996
+    },
+    {
+      "code": "HBL",
+      "count": 34,
+      "surface": 23.680000000000003
+    },
+    {
+      "code": "LOT",
+      "count": 9,
+      "surface": 23.390000000000004
+    },
+    {
+      "code": "CAH",
+      "count": 22,
+      "surface": 22.219999999999995
+    },
+    {
+      "code": "FNU",
+      "count": 12,
+      "surface": 20.319999999999997
+    },
+    {
+      "code": "TBT",
+      "count": 17,
+      "surface": 14.01
+    },
+    {
+      "code": "SAG",
+      "count": 4,
+      "surface": 13.360000000000001
+    },
+    {
+      "code": "FEV",
+      "count": 12,
+      "surface": 11.379999999999999
+    },
+    {
+      "code": "GES",
+      "count": 5,
+      "surface": 11.240000000000002
+    },
+    {
+      "code": "ART",
+      "count": 26,
+      "surface": 8.16
+    },
+    {
+      "code": "PVP",
+      "count": 52,
+      "surface": 5.539999999999997
+    },
+    {
+      "code": "JNO",
+      "count": 16,
+      "surface": 5.34
+    },
+    {
+      "code": "AGR",
+      "count": 16,
+      "surface": 4.709999999999999
+    },
+    {
+      "code": "CEE",
+      "count": 4,
+      "surface": 2.6900000000000004
+    },
+    {
+      "code": "SBO",
+      "count": 3,
+      "surface": 2.3
+    },
+    {
+      "code": "OHR",
+      "count": 2,
+      "surface": 1.3599999999999999
+    },
+    {
+      "code": "ARA",
+      "count": 6,
+      "surface": 1.27
+    }
+  ],
+  "group": [
+    {
+      "code": "18",
+      "count": 653413,
+      "surface": 1611284.900000086
+    },
+    {
+      "code": "17",
+      "count": 53461,
+      "surface": 354977.3900000002
+    },
+    {
+      "code": "1",
+      "count": 69601,
+      "surface": 211569.45000000106
+    },
+    {
+      "code": "2",
+      "count": 59754,
+      "surface": 184771.7300000001
+    },
+    {
+      "code": "19",
+      "count": 100752,
+      "surface": 170904.51000000062
+    },
+    {
+      "code": "4",
+      "count": 55445,
+      "surface": 110765.76999999944
+    },
+    {
+      "code": "16",
+      "count": 55796,
+      "surface": 105030.94999999998
+    },
+    {
+      "code": "3",
+      "count": 28318,
+      "surface": 67549.23999999989
+    },
+    {
+      "code": "6",
+      "count": 12885,
+      "surface": 43355.7600000001
+    },
+    {
+      "code": "5",
+      "count": 11389,
+      "surface": 43325.54000000001
+    },
+    {
+      "code": "21",
+      "count": 44758,
+      "surface": 36559.749999999956
+    },
+    {
+      "code": "28",
+      "count": 106492,
+      "surface": 28372.97999999999
+    },
+    {
+      "code": "11",
+      "count": 29178,
+      "surface": 18178.910000000174
+    },
+    {
+      "code": "7",
+      "count": 5730,
+      "surface": 18054.75999999998
+    },
+    {
+      "code": "22",
+      "count": 15220,
+      "surface": 15178.400000000018
+    },
+    {
+      "code": "20",
+      "count": 20201,
+      "surface": 14262.100000000155
+    },
+    {
+      "code": "24",
+      "count": 10597,
+      "surface": 11225.280000000097
+    },
+    {
+      "code": "25",
+      "count": 17313,
+      "surface": 11207.59000000039
+    },
+    {
+      "code": "8",
+      "count": 2157,
+      "surface": 4909.519999999999
+    },
+    {
+      "code": "15",
+      "count": 2778,
+      "surface": 4115.189999999997
+    },
+    {
+      "code": "23",
+      "count": 2945,
+      "surface": 1212.8899999999949
+    },
+    {
+      "code": "9",
+      "count": 133,
+      "surface": 189.82000000000005
+    }
+  ]
+}
