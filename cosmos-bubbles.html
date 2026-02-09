@@ -54,30 +54,41 @@
         }
 
         .panel-header {
-            padding: 20px 24px;
+            padding: 16px 24px;
             background: var(--card-bg);
             border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header-left {
             display: flex;
             align-items: center;
             gap: 16px;
         }
 
         .back-link {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            background: var(--bg-dark);
+            border-radius: 6px;
+            transition: all 0.2s;
         }
 
         .back-link:hover {
             color: var(--text-primary);
+            background: var(--border);
         }
 
         .panel-header h2 {
             font-family: 'Playfair Display', Georgia, serif;
             font-weight: 500;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--text-primary);
+            margin: 0;
         }
 
         #cosmos-viz {
@@ -100,19 +111,10 @@
             background: var(--bg-dark);
         }
 
-        /* Info Bar */
-        .info-bar {
-            padding: 16px 24px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
+        /* Stats in header */
+        .stats {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .info-bar .stats {
-            display: flex;
-            gap: 32px;
+            gap: 24px;
         }
 
         .stat-item {
@@ -121,17 +123,18 @@
 
         .stat-value {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 500;
             color: var(--text-primary);
+            line-height: 1;
         }
 
         .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             color: var(--text-muted);
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         .filter-badge {
@@ -350,8 +353,10 @@
         <!-- Left: Cosmos Panel -->
         <div class="cosmos-panel">
             <div class="panel-header">
-                <a href="index.html" class="back-link">← Menu</a>
-                <h2>Groupes de Cultures</h2>
+                <div class="panel-header-left">
+                    <a href="index.html" class="back-link">← Menu</a>
+                    <h2>Groupes de Cultures</h2>
+                </div>
             </div>
             <div id="cosmos-viz"></div>
             <div id="cosmos-info" class="cosmos-info">
@@ -366,14 +371,21 @@
                     <span class="cosmos-stat-value" id="cosmos-count">0</span>
                 </div>
                 <div class="click-hint" id="cosmos-hint">
-                    Cliquez pour filtrer les bulles →
+                    Cliquez pour filtrer →
                 </div>
             </div>
         </div>
 
         <!-- Right: Bubbles Panel -->
         <div class="bubbles-panel">
-            <div class="info-bar">
+            <div class="panel-header">
+                <div class="panel-header-left">
+                    <h2>Comparaison des Surfaces</h2>
+                    <div class="filter-badge" id="filter-badge">
+                        <span id="filter-name">Filtre actif</span>
+                        <span class="close">×</span>
+                    </div>
+                </div>
                 <div class="stats">
                     <div class="stat-item">
                         <div class="stat-value" id="stat-cultures">0</div>
@@ -388,13 +400,6 @@
                         <div class="stat-label">Parcelles</div>
                     </div>
                 </div>
-                <div class="filter-badge" id="filter-badge">
-                    <span id="filter-name">Filtre actif</span>
-                    <span class="close">×</span>
-                </div>
-            </div>
-            <div class="panel-header">
-                <h2>Comparaison des Surfaces</h2>
             </div>
             <div id="bubbles-chart"></div>
             <div class="legend-box">
