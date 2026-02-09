@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anatomie du Morcellement — RPG 2023</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #1c1c1e;
+            --card-bg: #2c2c2e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #86868b;
+            --border: #3a3a3c;
+
+            /* Size category colors */
+            --color-micro: #ff453a;
+            --color-petite: #ff9f0a;
+            --color-moyenne: #ffd60a;
+            --color-grande: #30d158;
+            --color-tres-grande: #0a84ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        /* Chart container */
+        .chart-wrapper {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .chart-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        #chart {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .region-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 16px;
+        }
+
+        .region-name {
+            width: 180px;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        .bar-container {
+            flex-grow: 1;
+            height: 28px;
+            display: flex;
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--bg-dark);
+        }
+
+        .bar-segment {
+            height: 100%;
+            transition: opacity 0.2s, transform 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .bar-segment:hover {
+            opacity: 0.8;
+            transform: scaleY(1.1);
+        }
+
+        .avg-size {
+            width: 80px;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .avg-size strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Tooltip */
+        #tooltip {
+            position: fixed;
+            pointer-events: none;
+            background: var(--card-bg);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 4px;
+        }
+
+        .tooltip-label {
+            color: var(--text-muted);
+        }
+
+        .tooltip-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Stats summary */
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .region-name {
+                width: 100px;
+                font-size: 0.75rem;
+            }
+
+            .legend {
+                gap: 12px;
+            }
+
+            .legend-item {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Retour au menu</a>
+
+        <header>
+            <h1>Anatomie du Morcellement</h1>
+            <div class="subtitle">Comparaison de la fragmentation parcellaire entre les régions françaises —
+                des micro-parcelles aux grandes exploitations</div>
+        </header>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-micro);"></div>
+                <span>Micro (&lt;0.5 ha)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-petite);"></div>
+                <span>Petite (0.5-2 ha)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-moyenne);"></div>
+                <span>Moyenne (2-10 ha)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-grande);"></div>
+                <span>Grande (10-50 ha)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-tres-grande);"></div>
+                <span>Très grande (&gt;50 ha)</span>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-wrapper">
+            <div class="chart-title">Distribution des tailles de parcelles par région</div>
+            <div id="chart"></div>
+        </div>
+    </div>
+
+    <div id="tooltip"></div>
+
+    <script>
+        const CATEGORY_COLORS = {
+            "micro": "#ff453a",
+            "petite": "#ff9f0a",
+            "moyenne": "#ffd60a",
+            "grande": "#30d158",
+            "tres_grande": "#0a84ff"
+        };
+
+        const CATEGORY_LABELS = {
+            "micro": "Micro (<0.5 ha)",
+            "petite": "Petite (0.5-2 ha)",
+            "moyenne": "Moyenne (2-10 ha)",
+            "grande": "Grande (10-50 ha)",
+            "tres_grande": "Très grande (>50 ha)"
+        };
+
+        const CATEGORY_ORDER = ["micro", "petite", "moyenne", "grande", "tres_grande"];
+
+        async function init() {
+            try {
+                const response = await fetch('data_fragmentation_regional.json');
+                const data = await response.json();
+                renderChart(data);
+            } catch (e) {
+                console.error("Error loading data:", e);
+                document.getElementById('chart').innerHTML = `
+                    <p style="color: var(--text-muted); text-align: center; padding: 40px;">
+                        Données en cours de génération... Veuillez réessayer dans quelques instants.
+                    </p>
+                `;
+            }
+        }
+
+        function renderChart(data) {
+            const container = document.getElementById('chart');
+            container.innerHTML = '';
+
+            // Sort regions by average size (descending)
+            const regions = Object.entries(data)
+                .filter(([name]) => name !== "Autre")
+                .sort((a, b) => b[1].avg_size - a[1].avg_size);
+
+            regions.forEach(([regionName, regionData]) => {
+                const row = document.createElement('div');
+                row.className = 'region-row';
+
+                // Region name
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'region-name';
+                nameDiv.textContent = regionName;
+                row.appendChild(nameDiv);
+
+                // Stacked bar
+                const barContainer = document.createElement('div');
+                barContainer.className = 'bar-container';
+
+                CATEGORY_ORDER.forEach(cat => {
+                    const catData = regionData.categories[cat];
+                    if (!catData || catData.pct_count === 0) return;
+
+                    const segment = document.createElement('div');
+                    segment.className = 'bar-segment';
+                    segment.style.width = catData.pct_count + '%';
+                    segment.style.background = CATEGORY_COLORS[cat];
+
+                    segment.addEventListener('mouseover', (e) => showTooltip(e, regionName, cat, catData));
+                    segment.addEventListener('mousemove', moveTooltip);
+                    segment.addEventListener('mouseout', hideTooltip);
+
+                    barContainer.appendChild(segment);
+                });
+
+                row.appendChild(barContainer);
+
+                // Average size
+                const avgDiv = document.createElement('div');
+                avgDiv.className = 'avg-size';
+                avgDiv.innerHTML = `<strong>${regionData.avg_size.toFixed(1)}</strong> ha`;
+                row.appendChild(avgDiv);
+
+                container.appendChild(row);
+            });
+        }
+
+        const tooltip = document.getElementById('tooltip');
+
+        function showTooltip(e, region, category, data) {
+            tooltip.innerHTML = `
+                <div class="tooltip-title">${region} — ${CATEGORY_LABELS[category]}</div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Parcelles:</span>
+                    <span class="tooltip-value">${data.count.toLocaleString()} (${data.pct_count}%)</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Surface:</span>
+                    <span class="tooltip-value">${Math.round(data.surface).toLocaleString()} ha (${data.pct_surface}%)</span>
+                </div>
+            `;
+            tooltip.style.opacity = '1';
+            moveTooltip(e);
+        }
+
+        function moveTooltip(e) {
+            tooltip.style.left = (e.clientX + 15) + 'px';
+            tooltip.style.top = (e.clientY - 10) + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

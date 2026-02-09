@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas & Anatomie du Morcellement — RPG 2023</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #1c1c1e;
+            --card-bg: #2c2c2e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #86868b;
+            --border: #3a3a3c;
+
+            /* Size category colors */
+            --color-micro: #ff453a;
+            --color-petite: #ff9f0a;
+            --color-moyenne: #ffd60a;
+            --color-grande: #30d158;
+            --color-tres-grande: #0a84ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        /* Section wrapper */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        /* Atlas (Waffle) */
+        .atlas-wrapper {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .waffle-container {
+            margin-bottom: 30px;
+        }
+
+        .waffle-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .waffle-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: var(--bg-dark);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .waffle-legend-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .waffle-legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+
+        .waffle-legend-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .waffle-legend-label {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .waffle-legend-pct {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .unit {
+            stroke: var(--bg-dark);
+            stroke-width: 2px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .unit:hover {
+            transform: scale(1.3);
+            opacity: 0.8;
+        }
+
+        /* Regional Chart */
+        .chart-wrapper {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .region-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 16px;
+        }
+
+        .region-name {
+            width: 200px;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        .bar-container {
+            flex-grow: 1;
+            height: 28px;
+            display: flex;
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--bg-dark);
+        }
+
+        .bar-segment {
+            height: 100%;
+            transition: opacity 0.2s, transform 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .bar-segment:hover {
+            opacity: 0.8;
+            transform: scaleY(1.1);
+        }
+
+        .avg-size {
+            width: 80px;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .avg-size strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 50px 0;
+        }
+
+        /* Tooltip */
+        #tooltip {
+            position: fixed;
+            pointer-events: none;
+            background: var(--card-bg);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 4px;
+        }
+
+        .tooltip-label {
+            color: var(--text-muted);
+        }
+
+        .tooltip-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .region-name {
+                width: 100px;
+                font-size: 0.75rem;
+            }
+
+            .legend {
+                gap: 12px;
+            }
+
+            .legend-item {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Retour au menu</a>
+
+        <header>
+            <h1>Atlas & Anatomie</h1>
+            <div class="subtitle">Double analyse du morcellement parcellaire :
+                vue nationale synthétique et comparaison régionale détaillée</div>
+        </header>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-micro);"></div>
+                <span>Micro (&lt;0.5 ha)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-petite);"></div>
+                <span>Petite (0.5-2 ha)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-moyenne);"></div>
+                <span>Moyenne (2-10 ha)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-grande);"></div>
+                <span>Grande (10-50 ha)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--color-tres-grande);"></div>
+                <span>Très grande (&gt;50 ha)</span>
+            </div>
+        </div>
+
+        <!-- Atlas Section -->
+        <div class="section">
+            <div class="section-title">Atlas National — 100 Parcelles Représentatives</div>
+            <div class="atlas-wrapper">
+                <div class="waffle-container" id="waffle"></div>
+                <div class="waffle-legend" id="waffle-legend"></div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Regional Comparison -->
+        <div class="section">
+            <div class="section-title">Anatomie Régionale — Comparaison des Territoires</div>
+            <div class="chart-wrapper">
+                <div id="regional-chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tooltip"></div>
+
+    <script>
+        const CATEGORY_COLORS = {
+            "micro": "#ff453a",
+            "petite": "#ff9f0a",
+            "moyenne": "#ffd60a",
+            "grande": "#30d158",
+            "tres_grande": "#0a84ff"
+        };
+
+        const CATEGORY_LABELS = {
+            "micro": "Micro (<0.5 ha)",
+            "petite": "Petite (0.5-2 ha)",
+            "moyenne": "Moyenne (2-10 ha)",
+            "grande": "Grande (10-50 ha)",
+            "tres_grande": "Très grande (>50 ha)"
+        };
+
+        const CATEGORY_ORDER = ["micro", "petite", "moyenne", "grande", "tres_grande"];
+
+        async function init() {
+            try {
+                const response = await fetch('data_fragmentation_regional.json');
+                const data = await response.json();
+
+                // Calculate national aggregates for waffle
+                const national = calculateNational(data);
+                renderWaffle(national);
+
+                // Render regional chart
+                renderRegionalChart(data);
+            } catch (e) {
+                console.error("Error loading data:", e);
+            }
+        }
+
+        function calculateNational(data) {
+            const totals = {};
+            CATEGORY_ORDER.forEach(cat => totals[cat] = { count: 0, surface: 0 });
+
+            Object.values(data).forEach(region => {
+                if (!region.categories) return;
+                CATEGORY_ORDER.forEach(cat => {
+                    if (region.categories[cat]) {
+                        totals[cat].count += region.categories[cat].count;
+                        totals[cat].surface += region.categories[cat].surface;
+                    }
+                });
+            });
+
+            const totalCount = Object.values(totals).reduce((sum, t) => sum + t.count, 0);
+            const totalSurface = Object.values(totals).reduce((sum, t) => sum + t.surface, 0);
+
+            return { totals, totalCount, totalSurface };
+        }
+
+        function renderWaffle(national) {
+            const container = document.getElementById('waffle');
+            const legendContainer = document.getElementById('waffle-legend');
+
+            const rows = 10, cols = 10;
+            const unitSize = 28;
+            const gap = 4;
+
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", cols * (unitSize + gap));
+            svg.setAttribute("height", rows * (unitSize + gap));
+
+            // Build units array
+            let units = [];
+            CATEGORY_ORDER.forEach(cat => {
+                const pct = national.totals[cat].count / national.totalCount;
+                const count = Math.round(pct * 100);
+                for (let i = 0; i < count; i++) units.push(cat);
+            });
+
+            // Fill to exactly 100
+            while (units.length < 100) units.push("moyenne");
+            units = units.slice(0, 100);
+
+            // Render units
+            for (let i = 0; i < 100; i++) {
+                const cat = units[i];
+                const color = CATEGORY_COLORS[cat];
+                const row = Math.floor(i / cols);
+                const col = i % cols;
+
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", col * (unitSize + gap));
+                rect.setAttribute("y", row * (unitSize + gap));
+                rect.setAttribute("width", unitSize);
+                rect.setAttribute("height", unitSize);
+                rect.setAttribute("rx", 5);
+                rect.setAttribute("fill", color);
+                rect.setAttribute("class", "unit");
+                rect.setAttribute("data-cat", cat);
+
+                rect.addEventListener('mouseover', (e) => showTooltipWaffle(e, cat, national));
+                rect.addEventListener('mousemove', moveTooltip);
+                rect.addEventListener('mouseout', hideTooltip);
+
+                svg.appendChild(rect);
+            }
+
+            container.appendChild(svg);
+
+            // Render legend
+            CATEGORY_ORDER.forEach(cat => {
+                const count = national.totals[cat].count;
+                const pct = (count / national.totalCount * 100).toFixed(1);
+
+                const item = document.createElement('div');
+                item.className = 'waffle-legend-item';
+                item.innerHTML = `
+                    <div class="waffle-legend-color" style="background: ${CATEGORY_COLORS[cat]}"></div>
+                    <div class="waffle-legend-text">
+                        <div class="waffle-legend-label">${CATEGORY_LABELS[cat].split(' ')[0]}</div>
+                        <div class="waffle-legend-pct">${pct}%</div>
+                    </div>
+                `;
+
+                item.addEventListener('mouseover', () => {
+                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '0.6');
+                });
+                item.addEventListener('mouseout', () => {
+                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '1');
+                });
+
+                legendContainer.appendChild(item);
+            });
+        }
+
+        function renderRegionalChart(data) {
+            const container = document.getElementById('regional-chart');
+
+            const regions = Object.entries(data)
+                .filter(([name]) => name !== "Autre")
+                .sort((a, b) => b[1].avg_size - a[1].avg_size);
+
+            regions.forEach(([regionName, regionData]) => {
+                const row = document.createElement('div');
+                row.className = 'region-row';
+
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'region-name';
+                nameDiv.textContent = regionName;
+                row.appendChild(nameDiv);
+
+                const barContainer = document.createElement('div');
+                barContainer.className = 'bar-container';
+
+                CATEGORY_ORDER.forEach(cat => {
+                    const catData = regionData.categories[cat];
+                    if (!catData || catData.pct_count === 0) return;
+
+                    const segment = document.createElement('div');
+                    segment.className = 'bar-segment';
+                    segment.style.width = catData.pct_count + '%';
+                    segment.style.background = CATEGORY_COLORS[cat];
+
+                    segment.addEventListener('mouseover', (e) => showTooltipRegion(e, regionName, cat, catData));
+                    segment.addEventListener('mousemove', moveTooltip);
+                    segment.addEventListener('mouseout', hideTooltip);
+
+                    barContainer.appendChild(segment);
+                });
+
+                row.appendChild(barContainer);
+
+                const avgDiv = document.createElement('div');
+                avgDiv.className = 'avg-size';
+                avgDiv.innerHTML = `<strong>${regionData.avg_size.toFixed(2)}</strong> ha`;
+                row.appendChild(avgDiv);
+
+                container.appendChild(row);
+            });
+        }
+
+        const tooltip = document.getElementById('tooltip');
+
+        function showTooltipWaffle(e, cat, national) {
+            const data = national.totals[cat];
+            const pctCount = (data.count / national.totalCount * 100).toFixed(1);
+            const pctSurface = (data.surface / national.totalSurface * 100).toFixed(1);
+
+            tooltip.innerHTML = `
+                <div class="tooltip-title">${CATEGORY_LABELS[cat]}</div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Parcelles:</span>
+                    <span class="tooltip-value">${data.count.toLocaleString()} (${pctCount}%)</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Surface:</span>
+                    <span class="tooltip-value">${Math.round(data.surface).toLocaleString()} ha (${pctSurface}%)</span>
+                </div>
+            `;
+            tooltip.style.opacity = '1';
+            moveTooltip(e);
+        }
+
+        function showTooltipRegion(e, region, category, data) {
+            tooltip.innerHTML = `
+                <div class="tooltip-title">${region} — ${CATEGORY_LABELS[category]}</div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Parcelles:</span>
+                    <span class="tooltip-value">${data.count.toLocaleString()} (${data.pct_count}%)</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Surface:</span>
+                    <span class="tooltip-value">${Math.round(data.surface).toLocaleString()} ha (${data.pct_surface}%)</span>
+                </div>
+            `;
+            tooltip.style.opacity = '1';
+            moveTooltip(e);
+        }
+
+        function moveTooltip(e) {
+            tooltip.style.left = (e.clientX + 15) + 'px';
+            tooltip.style.top = (e.clientY - 10) + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
