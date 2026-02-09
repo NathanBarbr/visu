@@ -42,14 +42,13 @@ const CODE_LABELS = {
     "28": "Divers / Autres"
 };
 
-// Couleurs cohérentes avec le thème Midjourney
+// Palette cohérente avec le thème sombre et élégant
 const COLORS = {
-    primary: "#0a84ff",
-    success: "#30d158",
-    warning: "#ffd60a",
-    danger: "#ff453a",
-    purple: "#bf5af2",
-    muted: "#636366"
+    bar: "#f5f5f7",
+    barHover: "#a1a1a6",
+    // Donut chart - palette harmonieuse avec des tons chauds/terreux
+    palette: ["#7C9A7C", "#D4A574", "#C9A87C", "#9B8AA6", "#8FA3B0", "#636366"]
+    // Vert sauge, Terracotta, Doré, Mauve, Bleu-gris, Gris
 };
 
 const getLabel = (code) => CODE_LABELS[code] || code;
@@ -144,7 +143,7 @@ function renderCultureChart(data) {
     svg.selectAll(".domain, .tick line")
         .style("stroke", "#3a3a3c");
 
-    // Barres
+    // Barres - en blanc/gris clair pour cohérence
     svg.selectAll("myRect")
         .data(dataset)
         .join("rect")
@@ -152,8 +151,15 @@ function renderCultureChart(data) {
         .attr("y", d => y(getLabel(d.code)))
         .attr("width", 0)
         .attr("height", y.bandwidth())
-        .attr("fill", COLORS.primary)
+        .attr("fill", COLORS.bar)
         .attr("rx", 3)
+        .style("cursor", "pointer")
+        .on("mouseover", function () {
+            d3.select(this).attr("fill", COLORS.barHover);
+        })
+        .on("mouseout", function () {
+            d3.select(this).attr("fill", COLORS.bar);
+        })
         .transition()
         .duration(800)
         .delay((d, i) => i * 50)
@@ -179,10 +185,10 @@ function renderGroupChart(data) {
         .append("g")
         .attr("transform", `translate(${width / 2},${height / 2})`);
 
-    // Palette cohérente avec le thème
+    // Palette en dégradé de gris/blanc
     const color = d3.scaleOrdinal()
         .domain(plotData.map(d => d.code))
-        .range([COLORS.primary, COLORS.success, COLORS.warning, COLORS.danger, COLORS.purple, COLORS.muted]);
+        .range(COLORS.palette);
 
     const pie = d3.pie()
         .value(d => d.surface)
@@ -203,6 +209,7 @@ function renderGroupChart(data) {
         .attr("fill", d => color(d.data.code))
         .attr("stroke", "#2c2c2e")
         .attr("stroke-width", 2)
+        .style("cursor", "pointer")
         .transition()
         .duration(800)
         .attrTween("d", function (d) {

@@ -5,8 +5,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord — RPG 2023</title>
-    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap"
+        rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #1c1c1e;
+            color: #f5f5f7;
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 80px 40px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            color: #86868b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #f5f5f7;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.2rem;
+            font-weight: 500;
+            color: #f5f5f7;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #86868b;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        /* KPI Cards */
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: #2c2c2e;
+            padding: 32px;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            background: #3a3a3c;
+        }
+
+        .kpi-value {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.8rem;
+            font-weight: 500;
+            color: #f5f5f7;
+            margin-bottom: 8px;
+        }
+
+        .kpi-label {
+            color: #86868b;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: #2c2c2e;
+            border-radius: 16px;
+            padding: 32px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            background: #3a3a3c;
+        }
+
+        .card h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: #f5f5f7;
+        }
+
+        .chart-container {
+            width: 100%;
+            min-height: 400px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* D3 Chart Styles */
+        .bar {
+            fill: #f5f5f7;
+            transition: fill 0.2s;
+        }
+
+        .bar:hover {
+            fill: #a1a1a6;
+        }
+
+        .domain,
+        .tick line {
+            stroke: #3a3a3c;
+        }
+
+        .tick text {
+            fill: #86868b;
+            font-size: 0.75rem;
+        }
+
+        .arc path {
+            stroke: #2c2c2e;
+            stroke-width: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .arc path:hover {
+            opacity: 0.85;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            body {
+                padding: 40px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -34,7 +212,7 @@
         </div>
 
         <div class="dashboard-grid">
-            <div class="card" style="grid-column: span 2;">
+            <div class="card">
                 <h2>Répartition par Type de Culture (Top 15)</h2>
                 <div id="chart-culture" class="chart-container"></div>
             </div>
@@ -45,7 +223,9 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="dashboard-script.js"></script>
 </body>
 
 </html>
+</CodeContent>
+<parameter name="EmptyFile">false

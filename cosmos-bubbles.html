@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos & Échelle — RPG 2023</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #1c1c1e;
+            --card-bg: #2c2c2e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #86868b;
+            --border: #3a3a3c;
+            --accent-blue: #0a84ff;
+            --accent-pink: #ff375f;
+            --accent-green: #30d158;
+            --accent-orange: #ff9f0a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Left Panel - Cosmos */
+        .cosmos-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+            position: relative;
+        }
+
+        .panel-header {
+            padding: 20px 24px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        .panel-header h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 500;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+
+        #cosmos-viz {
+            flex-grow: 1;
+            position: relative;
+            background: radial-gradient(circle at center, #2c2c2e 0%, #1c1c1e 100%);
+        }
+
+        /* Right Panel - Bubbles */
+        .bubbles-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        #bubbles-chart {
+            flex-grow: 1;
+            position: relative;
+            background: var(--bg-dark);
+        }
+
+        /* Info Bar */
+        .info-bar {
+            padding: 16px 24px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .info-bar .stats {
+            display: flex;
+            gap: 32px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .filter-badge {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--accent-blue);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-badge:hover {
+            background: #0077ee;
+        }
+
+        .filter-badge.active {
+            display: flex;
+        }
+
+        .filter-badge .close {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: fixed;
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            pointer-events: none;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 280px;
+            color: var(--text-primary);
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        /* Bubble Styles */
+        .bubble {
+            cursor: pointer;
+            transition: opacity 0.3s, stroke-width 0.2s;
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+
+        .bubble:hover {
+            stroke: white;
+            stroke-width: 2px;
+        }
+
+        .bubble.filtered-out {
+            opacity: 0.08 !important;
+        }
+
+        .bubble.highlighted {
+            stroke: white;
+            stroke-width: 2px;
+            opacity: 1 !important;
+        }
+
+        /* Axis styles */
+        .axis text {
+            fill: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .axis line,
+        .axis path {
+            stroke: var(--border);
+        }
+
+        .grid line {
+            stroke: var(--border);
+            stroke-opacity: 0.3;
+        }
+
+        .grid path {
+            stroke-width: 0;
+        }
+
+        .bubble-label {
+            fill: white;
+            font-size: 10px;
+            text-anchor: middle;
+            pointer-events: none;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Legend */
+        .legend-box {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            z-index: 10;
+        }
+
+        .legend-box h4 {
+            margin: 0 0 10px 0;
+            color: var(--text-primary);
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .legend-box div {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Cosmos sidebar info */
+        .cosmos-info {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            max-width: 280px;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .cosmos-info.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cosmos-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .cosmos-info .meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .cosmos-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cosmos-stat:last-child {
+            border-bottom: none;
+        }
+
+        .cosmos-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .cosmos-stat-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .click-hint {
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(10, 132, 255, 0.15);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+        }
+
+        /* Connection indicator */
+        .connection-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), transparent, var(--accent-pink));
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .connection-line.active {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Left: Cosmos Panel -->
+        <div class="cosmos-panel">
+            <div class="panel-header">
+                <a href="index.html" class="back-link">← Menu</a>
+                <h2>Cosmos Agricole</h2>
+            </div>
+            <div id="cosmos-viz"></div>
+            <div id="cosmos-info" class="cosmos-info">
+                <div class="meta" id="cosmos-meta">Groupe de Culture</div>
+                <h3 id="cosmos-name">--</h3>
+                <div class="cosmos-stat">
+                    <span class="cosmos-stat-label">Surface</span>
+                    <span class="cosmos-stat-value" id="cosmos-surface">0 ha</span>
+                </div>
+                <div class="cosmos-stat">
+                    <span class="cosmos-stat-label">Parcelles</span>
+                    <span class="cosmos-stat-value" id="cosmos-count">0</span>
+                </div>
+                <div class="click-hint" id="cosmos-hint">
+                    Cliquez pour filtrer les bulles →
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Bubbles Panel -->
+        <div class="bubbles-panel">
+            <div class="info-bar">
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-cultures">0</div>
+                        <div class="stat-label">Cultures</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-surface">0</div>
+                        <div class="stat-label">Hectares</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-parcels">0</div>
+                        <div class="stat-label">Parcelles</div>
+                    </div>
+                </div>
+                <div class="filter-badge" id="filter-badge">
+                    <span id="filter-name">Filtre actif</span>
+                    <span class="close">×</span>
+                </div>
+            </div>
+            <div class="panel-header">
+                <h2>L'Échelle des Cultures</h2>
+            </div>
+            <div id="bubbles-chart"></div>
+            <div class="legend-box">
+                <h4>Guide de lecture</h4>
+                <div><strong>Axe X :</strong> Surface Moyenne (ha)</div>
+                <div><strong>Axe Y :</strong> Surface Totale (ha)</div>
+                <div><strong>Taille :</strong> Nombre de parcelles</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        // ========================================
+        // SHARED DATA & CONFIGURATION
+        // ========================================
+        
+        const CODE_LABELS = {
+            "PPH": "Prairies permanentes", "SPH": "Surface pastorale", "BTH": "Blé tendre",
+            "MIS": "Maïs", "PTR": "Prairie temporaire", "ORH": "Orge d'hiver",
+            "TTH": "Triticale", "TRN": "Tournesol", "CZH": "Colza",
+            "MLG": "Mélange Gram/Légu", "LUZ": "Luzerne", "VRC": "Vignes",
+            "JAC": "Jachère", "SOJ": "Soja", "SNE": "Non exploité",
+            "NOX": "Noyer", "VRG": "Verger", "SGH": "Seigle",
+            "BTP": "Blé détruit", "LIH": "Lin", "SPL": "Surf. pasto. ligneuse",
+            "BOR": "Bordures", "OLI": "Oliviers", "MDI": "Maïs doux",
+            "PRL": "Prairies longue rotation", "MIE": "Maïs ensilage",
+            "ORP": "Orge de printemps", "BOP": "Bois et pâturages",
+            "BTN": "Betterave", "BDH": "Blé dur d'hiver",
+            "1": "Céréales - Blé tendre", "2": "Céréales - Maïs",
+            "3": "Céréales - Orge", "4": "Autres céréales",
+            "5": "Oléagineux - Colza", "6": "Oléagineux - Tournesol",
+            "7": "Autres oléagineux", "8": "Protéagineux",
+            "9": "Plantes à fibres", "11": "Gel / Jachère",
+            "14": "Riz", "15": "Légumineuses", "16": "Fourrage",
+            "17": "Estives / Landes", "18": "Prairies Permanentes",
+            "19": "Prairies Temporaires", "20": "Vergers", "21": "Vignes",
+            "22": "Fruits à coque", "23": "Oliviers", "24": "Autres cultures indus.",
+            "25": "Légumes/Fleurs", "28": "Divers / Autres"
+        };
+
+        const getLabel = (code) => CODE_LABELS[code] || code;
+        const formatNumber = (num) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(num);
+
+        // Color palette for groups
+        const palette = [
+            "#0ea5e9", "#22c55e", "#eab308", "#f97316", "#ef4444",
+            "#a855f7", "#ec4899", "#6366f1", "#14b8a6", "#f43f5e"
+        ];
+        const groupColorScale = d3.scaleOrdinal(palette);
+
+        // Shared state
+        let hierarchyData = null;
+        let summaryData = null;
+        let currentFilter = null; // {groupCode, groupName, cultures: []}
+        let bubblesViz = null;
+
+        // ========================================
+        // DATA LOADING
+        // ========================================
+
+        async function loadData() {
+            try {
+                const [hierarchyRes, summaryRes] = await Promise.all([
+                    fetch('data_hierarchy_france.json'),
+                    fetch('data_summary_france.json')
+                ]);
+                
+                hierarchyData = await hierarchyRes.json();
+                summaryData = await summaryRes.json();
+
+                // Initialize visualizations
+                initCosmos();
+                initBubbles();
+                updateStats();
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // ========================================
+        // COSMOS VISUALIZATION
+        // ========================================
+
+        function initCosmos() {
+            const container = document.getElementById('cosmos-viz');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            const root = d3.hierarchy(hierarchyData)
+                .sum(d => d.children ? 0 : d.value)
+                .sort((a, b) => b.value - a.value);
+
+            const pack = d3.pack()
+                .size([width, height])
+                .padding(width * 0.02);
+
+            const nodes = pack(root);
+
+            const svg = d3.select("#cosmos-viz")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("viewBox", [0, 0, width, height])
+                .style("background", "transparent")
+                .on("click", (event) => {
+                    if (event.target === event.currentTarget.querySelector('svg') || 
+                        event.target.tagName === 'svg') {
+                        clearFilter();
+                    }
+                });
+
+            let focus = root;
+            let view;
+
+            // Circles
+            const circle = svg.append("g")
+                .selectAll("circle")
+                .data(root.descendants().slice(1))
+                .join("circle")
+                .attr("fill", d => d.children ? groupColorScale(d.data.name) : "white")
+                .attr("fill-opacity", d => d.children ? 0.25 : 0.6)
+                .attr("stroke", d => d.children ? groupColorScale(d.data.name) : "none")
+                .attr("stroke-width", d => d.children ? 1.5 : 0)
+                .style("cursor", "pointer")
+                .on("mouseover", function(event, d) {
+                    d3.select(this).attr("stroke", "white").attr("stroke-width", 2);
+                    updateCosmosInfo(d);
+                    
+                    // Highlight corresponding bubbles
+                    if (d.children) {
+                        highlightBubblesByGroup(d.data.name);
+                    } else {
+                        highlightBubbleByCode(d.data.name);
+                    }
+                })
+                .on("mouseout", function(event, d) {
+                    d3.select(this)
+                        .attr("stroke", d.children ? groupColorScale(d.data.name) : "none")
+                        .attr("stroke-width", d.children ? 1.5 : 0);
+                    
+                    // Remove highlights if no filter active
+                    if (!currentFilter) {
+                        clearBubbleHighlights();
+                    } else {
+                        applyFilter(currentFilter.groupCode, currentFilter.groupName, false);
+                    }
+                })
+                .on("click", (event, d) => {
+                    event.stopPropagation();
+                    
+                    if (d.children) {
+                        // Group clicked - filter bubbles
+                        const cultures = d.leaves().map(l => l.data.name);
+                        applyFilter(d.data.name, getLabel(d.data.name), cultures);
+                        zoom(event, d);
+                    } else {
+                        // Single culture clicked - zoom
+                        zoom(event, d.parent || d);
+                    }
+                });
+
+            // Labels
+            const label = svg.append("g")
+                .style("font", "12px 'Inter', sans-serif")
+                .style("pointer-events", "none")
+                .style("text-anchor", "middle")
+                .style("text-shadow", "0 2px 4px rgba(0,0,0,0.8)")
+                .selectAll("text")
+                .data(root.descendants().slice(1))
+                .join("text")
+                .style("fill", "white")
+                .style("opacity", d => d.parent === root ? 1 : 0)
+                .text(d => {
+                    const name = getLabel(d.data.name);
+                    return name.length > 15 ? name.substring(0, 13) + "..." : name;
+                });
+
+            zoomTo([root.x, root.y, root.r * 2 * 1.1]);
+
+            function zoom(event, d) {
+                focus = d;
+
+                const transition = svg.transition()
+                    .duration(750)
+                    .tween("zoom", () => {
+                        const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 * 1.1]);
+                        return t => zoomTo(i(t));
+                    });
+
+                label.transition(transition)
+                    .style("opacity", d => d.parent === focus ? 1 : 0);
+
+                if (event) event.stopPropagation();
+            }
+
+            function zoomTo(v) {
+                const k = width / v[2];
+                view = v;
+
+                circle.attr("transform", d => `translate(${(d.x - v[0]) * k + width / 2},${(d.y - v[1]) * k + height / 2})`)
+                    .attr("r", d => d.r * k);
+
+                label.attr("transform", d => `translate(${(d.x - v[0]) * k + width / 2},${(d.y - v[1]) * k + height / 2})`);
+            }
+
+            // Store for external access
+            window.cosmosZoom = (d) => zoom(null, d);
+            window.cosmosRoot = root;
+        }
+
+        function updateCosmosInfo(d) {
+            const info = document.getElementById('cosmos-info');
+            info.classList.add('active');
+
+            const depthMap = ["Région", "Groupe de Culture", "Culture Spécifique"];
+            document.getElementById('cosmos-meta').textContent = depthMap[d.depth] || "Détail";
+            document.getElementById('cosmos-name').textContent = getLabel(d.data.name);
+            document.getElementById('cosmos-surface').textContent = formatNumber(d.value) + ' ha';
+
+            let count = d.data.count;
+            if (!count && d.data.children) {
+                count = d.leaves().reduce((acc, l) => acc + (l.data.count || 0), 0);
+            }
+            document.getElementById('cosmos-count').textContent = formatNumber(count || 0);
+
+            // Show/hide click hint
+            const hint = document.getElementById('cosmos-hint');
+            hint.style.display = d.children ? 'block' : 'none';
+        }
+
+        // ========================================
+        // BUBBLES VISUALIZATION
+        // ========================================
+
+        function initBubbles() {
+            const container = document.getElementById('bubbles-chart');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const margin = { top: 30, right: 60, bottom: 50, left: 70 };
+
+            // Process data
+            let dataset = summaryData.culture.map(d => ({
+                ...d,
+                label: getLabel(d.code),
+                avgSize: d.surface / d.count,
+            })).filter(d => d.surface > 1000 && d.count > 100);
+
+            // Find group for each culture
+            const cultureToGroup = {};
+            hierarchyData.children.forEach(group => {
+                group.children.forEach(culture => {
+                    cultureToGroup[culture.name] = group.name;
+                });
+            });
+
+            dataset = dataset.map(d => ({
+                ...d,
+                groupCode: cultureToGroup[d.code] || 'unknown'
+            }));
+
+            const svg = d3.select("#bubbles-chart")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            // Scales
+            const x = d3.scaleLinear()
+                .domain([0, d3.max(dataset, d => d.avgSize) * 1.1])
+                .range([margin.left, width - margin.right]);
+
+            const y = d3.scaleLog()
+                .domain([1000, d3.max(dataset, d => d.surface) * 1.5])
+                .range([height - margin.bottom, margin.top]);
+
+            const z = d3.scaleSqrt()
+                .domain([0, d3.max(dataset, d => d.count)])
+                .range([4, 45]);
+
+            // Grid
+            svg.append("g")
+                .attr("class", "grid")
+                .attr("transform", `translate(0,${height - margin.bottom})`)
+                .call(d3.axisBottom(x).ticks(8).tickSize(-(height - margin.top - margin.bottom)).tickFormat(""));
+
+            svg.append("g")
+                .attr("class", "grid")
+                .attr("transform", `translate(${margin.left},0)`)
+                .call(d3.axisLeft(y).ticks(5).tickSize(-(width - margin.left - margin.right)).tickFormat(""));
+
+            // Axes
+            svg.append("g")
+                .attr("transform", `translate(0,${height - margin.bottom})`)
+                .call(d3.axisBottom(x).ticks(8).tickFormat(d => d + " ha"))
+                .attr("class", "axis");
+
+            svg.append("g")
+                .attr("transform", `translate(${margin.left},0)`)
+                .call(d3.axisLeft(y).ticks(5, "~s"))
+                .attr("class", "axis");
+
+            // Axis Labels
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", height - 10)
+                .attr("fill", "#94a3b8")
+                .style("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text("Surface Moyenne d'une Parcelle (Hectares)");
+
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -height / 2)
+                .attr("y", 20)
+                .attr("fill", "#94a3b8")
+                .style("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text("Surface Totale Cultivée (Logarithmique)");
+
+            // Bubbles
+            const tooltip = d3.select("#tooltip");
+
+            const bubbles = svg.append("g")
+                .selectAll("circle")
+                .data(dataset)
+                .join("circle")
+                .attr("class", "bubble")
+                .attr("cx", d => x(d.avgSize))
+                .attr("cy", d => y(d.surface))
+                .attr("r", d => z(d.count))
+                .style("fill", d => groupColorScale(d.groupCode))
+                .style("opacity", 0.7)
+                .attr("data-code", d => d.code)
+                .attr("data-group", d => d.groupCode)
+                .on("mouseover", function(event, d) {
+                    d3.select(this).classed("highlighted", true);
+                    
+                    tooltip.style("opacity", 1)
+                        .html(`
+                            <strong style="color:${groupColorScale(d.groupCode)}">${d.label}</strong><br>
+                            <span style="color: var(--text-muted)">${getLabel(d.groupCode)}</span><br><br>
+                            Surface Moyenne: <b>${d.avgSize.toFixed(2)} ha</b><br>
+                            Surface Totale: <b>${formatNumber(Math.round(d.surface))} ha</b><br>
+                            Parcelles: <b>${formatNumber(d.count)}</b>
+                        `)
+                        .style("left", Math.min(event.pageX + 15, window.innerWidth - 300) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function() {
+                    if (!currentFilter || d3.select(this).attr("data-group") === currentFilter.groupCode) {
+                        d3.select(this).classed("highlighted", false);
+                    }
+                    tooltip.style("opacity", 0);
+                });
+
+            // Labels for big bubbles
+            svg.append("g")
+                .selectAll("text")
+                .data(dataset.filter(d => d.count > 100000 || d.surface > 500000))
+                .join("text")
+                .attr("class", "bubble-label")
+                .attr("x", d => x(d.avgSize))
+                .attr("y", d => y(d.surface))
+                .attr("dy", d => -z(d.count) - 5)
+                .text(d => d.label.length > 12 ? d.label.substring(0, 10) + "..." : d.label);
+
+            // Store for filtering
+            bubblesViz = { svg, bubbles, dataset };
+        }
+
+        // ========================================
+        // FILTERING & INTERACTION
+        // ========================================
+
+        function applyFilter(groupCode, groupName, cultures = null) {
+            currentFilter = { groupCode, groupName, cultures };
+
+            const badge = document.getElementById('filter-badge');
+            badge.classList.add('active');
+            document.getElementById('filter-name').textContent = groupName;
+
+            // Filter bubbles
+            bubblesViz.bubbles
+                .classed("filtered-out", d => d.groupCode !== groupCode)
+                .classed("highlighted", d => d.groupCode === groupCode);
+
+            updateStats(groupCode);
+        }
+
+        function clearFilter() {
+            currentFilter = null;
+
+            const badge = document.getElementById('filter-badge');
+            badge.classList.remove('active');
+
+            bubblesViz.bubbles
+                .classed("filtered-out", false)
+                .classed("highlighted", false);
+
+            // Reset cosmos zoom
+            if (window.cosmosRoot) {
+                window.cosmosZoom(window.cosmosRoot);
+            }
+
+            updateStats();
+        }
+
+        function highlightBubblesByGroup(groupCode) {
+            if (currentFilter) return;
+            
+            bubblesViz.bubbles
+                .classed("filtered-out", d => d.groupCode !== groupCode)
+                .classed("highlighted", d => d.groupCode === groupCode);
+        }
+
+        function highlightBubbleByCode(cultureCode) {
+            if (currentFilter) return;
+
+            bubblesViz.bubbles
+                .classed("filtered-out", d => d.code !== cultureCode)
+                .classed("highlighted", d => d.code === cultureCode);
+        }
+
+        function clearBubbleHighlights() {
+            bubblesViz.bubbles
+                .classed("filtered-out", false)
+                .classed("highlighted", false);
+        }
+
+        function updateStats(filterGroupCode = null) {
+            let cultures, surface, parcels;
+
+            if (filterGroupCode) {
+                const filtered = bubblesViz.dataset.filter(d => d.groupCode === filterGroupCode);
+                cultures = filtered.length;
+                surface = filtered.reduce((acc, d) => acc + d.surface, 0);
+                parcels = filtered.reduce((acc, d) => acc + d.count, 0);
+            } else {
+                cultures = bubblesViz.dataset.length;
+                surface = bubblesViz.dataset.reduce((acc, d) => acc + d.surface, 0);
+                parcels = bubblesViz.dataset.reduce((acc, d) => acc + d.count, 0);
+            }
+
+            document.getElementById('stat-cultures').textContent = cultures;
+            document.getElementById('stat-surface').textContent = formatNumber(Math.round(surface / 1000)) + 'k';
+            document.getElementById('stat-parcels').textContent = formatNumber(Math.round(parcels / 1000)) + 'k';
+        }
+
+        // ========================================
+        // EVENT LISTENERS
+        // ========================================
+
+        document.getElementById('filter-badge').addEventListener('click', clearFilter);
+
+        // ========================================
+        // INIT
+        // ========================================
+
+        loadData();
+    </script>
+</body>
+
+</html>
