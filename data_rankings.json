@@ -1,0 +1,296 @@
+{
+  "BTH": [
+    {
+      "region": "Hauts-de-France",
+      "surface": 16188.880000000006
+    },
+    {
+      "region": "Grand Est",
+      "surface": 13835.659999999987
+    },
+    {
+      "region": "Centre-Val de Loire",
+      "surface": 11217.380000000003
+    },
+    {
+      "region": "Nouvelle-Aquitaine",
+      "surface": 10012.520000000019
+    },
+    {
+      "region": "Normandie",
+      "surface": 8883.580000000009
+    },
+    {
+      "region": "Bourgogne-Franche-Comté",
+      "surface": 7314.910000000015
+    },
+    {
+      "region": "Pays de la Loire",
+      "surface": 7202.190000000007
+    },
+    {
+      "region": "Bretagne",
+      "surface": 5682.350000000011
+    },
+    {
+      "region": "Occitanie",
+      "surface": 5065.030000000006
+    },
+    {
+      "region": "Auvergne-Rhône-Alpes",
+      "surface": 4460.249999999997
+    },
+    {
+      "region": "Île-de-France",
+      "surface": 3684.5299999999984
+    }
+  ],
+  "ORH": [
+    {
+      "region": "Grand Est",
+      "surface": 4670.559999999995
+    },
+    {
+      "region": "Centre-Val de Loire",
+      "surface": 4500.8600000000015
+    },
+    {
+      "region": "Bourgogne-Franche-Comté",
+      "surface": 2634.790000000001
+    },
+    {
+      "region": "Normandie",
+      "surface": 2415.09
+    },
+    {
+      "region": "Île-de-France",
+      "surface": 1079.4199999999994
+    }
+  ],
+  "CZH": [
+    {
+      "region": "Centre-Val de Loire",
+      "surface": 5844.410000000005
+    },
+    {
+      "region": "Hauts-de-France",
+      "surface": 2773.5599999999995
+    },
+    {
+      "region": "Normandie",
+      "surface": 2332.9999999999986
+    },
+    {
+      "region": "Bourgogne-Franche-Comté",
+      "surface": 2140.409999999999
+    },
+    {
+      "region": "Île-de-France",
+      "surface": 1048.2299999999998
+    }
+  ],
+  "MIS": [
+    {
+      "region": "Nouvelle-Aquitaine",
+      "surface": 7909.060000000005
+    },
+    {
+      "region": "Grand Est",
+      "surface": 3647.390000000003
+    },
+    {
+      "region": "Bretagne",
+      "surface": 3123.309999999995
+    },
+    {
+      "region": "Centre-Val de Loire",
+      "surface": 2447.9600000000028
+    },
+    {
+      "region": "Île-de-France",
+      "surface": 965.1599999999997
+    }
+  ],
+  "ORP": [
+    {
+      "region": "Grand Est",
+      "surface": 4364.920000000001
+    },
+    {
+      "region": "Île-de-France",
+      "surface": 924.6899999999999
+    }
+  ],
+  "PPH": [
+    {
+      "region": "Auvergne-Rhône-Alpes",
+      "surface": 28405.779999999915
+    },
+    {
+      "region": "Bourgogne-Franche-Comté",
+      "surface": 20499.210000000014
+    },
+    {
+      "region": "Nouvelle-Aquitaine",
+      "surface": 17648.37999999999
+    },
+    {
+      "region": "Grand Est",
+      "surface": 14408.200000000024
+    },
+    {
+      "region": "Occitanie",
+      "surface": 12486.100000000035
+    },
+    {
+      "region": "Normandie",
+      "surface": 11743.320000000027
+    },
+    {
+      "region": "Pays de la Loire",
+      "surface": 9139.140000000014
+    },
+    {
+      "region": "Hauts-de-France",
+      "surface": 5442.860000000006
+    },
+    {
+      "region": "Centre-Val de Loire",
+      "surface": 4452.8
+    },
+    {
+      "region": "Provence-Alpes-Côte d'Azur",
+      "surface": 1986.7799999999982
+    },
+    {
+      "region": "Corse",
+      "surface": 608.4000000000004
+    }
+  ],
+  "PRL": [
+    {
+      "region": "Nouvelle-Aquitaine",
+      "surface": 6681.380000000004
+    },
+    {
+      "region": "Bretagne",
+      "surface": 4080.060000000004
+    },
+    {
+      "region": "Auvergne-Rhône-Alpes",
+      "surface": 3611.2699999999963
+    },
+    {
+      "region": "Pays de la Loire",
+      "surface": 3071.229999999999
+    },
+    {
+      "region": "Bourgogne-Franche-Comté",
+      "surface": 1783.8200000000004
+    }
+  ],
+  "MIE": [
+    {
+      "region": "Bretagne",
+      "surface": 5478.900000000005
+    },
+    {
+      "region": "Pays de la Loire",
+      "surface": 4781.069999999994
+    },
+    {
+      "region": "Normandie",
+      "surface": 4458.059999999999
+    }
+  ],
+  "BTN": [
+    {
+      "region": "Hauts-de-France",
+      "surface": 3913.6100000000024
+    }
+  ],
+  "PTC": [
+    {
+      "region": "Hauts-de-France",
+      "surface": 2330.570000000001
+    }
+  ],
+  "PTR": [
+    {
+      "region": "Nouvelle-Aquitaine",
+      "surface": 5064.789999999994
+    },
+    {
+      "region": "Pays de la Loire",
+      "surface": 3684.3099999999995
+    },
+    {
+      "region": "Bretagne",
+      "surface": 3431.2100000000037
+    },
+    {
+      "region": "Auvergne-Rhône-Alpes",
+      "surface": 3314.2300000000005
+    }
+  ],
+  "SPH": [
+    {
+      "region": "Occitanie",
+      "surface": 12101.859999999999
+    },
+    {
+      "region": "Provence-Alpes-Côte d'Azur",
+      "surface": 8587.98
+    },
+    {
+      "region": "Auvergne-Rhône-Alpes",
+      "surface": 6474.160000000004
+    },
+    {
+      "region": "Corse",
+      "surface": 806.5000000000002
+    }
+  ],
+  "VRC": [
+    {
+      "region": "Occitanie",
+      "surface": 4044.7899999999986
+    },
+    {
+      "region": "Provence-Alpes-Côte d'Azur",
+      "surface": 1309.0000000000016
+    }
+  ],
+  "SPL": [
+    {
+      "region": "Occitanie",
+      "surface": 4023.7699999999986
+    },
+    {
+      "region": "Corse",
+      "surface": 3659.669999999999
+    },
+    {
+      "region": "Provence-Alpes-Côte d'Azur",
+      "surface": 2403.7699999999995
+    }
+  ],
+  "BOP": [
+    {
+      "region": "Provence-Alpes-Côte d'Azur",
+      "surface": 1253.82
+    }
+  ],
+  "SNE": [
+    {
+      "region": "Corse",
+      "surface": 952.0799999999997
+    }
+  ],
+  "CEE": [
+    {
+      "region": "Corse",
+      "surface": 828.6399999999999
+    }
+  ]
+}

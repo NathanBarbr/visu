@@ -8,7 +8,7 @@ from shapely.geometry import shape as Shape, Point
 gpkg_path = r"c:/Users/natha/PycharmProjects/visu/projet/RPG_2-0__GPKG_LAMB93_FXX_2022-01-01.7z/RPG_2-0__GPKG_LAMB93_FXX_2022-01-01/RPG/1_DONNEES_LIVRAISON_2023-08-01/RPG_2-0_GPKG_LAMB93_FXX-2022/PARCELLES_GRAPHIQUES.gpkg"
 regions_path = "regions.geojson"
 output_file = "data_rankings.json"
-SAMPLE_SIZE = 1000000  # 1 million parcels for better accuracy
+SAMPLE_SIZE = 200000  # Smaller sample for speed
 
 def generate_rankings():
     print("Loading Regions...")
