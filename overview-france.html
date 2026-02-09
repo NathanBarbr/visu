@@ -200,6 +200,88 @@
             opacity: 0.8;
         }
 
+        /* Regional Portraits */
+        .regions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .region-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .region-card:hover {
+            transform: translateY(-4px);
+            border-color: #4a4a4c;
+        }
+
+        .region-card h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .dna-bar {
+            display: flex;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 16px 0;
+            background: var(--bg-dark);
+        }
+
+        .dna-segment {
+            height: 100%;
+            transition: width 0.8s ease-out;
+        }
+
+        .stats-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+
         /* Chart container */
         .chart-container {
             width: 100%;
@@ -252,7 +334,6 @@
         }
 
         @media (max-width: 1200px) {
-
             .kpi-section {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -319,6 +400,17 @@
                 <div class="legend" id="legend"></div>
             </div>
         </div>
+
+        <!-- Divider -->
+        <div style="height: 1px; background: var(--border); margin: 60px 0;"></div>
+
+        <!-- Regional Portraits Section -->
+        <div style="margin-bottom: 40px;">
+            <h2
+                style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.8rem; font-weight: 500; margin-bottom: 30px; text-align: center; color: var(--text-primary);">
+                Portraits Régionaux</h2>
+            <div id="grid" class="regions-grid"></div>
+        </div>
     </div>
 
     <div id="tooltip"></div>
@@ -369,6 +461,16 @@
         };
         const getLabel = (code) => CODE_LABELS[code] || code;
 
+        const COLORS = {
+            "PPH": "#30d158", "SPH": "#34c759", "PTR": "#63e086",
+            "BTH": "#ffd60a", "ORH": "#ffcc00", "TTH": "#e6b800",
+            "MIS": "#ff9f0a", "TRN": "#ff9500",
+            "VRC": "#bf5af2", "VRG": "#af52de",
+            "CZH": "#ffe620",
+            "DEFAULT": "#636366"
+        };
+        const getColor = (code) => COLORS[code] || COLORS["DEFAULT"];
+
         let globalData = null;
 
         async function init() {
@@ -380,6 +482,11 @@
                 updateKPIs(data);
                 renderCultureChart(data.culture);
                 renderWaffleChart(data.group);
+
+                // Load regional data
+                const regionsResponse = await fetch('data_regions.json');
+                const regionsData = await regionsResponse.json();
+                renderRegionalPortraits(regionsData);
             } catch (e) {
                 console.error(e);
             }
@@ -577,6 +684,53 @@
 
         function hideTooltip() {
             tooltip.style.opacity = '0';
+        }
+
+        function renderRegionalPortraits(data) {
+            const container = document.getElementById('grid');
+            const regions = Object.keys(data).sort();
+
+            regions.forEach(region => {
+                if (region === "Inconnu" && data[region].total_surface < 100) return;
+
+                const stats = data[region];
+                const card = document.createElement('div');
+                card.className = 'region-card';
+
+                const top5 = stats.top_cultures;
+
+                let html = `<h3>${region}</h3>`;
+
+                // DNA bar
+                html += `<div class="dna-bar">`;
+                top5.forEach(c => {
+                    const pct = (c.surface / stats.total_surface) * 100;
+                    const color = getColor(c.code);
+                    html += `<div class="dna-segment" style="width: ${pct}%; background: ${color};" title="${getLabel(c.code)}: ${Math.round(pct)}%"></div>`;
+                });
+                html += `<div class="dna-segment" style="flex-grow:1; background: var(--bg-dark);" title="Autres"></div>`;
+                html += `</div>`;
+
+                // Stats list
+                html += `<div class="stats-list">`;
+                top5.forEach(c => {
+                    const pct = (c.surface / stats.total_surface) * 100;
+                    const color = getColor(c.code);
+                    html += `
+                        <div class="stat-row">
+                            <div class="stat-name">
+                                <div class="dot" style="background:${color}"></div>
+                                ${getLabel(c.code)}
+                            </div>
+                            <div class="stat-value">${pct.toFixed(1)}%</div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
         }
 
         init();
