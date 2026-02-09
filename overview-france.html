@@ -320,6 +320,30 @@
             opacity: 0.85;
         }
 
+        /* Select styling */
+        .select-wrapper {
+            position: relative;
+            min-width: 250px;
+        }
+
+        select {
+            appearance: none;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            width: 100%;
+            cursor: pointer;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        select:focus {
+            border-color: #0a84ff;
+        }
+
         #tooltip {
             position: absolute;
             pointer-events: none;
@@ -401,6 +425,22 @@
             </div>
         </div>
 
+        <!-- Regional Ranking Section -->
+        <div class="card" style="margin-bottom: 60px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-weight: 500;">Classement par
+                    Culture</h2>
+                <div class="select-wrapper">
+                    <select id="culture-select">
+                        <option value="" disabled selected>Chargement...</option>
+                    </select>
+                </div>
+            </div>
+            <p class="subtitle" style="margin-bottom: 24px;">Sélectionnez une culture pour comparer la production entre
+                les régions (classement par surface).</p>
+            <div id="ranking-chart"></div>
+        </div>
+
         <!-- Divider -->
         <div style="height: 1px; background: var(--border); margin: 60px 0;"></div>
 
@@ -415,6 +455,7 @@
 
     <div id="tooltip"></div>
 
+    <script src="ranking-chart.js"></script>
     <script>
         const CATEGORIES = {
             "CEREALES": {
@@ -459,6 +500,7 @@
             "BTP": "Blé détruit", "LIH": "Lin", "SPL": "Surf. pasto. ligneuse",
             "BOR": "Bordures", "OLI": "Oliviers", "MDI": "Maïs doux"
         };
+        window.CODE_LABELS = CODE_LABELS;
         const getLabel = (code) => CODE_LABELS[code] || code;
 
         const COLORS = {
@@ -487,6 +529,11 @@
                 const regionsResponse = await fetch('data_regions.json');
                 const regionsData = await regionsResponse.json();
                 renderRegionalPortraits(regionsData);
+
+                // Initialize ranking chart
+                if (typeof initRanking === 'function') {
+                    initRanking();
+                }
             } catch (e) {
                 console.error(e);
             }
