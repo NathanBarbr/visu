@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue d'Ensemble France — RPG 2023</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #1c1c1e;
+            --card-bg: #2c2c2e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #86868b;
+            --border: #3a3a3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* KPI Section */
+        .kpi-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            padding: 28px;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            background: #3a3a3c;
+        }
+
+        .kpi-value {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .kpi-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .card:hover {
+            background: #3a3a3c;
+        }
+
+        .card h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .waffle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .waffle-grid {
+            flex-shrink: 0;
+        }
+
+        .legend {
+            flex-shrink: 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: var(--bg-dark);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .legend-item:hover {
+            transform: translateX(6px);
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            margin-right: 12px;
+        }
+
+        .legend-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .legend-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .legend-pct {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .unit {
+            stroke: var(--bg-dark);
+            stroke-width: 2px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .unit:hover {
+            transform: scale(1.4);
+            opacity: 0.8;
+        }
+
+        /* Chart container */
+        .chart-container {
+            width: 100%;
+            min-height: 450px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bar {
+            transition: opacity 0.2s;
+        }
+
+        .bar:hover {
+            opacity: 0.7;
+        }
+
+        .domain,
+        .tick line {
+            stroke: var(--border);
+        }
+
+        .tick text {
+            fill: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .arc path {
+            stroke: var(--card-bg);
+            stroke-width: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .arc path:hover {
+            opacity: 0.85;
+        }
+
+        #tooltip {
+            position: absolute;
+            pointer-events: none;
+            background: var(--card-bg);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 100;
+        }
+
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .kpi-section {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .waffle-wrapper {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Retour au menu</a>
+
+        <header>
+            <h1>Vue d'Ensemble France</h1>
+            <div class="subtitle">Statistiques nationales et répartition des cultures</div>
+        </header>
+
+        <!-- KPI Section -->
+        <div class="kpi-section">
+            <div class="kpi-card">
+                <div class="kpi-value" id="kpi-surface">0</div>
+                <div class="kpi-label">Hectares Totaux</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="kpi-parcels">0</div>
+                <div class="kpi-label">Parcelles</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="kpi-avg-size">0</div>
+                <div class="kpi-label">Surface Moyenne (ha)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="kpi-cultures">0</div>
+                <div class="kpi-label">Types de Cultures</div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="main-grid">
+            <!-- Chart: Top Cultures -->
+            <div class="card">
+                <h2>Top 15 Cultures (Surface)</h2>
+                <div id="chart-culture" class="chart-container"></div>
+            </div>
+
+            <!-- Pie Chart: Groups -->
+            <div class="card">
+                <h2>Répartition par Groupe</h2>
+                <div id="chart-group" class="chart-container"></div>
+            </div>
+        </div>
+
+        <!-- Waffle Chart: La Ferme France -->
+        <div class="card">
+            <h2>La « Ferme France » — 500 Hectares</h2>
+            <div class="waffle-wrapper">
+                <div class="waffle-grid" id="waffle"></div>
+                <div class="legend" id="legend"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tooltip"></div>
+
+    <script>
+        const CATEGORIES = {
+            "CEREALES": {
+                label: "Céréales",
+                codes: ["1", "2", "3", "4", "7", "9"],
+                color: "#ffd60a",
+                desc: "Blé, Maïs, Orge, Riz..."
+            },
+            "PRAIRIES": {
+                label: "Prairies & Fourrages",
+                codes: ["17", "18", "19", "20", "21"],
+                color: "#30d158",
+                desc: "Prairies permanentes, temporaires..."
+            },
+            "OLEAGINEUX": {
+                label: "Oléagineux & Protéagineux",
+                codes: ["5", "6", "8", "11", "22"],
+                color: "#ff9f0a",
+                desc: "Colza, Tournesol, Soja..."
+            },
+            "VIGNES": {
+                label: "Vignes & Vergers",
+                codes: ["23", "15", "16"],
+                color: "#bf5af2",
+                desc: "Viticulture & arboriculture"
+            },
+            "AUTRES": {
+                label: "Divers / Jachères",
+                codes: ["24", "25", "28", "12", "13"],
+                color: "#636366",
+                desc: "Jachères, Fleurs, Divers"
+            }
+        };
+
+        const CODE_LABELS = {
+            "PPH": "Prairies permanentes", "SPH": "Surface pastorale", "BTH": "Blé tendre",
+            "MIS": "Maïs", "PTR": "Prairie temporaire", "ORH": "Orge d'hiver",
+            "TTH": "Triticale", "TRN": "Tournesol", "CZH": "Colza",
+            "MLG": "Mélange Gram/Légu", "LUZ": "Luzerne", "VRC": "Vignes",
+            "JAC": "Jachère", "SOJ": "Soja", "SNE": "Non exploité",
+            "NOX": "Noyer", "VRG": "Verger", "SGH": "Seigle",
+            "BTP": "Blé détruit", "LIH": "Lin", "SPL": "Surf. pasto. ligneuse",
+            "BOR": "Bordures", "OLI": "Oliviers", "MDI": "Maïs doux"
+        };
+        const getLabel = (code) => CODE_LABELS[code] || code;
+
+        let globalData = null;
+
+        async function init() {
+            try {
+                const response = await fetch('data_summary_france.json');
+                const data = await response.json();
+                globalData = data;
+
+                updateKPIs(data);
+                renderCultureChart(data.culture);
+                renderGroupChart(data.group);
+                renderWaffleChart(data.group);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function updateKPIs(data) {
+            const totalSurface = data.culture.reduce((sum, d) => sum + d.surface, 0);
+            const totalParcels = data.culture.reduce((sum, d) => sum + d.count, 0);
+            const avgSize = totalSurface / totalParcels;
+            const numCultures = data.culture.length;
+
+            document.getElementById('kpi-surface').textContent = Math.round(totalSurface).toLocaleString();
+            document.getElementById('kpi-parcels').textContent = totalParcels.toLocaleString();
+            document.getElementById('kpi-avg-size').textContent = avgSize.toFixed(2);
+            document.getElementById('kpi-cultures').textContent = numCultures;
+        }
+
+        function renderCultureChart(cultureData) {
+            const top15 = cultureData
+                .sort((a, b) => b.surface - a.surface)
+                .slice(0, 15);
+
+            const container = document.getElementById('chart-culture');
+            const width = container.clientWidth;
+            const height = 450;
+            const margin = { top: 20, right: 40, bottom: 80, left: 100 };
+
+            const svg = d3.select("#chart-culture")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const x = d3.scaleBand()
+                .domain(top15.map(d => getLabel(d.code)))
+                .range([margin.left, width - margin.right])
+                .padding(0.3);
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(top15, d => d.surface) * 1.1])
+                .range([height - margin.bottom, margin.top]);
+
+            const color = d3.scaleOrdinal(d3.schemeTableau10);
+
+            svg.append("g")
+                .selectAll("rect")
+                .data(top15)
+                .join("rect")
+                .attr("class", "bar")
+                .attr("x", d => x(getLabel(d.code)))
+                .attr("y", d => y(d.surface))
+                .attr("height", d => y(0) - y(d.surface))
+                .attr("width", x.bandwidth())
+                .attr("fill", (d, i) => color(i))
+                .on("mouseover", function (event, d) {
+                    d3.select("#tooltip")
+                        .style("opacity", 1)
+                        .html(`<strong>${getLabel(d.code)}</strong><br>
+                               Surface: <b>${Math.round(d.surface).toLocaleString()} ha</b><br>
+                               Parcelles: <b>${d.count.toLocaleString()}</b>`)
+                        .style("left", (event.pageX + 15) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", () => d3.select("#tooltip").style("opacity", 0));
+
+            svg.append("g")
+                .attr("transform", `translate(0,${height - margin.bottom})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "rotate(-45)")
+                .style("text-anchor", "end")
+                .style("fill", "#86868b")
+                .style("font-size", "0.75rem");
+
+            svg.append("g")
+                .attr("transform", `translate(${margin.left},0)`)
+                .call(d3.axisLeft(y).ticks(5).tickFormat(d => d3.format(".2s")(d) + " ha"))
+                .style("color", "#86868b");
+        }
+
+        function renderGroupChart(groupData) {
+            const container = document.getElementById('chart-group');
+            const width = Math.min(container.clientWidth, 400);
+            const height = 400;
+            const radius = Math.min(width, height) / 2 - 40;
+
+            const svg = d3.select("#chart-group")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${width / 2},${height / 2})`);
+
+            const pie = d3.pie().value(d => d.surface).sort(null);
+            const arc = d3.arc().innerRadius(0).outerRadius(radius);
+            const color = d3.scaleOrdinal(d3.schemeSet2);
+
+            const arcs = svg.selectAll(".arc")
+                .data(pie(groupData))
+                .join("g")
+                .attr("class", "arc");
+
+            arcs.append("path")
+                .attr("d", arc)
+                .attr("fill", (d, i) => color(i))
+                .on("mouseover", function (event, d) {
+                    d3.select("#tooltip")
+                        .style("opacity", 1)
+                        .html(`<strong>${d.data.group}</strong><br>
+                               Surface: <b>${Math.round(d.data.surface).toLocaleString()} ha</b><br>
+                               ${((d.data.surface / d3.sum(groupData, g => g.surface)) * 100).toFixed(1)}%`)
+                        .style("left", (event.pageX + 15) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", () => d3.select("#tooltip").style("opacity", 0));
+
+            arcs.append("text")
+                .attr("transform", d => `translate(${arc.centroid(d)})`)
+                .attr("text-anchor", "middle")
+                .style("fill", "#1c1c1e")
+                .style("font-size", "0.85rem")
+                .style("font-weight", "600")
+                .text(d => {
+                    const pct = ((d.data.surface / d3.sum(groupData, g => g.surface)) * 100);
+                    return pct > 5 ? pct.toFixed(0) + "%" : "";
+                });
+        }
+
+        function renderWaffleChart(groupData) {
+            const totalSurface = groupData.reduce((sum, d) => sum + d.surface, 0);
+
+            function processData(groups) {
+                const dist = {};
+                for (let key in CATEGORIES) dist[key] = 0;
+
+                groups.forEach(g => {
+                    for (let catKey in CATEGORIES) {
+                        if (CATEGORIES[catKey].codes.includes(g.code)) {
+                            dist[catKey] += g.surface;
+                            return;
+                        }
+                    }
+                });
+
+                return dist;
+            }
+
+            const dist = processData(groupData);
+            renderWaffle(dist, totalSurface);
+            renderLegend(dist, totalSurface);
+        }
+
+        function renderWaffle(dist, totalSurf) {
+            const waffle = document.getElementById('waffle');
+            const rows = 10, cols = 50;
+            const unitSize = 10;
+            const gap = 2;
+
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", cols * (unitSize + gap));
+            svg.setAttribute("height", rows * (unitSize + gap));
+
+            let units = [];
+            for (let cat in dist) {
+                const pct = dist[cat] / totalSurf;
+                const count = Math.round(pct * rows * cols);
+                for (let i = 0; i < count; i++) units.push(cat);
+            }
+
+            for (let i = 0; i < rows * cols; i++) {
+                const cat = units[i] || "AUTRES";
+                const color = CATEGORIES[cat]?.color || "#636366";
+                const row = Math.floor(i / cols);
+                const col = i % cols;
+
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", col * (unitSize + gap));
+                rect.setAttribute("y", row * (unitSize + gap));
+                rect.setAttribute("width", unitSize);
+                rect.setAttribute("height", unitSize);
+                rect.setAttribute("fill", color);
+                rect.setAttribute("class", "unit");
+                rect.setAttribute("data-cat", cat);
+
+                rect.onmouseover = (e) => showTooltip(e, CATEGORIES[cat]?.label || "Divers");
+                rect.onmousemove = (e) => moveTooltip(e);
+                rect.onmouseout = () => hideTooltip();
+
+                svg.appendChild(rect);
+            }
+
+            waffle.appendChild(svg);
+        }
+
+        function renderLegend(dist, totalSurf) {
+            const legend = document.getElementById('legend');
+
+            for (let cat in dist) {
+                const pct = (dist[cat] / totalSurf) * 100;
+                if (pct < 0.1) continue;
+
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                item.innerHTML = `
+                    <div class="legend-color" style="background:${CATEGORIES[cat].color}"></div>
+                    <div class="legend-text">
+                        <div class="legend-label">${CATEGORIES[cat].label}</div>
+                        <div class="legend-pct">${pct.toFixed(1)}%</div>
+                    </div>
+                `;
+
+                item.onmouseover = () => {
+                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '0.6');
+                };
+                item.onmouseout = () => {
+                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '1');
+                };
+
+                legend.appendChild(item);
+            }
+        }
+
+        const tooltip = document.getElementById('tooltip');
+
+        function showTooltip(e, text) {
+            tooltip.innerHTML = text;
+            tooltip.style.opacity = '1';
+            moveTooltip(e);
+        }
+
+        function moveTooltip(e) {
+            tooltip.style.left = (e.pageX + 15) + 'px';
+            tooltip.style.top = (e.pageY - 28) + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
