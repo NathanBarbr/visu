@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmos & Échelle — RPG 2023</title>
+    <title>Bulles des Cultures — RPG 2023</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet">
@@ -174,7 +174,7 @@
             max-width: 280px;
             color: var(--text-primary);
             z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
         /* Bubble Styles */
@@ -224,7 +224,7 @@
             font-size: 10px;
             text-anchor: middle;
             pointer-events: none;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
         }
 
         /* Legend */
@@ -351,7 +351,7 @@
         <div class="cosmos-panel">
             <div class="panel-header">
                 <a href="index.html" class="back-link">← Menu</a>
-                <h2>Cosmos Agricole</h2>
+                <h2>Groupes de Cultures</h2>
             </div>
             <div id="cosmos-viz"></div>
             <div id="cosmos-info" class="cosmos-info">
@@ -394,7 +394,7 @@
                 </div>
             </div>
             <div class="panel-header">
-                <h2>L'Échelle des Cultures</h2>
+                <h2>Comparaison des Surfaces</h2>
             </div>
             <div id="bubbles-chart"></div>
             <div class="legend-box">
@@ -412,7 +412,7 @@
         // ========================================
         // SHARED DATA & CONFIGURATION
         // ========================================
-        
+
         const CODE_LABELS = {
             "PPH": "Prairies permanentes", "SPH": "Surface pastorale", "BTH": "Blé tendre",
             "MIS": "Maïs", "PTR": "Prairie temporaire", "ORH": "Orge d'hiver",
@@ -463,7 +463,7 @@
                     fetch('data_hierarchy_france.json'),
                     fetch('data_summary_france.json')
                 ]);
-                
+
                 hierarchyData = await hierarchyRes.json();
                 summaryData = await summaryRes.json();
 
@@ -503,7 +503,7 @@
                 .attr("viewBox", [0, 0, width, height])
                 .style("background", "transparent")
                 .on("click", (event) => {
-                    if (event.target === event.currentTarget.querySelector('svg') || 
+                    if (event.target === event.currentTarget.querySelector('svg') ||
                         event.target.tagName === 'svg') {
                         clearFilter();
                     }
@@ -522,10 +522,10 @@
                 .attr("stroke", d => d.children ? groupColorScale(d.data.name) : "none")
                 .attr("stroke-width", d => d.children ? 1.5 : 0)
                 .style("cursor", "pointer")
-                .on("mouseover", function(event, d) {
+                .on("mouseover", function (event, d) {
                     d3.select(this).attr("stroke", "white").attr("stroke-width", 2);
                     updateCosmosInfo(d);
-                    
+
                     // Highlight corresponding bubbles
                     if (d.children) {
                         highlightBubblesByGroup(d.data.name);
@@ -533,11 +533,11 @@
                         highlightBubbleByCode(d.data.name);
                     }
                 })
-                .on("mouseout", function(event, d) {
+                .on("mouseout", function (event, d) {
                     d3.select(this)
                         .attr("stroke", d.children ? groupColorScale(d.data.name) : "none")
                         .attr("stroke-width", d.children ? 1.5 : 0);
-                    
+
                     // Remove highlights if no filter active
                     if (!currentFilter) {
                         clearBubbleHighlights();
@@ -547,7 +547,7 @@
                 })
                 .on("click", (event, d) => {
                     event.stopPropagation();
-                    
+
                     if (d.children) {
                         // Group clicked - filter bubbles
                         const cultures = d.leaves().map(l => l.data.name);
@@ -731,9 +731,9 @@
                 .style("opacity", 0.7)
                 .attr("data-code", d => d.code)
                 .attr("data-group", d => d.groupCode)
-                .on("mouseover", function(event, d) {
+                .on("mouseover", function (event, d) {
                     d3.select(this).classed("highlighted", true);
-                    
+
                     tooltip.style("opacity", 1)
                         .html(`
                             <strong style="color:${groupColorScale(d.groupCode)}">${d.label}</strong><br>
@@ -745,7 +745,7 @@
                         .style("left", Math.min(event.pageX + 15, window.innerWidth - 300) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     if (!currentFilter || d3.select(this).attr("data-group") === currentFilter.groupCode) {
                         d3.select(this).classed("highlighted", false);
                     }
@@ -806,7 +806,7 @@
 
         function highlightBubblesByGroup(groupCode) {
             if (currentFilter) return;
-            
+
             bubblesViz.bubbles
                 .classed("filtered-out", d => d.groupCode !== groupCode)
                 .classed("highlighted", d => d.groupCode === groupCode);
