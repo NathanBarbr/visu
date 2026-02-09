@@ -109,11 +109,8 @@
             letter-spacing: 1.5px;
         }
 
-        /* Main Grid */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 24px;
+        /* Culture Chart Section */
+        .culture-chart-section {
             margin-bottom: 24px;
         }
 
@@ -255,9 +252,6 @@
         }
 
         @media (max-width: 1200px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
 
             .kpi-section {
                 grid-template-columns: repeat(2, 1fr);
@@ -309,18 +303,11 @@
             </div>
         </div>
 
-        <!-- Main Content Grid -->
-        <div class="main-grid">
-            <!-- Chart: Top Cultures -->
+        <!-- Culture Chart Section -->
+        <div class="culture-chart-section">
             <div class="card">
                 <h2>Top 15 Cultures (Surface)</h2>
                 <div id="chart-culture" class="chart-container"></div>
-            </div>
-
-            <!-- Pie Chart: Groups -->
-            <div class="card">
-                <h2>Répartition par Groupe</h2>
-                <div id="chart-group" class="chart-container"></div>
             </div>
         </div>
 
@@ -392,7 +379,6 @@
 
                 updateKPIs(data);
                 renderCultureChart(data.culture);
-                renderGroupChart(data.group);
                 renderWaffleChart(data.group);
             } catch (e) {
                 console.error(e);
@@ -473,53 +459,7 @@
                 .style("color", "#86868b");
         }
 
-        function renderGroupChart(groupData) {
-            const container = document.getElementById('chart-group');
-            const width = Math.min(container.clientWidth, 400);
-            const height = 400;
-            const radius = Math.min(width, height) / 2 - 40;
 
-            const svg = d3.select("#chart-group")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .append("g")
-                .attr("transform", `translate(${width / 2},${height / 2})`);
-
-            const pie = d3.pie().value(d => d.surface).sort(null);
-            const arc = d3.arc().innerRadius(0).outerRadius(radius);
-            const color = d3.scaleOrdinal(d3.schemeSet2);
-
-            const arcs = svg.selectAll(".arc")
-                .data(pie(groupData))
-                .join("g")
-                .attr("class", "arc");
-
-            arcs.append("path")
-                .attr("d", arc)
-                .attr("fill", (d, i) => color(i))
-                .on("mouseover", function (event, d) {
-                    d3.select("#tooltip")
-                        .style("opacity", 1)
-                        .html(`<strong>${d.data.group}</strong><br>
-                               Surface: <b>${Math.round(d.data.surface).toLocaleString()} ha</b><br>
-                               ${((d.data.surface / d3.sum(groupData, g => g.surface)) * 100).toFixed(1)}%`)
-                        .style("left", (event.pageX + 15) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mouseout", () => d3.select("#tooltip").style("opacity", 0));
-
-            arcs.append("text")
-                .attr("transform", d => `translate(${arc.centroid(d)})`)
-                .attr("text-anchor", "middle")
-                .style("fill", "#1c1c1e")
-                .style("font-size", "0.85rem")
-                .style("font-weight", "600")
-                .text(d => {
-                    const pct = ((d.data.surface / d3.sum(groupData, g => g.surface)) * 100);
-                    return pct > 5 ? pct.toFixed(0) + "%" : "";
-                });
-        }
 
         function renderWaffleChart(groupData) {
             const totalSurface = groupData.reduce((sum, d) => sum + d.surface, 0);
