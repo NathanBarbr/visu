@@ -17,9 +17,10 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Leaflet JS -->
+    <!-- Leaflet JS & Heatmap plugin -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 
     <!-- Turf.js pour les calculs géographiques -->
     <script src="turf.min.js"></script>
@@ -304,6 +305,73 @@
             color: var(--warning);
         }
 
+        /* Toggle Switch for Heatmap */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .toggle-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--danger);
+            box-shadow: 0 0 8px rgba(255, 69, 58, 0.5);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
         /* Loading States */
         .loading-indicator {
             display: flex;
@@ -445,18 +513,72 @@
                 flex-direction: column;
             }
         }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 44, 46, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            display: flex;
+            padding: 6px;
+            gap: 8px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            color: var(--text-secondary, #a1a1a6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary, #f5f5f7);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(10, 132, 255, 0.2);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+        }
+
+        @media (max-width: 700px) {
+            .top-nav {
+                top: auto;
+                bottom: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 90%;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Navigation Layer -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-item" title="Menu">Menu</a>
+        <a href="overview-france.html" class="nav-item">National</a>
+        <a href="cosmos-bubbles.html" class="nav-item">Bulles</a>
+        <a href="fragmentation-combined.html" class="nav-item">Tailles</a>
+        <a href="map.html" class="nav-item active">Carte</a>
+    </nav>
     <div id="sidebar">
-        <div class="sidebar-header">
-            <a href="index.html" class="back-link">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                </svg>
-                Retour au menu
-            </a>
+        <div class="sidebar-header" style="padding-top: 80px;">
             <h1 class="sidebar-title">Carte RPG France</h1>
             <p class="sidebar-subtitle">Visualisation des parcelles agricoles</p>
         </div>
@@ -495,6 +617,43 @@
                 </div>
                 <div class="region-list" id="region-container">
                     <!-- Checkboxes générées par JS -->
+                </div>
+            </div>
+
+            <!-- Crop Filter -->
+            <div class="control-group">
+                <label class="control-label">Filtrer par culture</label>
+                <div class="region-actions">
+                    <button class="region-action-btn" onclick="selectAllCultures(true)">Tout sélectionner</button>
+                    <button class="region-action-btn" onclick="selectAllCultures(false)">Tout désélectionner</button>
+                </div>
+                <div class="region-list" style="max-height: 180px;" id="culture-container">
+                    <!-- Checkboxes générées par JS -->
+                </div>
+            </div>
+
+            <!-- Size Filter -->
+            <div class="control-group">
+                <label class="control-label">Filtrer par taille</label>
+                <div class="region-actions">
+                    <button class="region-action-btn" onclick="selectAllSizes(true)">Tout sélectionner</button>
+                    <button class="region-action-btn" onclick="selectAllSizes(false)">Tout désélectionner</button>
+                </div>
+                <div class="region-list" style="max-height: 180px;" id="size-container">
+                    <!-- Checkboxes générées par JS -->
+                </div>
+            </div>
+
+            <!-- Heatmap Toggle -->
+            <div class="control-group">
+                <div class="toggle-container">
+                    <div class="toggle-label">
+                        Heatmap
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="heatmap-toggle" onchange="toggleHeatmap()">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
 
@@ -544,6 +703,26 @@
         </div>
     </div>
 
+    <div id="heatmap-legend" class="legend hidden"
+        style="position: absolute; right: 20px; bottom: 30px; z-index: 1000; width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+        <div class="legend-title">Densité des parcelles agricoles</div>
+        <p style="font-size: 11px; color: var(--text-muted); margin-top: -8px; margin-bottom: 16px; line-height: 1.4;">
+            Représente la concentration locale des parcelles filtrées (pondérée par leur surface).
+        </p>
+
+        <!-- Barre de gradient pour la Heatmap -->
+        <div style="width: 100%;">
+            <div
+                style="height: 10px; border-radius: 5px; background: linear-gradient(to right, blue, lime, red); margin-bottom: 6px;">
+            </div>
+            <div
+                style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-primary); font-weight: 500;">
+                <span>Faible densité</span>
+                <span>Forte densité</span>
+            </div>
+        </div>
+    </div>
+
     <div id="map"></div>
 
     <script>
@@ -581,9 +760,27 @@
             "Inconnu"
         ];
 
+        const CULTURES = [
+            { code: "PPH", label: "Prairies permanentes" },
+            { code: "BTH", label: "Blé tendre" },
+            { code: "MIS", label: "Maïs" },
+            { code: "VRC", label: "Vignes" },
+            { code: "DEFAULT", label: "Autres cultures" }
+        ];
+
+        const SIZES = {
+            "micro": { label: "Micro (<0.5 ha)" },
+            "petite": { label: "Petite (0.5-2 ha)" },
+            "moyenne": { label: "Moyenne (2-10 ha)" },
+            "grande": { label: "Grande (10-50 ha)" },
+            "tres_grande": { label: "Très grande (>50 ha)" }
+        };
+
         // State
         let map;
         let geojsonLayer;
+        let heatmapLayer = null;
+        let isHeatmapActive = false;
         let allData = null;
         let regionsGeo = null;
         let allDataOriginalCount = 0;
@@ -634,6 +831,46 @@
         // Select/Deselect all regions
         function selectAllRegions(select) {
             const checkboxes = document.querySelectorAll('#region-container input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = select);
+            updateFilters();
+        }
+
+        function initCultureCheckboxes() {
+            const container = document.getElementById('culture-container');
+            container.innerHTML = '';
+            CULTURES.forEach((c) => {
+                const item = document.createElement('div');
+                item.className = 'region-item';
+                item.innerHTML = `
+                    <input type="checkbox" id="culture-${c.code}" value="${c.code}" checked onchange="updateFilters()">
+                    <label for="culture-${c.code}">${c.label}</label>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function selectAllCultures(select) {
+            const checkboxes = document.querySelectorAll('#culture-container input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = select);
+            updateFilters();
+        }
+
+        function initSizeCheckboxes() {
+            const container = document.getElementById('size-container');
+            container.innerHTML = '';
+            Object.entries(SIZES).forEach(([key, val]) => {
+                const item = document.createElement('div');
+                item.className = 'region-item';
+                item.innerHTML = `
+                    <input type="checkbox" id="size-${key}" value="${key}" checked onchange="updateFilters()">
+                    <label for="size-${key}">${val.label}</label>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function selectAllSizes(select) {
+            const checkboxes = document.querySelectorAll('#size-container input[type="checkbox"]');
             checkboxes.forEach(cb => cb.checked = select);
             updateFilters();
         }
@@ -744,31 +981,80 @@
             document.getElementById('stat-zoom').textContent = Math.round(zoom);
         }
 
+        // Handle toggle
+        function toggleHeatmap() {
+            isHeatmapActive = document.getElementById('heatmap-toggle').checked;
+            updateFilters();
+        }
+
         // Update filters and redraw
         function updateFilters() {
             if (!allData) return;
 
-            // Get selected regions
-            const checkboxes = document.querySelectorAll('#region-container input:checked');
-            const selectedRegions = new Set(Array.from(checkboxes).map(cb => cb.value));
+            // Get selected filters
+            const regionCb = document.querySelectorAll('#region-container input:checked');
+            const selectedRegions = new Set(Array.from(regionCb).map(cb => cb.value));
+
+            const cultureCb = document.querySelectorAll('#culture-container input:checked');
+            const selectedCultures = new Set(Array.from(cultureCb).map(cb => cb.value));
+
+            const sizeCb = document.querySelectorAll('#size-container input:checked');
+            const selectedSizes = new Set(Array.from(sizeCb).map(cb => cb.value));
 
             // Determine display mode
             const zoom = map.getZoom();
-            const mode = zoom >= CONFIG.zoomThreshold ? 'polygon' : 'point';
+            let mode = zoom >= CONFIG.zoomThreshold ? 'polygon' : 'point';
+            if (isHeatmapActive) mode = 'heatmap';
             lastZoomMode = mode;
 
             // Update mode stat
-            document.getElementById('stat-mode').textContent = mode === 'point' ? 'Points' : 'Polygones';
+            let modeDisplay = 'Points';
+            if (mode === 'polygon') modeDisplay = 'Polygones';
+            if (mode === 'heatmap') modeDisplay = 'Heatmap';
+            document.getElementById('stat-mode').textContent = modeDisplay;
 
-            // Remove existing layer
-            if (geojsonLayer) {
-                map.removeLayer(geojsonLayer);
+            // Handle Legends
+            const defaultLegend = document.querySelector('.sidebar-content .legend');
+            const heatmapLegend = document.getElementById('heatmap-legend');
+            if (mode === 'heatmap') {
+                if (defaultLegend) defaultLegend.classList.add('hidden');
+                if (heatmapLegend) heatmapLegend.classList.remove('hidden');
+            } else {
+                if (defaultLegend) defaultLegend.classList.remove('hidden');
+                if (heatmapLegend) heatmapLegend.classList.add('hidden');
             }
 
-            // Filter features by region
+            // Remove existing layers
+            if (geojsonLayer) {
+                map.removeLayer(geojsonLayer);
+                geojsonLayer = null;
+            }
+            if (heatmapLayer) {
+                map.removeLayer(heatmapLayer);
+                heatmapLayer = null;
+            }
+
+            // Filter features
             const filteredFeatures = allData.features.filter(feature => {
                 const regionName = feature.properties.regionName;
-                return selectedRegions.has(regionName);
+                if (!selectedRegions.has(regionName)) return false;
+
+                const code = feature.properties.culture;
+                const isMappedCulture = ["PPH", "BTH", "MIS", "VRC"].includes(code);
+                const mappedCode = isMappedCulture ? code : "DEFAULT";
+                if (!selectedCultures.has(mappedCode)) return false;
+
+                const surf = feature.properties.surface || 0;
+                let sizeCat = "";
+                if (surf < 0.5) sizeCat = "micro";
+                else if (surf <= 2) sizeCat = "petite";
+                else if (surf <= 10) sizeCat = "moyenne";
+                else if (surf <= 50) sizeCat = "grande";
+                else sizeCat = "tres_grande";
+
+                if (!selectedSizes.has(sizeCat)) return false;
+
+                return true;
             });
 
             // TOUJOURS rééchantillonner pour atteindre le quota de 5000 parcelles
@@ -778,67 +1064,92 @@
                 featuresToDisplay = sampleFeatures(filteredFeatures, CONFIG.maxPoints);
             }
 
-            let dataToDisplay;
-            let options = {};
-
-            if (mode === 'point') {
-                // Convert to centroids for better performance
-                const pointsCollection = {
-                    type: "FeatureCollection",
-                    features: featuresToDisplay.map(f => {
-                        try {
-                            const center = turf.centroid(f);
-                            center.properties = f.properties;
-                            return center;
-                        } catch (e) {
-                            return null;
-                        }
-                    }).filter(f => f !== null)
-                };
-                dataToDisplay = pointsCollection;
-
-                // Canvas renderer for performance
-                const canvasRenderer = L.canvas({ padding: 0.5 });
-
-                options = {
-                    pointToLayer: (feature, latlng) => {
-                        return L.circleMarker(latlng, {
-                            radius: 4,
-                            fillColor: getColor(feature.properties.culture),
-                            color: 'rgba(255,255,255,0.3)',
-                            weight: 1,
-                            opacity: 1,
-                            fillOpacity: 0.85,
-                            renderer: canvasRenderer
-                        });
-                    },
-                    onEachFeature: bindPopup
-                };
-            } else {
-                // Polygon mode
-                dataToDisplay = {
-                    type: "FeatureCollection",
-                    features: featuresToDisplay
-                };
-
-                options = {
-                    style: (feature) => ({
-                        fillColor: getColor(feature.properties.culture),
-                        weight: 2,
-                        opacity: 1,
-                        color: 'rgba(255,255,255,0.5)',
-                        fillOpacity: 0.7
-                    }),
-                    onEachFeature: bindPopup
-                };
-            }
-
-            // Create and add layer
-            geojsonLayer = L.geoJSON(dataToDisplay, options).addTo(map);
-
             // Update count stat
-            const count = geojsonLayer.getLayers().length;
-            document.getElementById('stat-count').textContent = count.toLocaleString('fr-FR');
+            document.getElementById('stat-count').textContent = featuresToDisplay.length.toLocaleString('fr-FR');
+
+            if (mode === 'heatmap') {
+                // Generate Heatmap Data
+                const heatData = [];
+                featuresToDisplay.forEach(f => {
+                    try {
+                        const center = turf.centroid(f);
+                        const coords = center.geometry.coordinates;
+                        // lat, lng, intensity
+                        // Increase intensity for larger parcels
+                        const intensity = f.properties.surface ? Math.min(f.properties.surface / 10, 1) + 0.2 : 0.5;
+                        heatData.push([coords[1], coords[0], intensity]);
+                    } catch (e) {
+                        // Skip invalid
+                    }
+                });
+
+                heatmapLayer = L.heatLayer(heatData, {
+                    radius: 25,
+                    blur: 15,
+                    maxZoom: 10,
+                    gradient: { 0.4: 'blue', 0.65: 'lime', 1: 'red' }
+                }).addTo(map);
+
+            } else {
+                // Point or Polygon Mode
+                let dataToDisplay;
+                let options = {};
+
+                if (mode === 'point') {
+                    // Convert to centroids for better performance
+                    const pointsCollection = {
+                        type: "FeatureCollection",
+                        features: featuresToDisplay.map(f => {
+                            try {
+                                const center = turf.centroid(f);
+                                center.properties = f.properties;
+                                return center;
+                            } catch (e) {
+                                return null;
+                            }
+                        }).filter(f => f !== null)
+                    };
+                    dataToDisplay = pointsCollection;
+
+                    // Canvas renderer for performance
+                    const canvasRenderer = L.canvas({ padding: 0.5 });
+
+                    options = {
+                        pointToLayer: (feature, latlng) => {
+                            return L.circleMarker(latlng, {
+                                radius: 4,
+                                fillColor: getColor(feature.properties.culture),
+                                color: 'rgba(255,255,255,0.3)',
+                                weight: 1,
+                                opacity: 1,
+                                fillOpacity: 0.85,
+                                renderer: canvasRenderer
+                            });
+                        },
+                        onEachFeature: bindPopup
+                    };
+                } else {
+                    // Polygon mode
+                    dataToDisplay = {
+                        type: "FeatureCollection",
+                        features: featuresToDisplay
+                    };
+
+                    options = {
+                        style: (feature) => ({
+                            fillColor: getColor(feature.properties.culture),
+                            weight: 2,
+                            opacity: 1,
+                            color: 'rgba(255,255,255,0.5)',
+                            fillOpacity: 0.7
+                        }),
+                        onEachFeature: bindPopup
+                    };
+                }
+
+                // Create and add layer
+                geojsonLayer = L.geoJSON(dataToDisplay, options).addTo(map);
+            }
         }
 
         // Bind popup and hover effects
@@ -937,6 +1248,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             initMap();
             initRegionCheckboxes();
+            initCultureCheckboxes();
+            initSizeCheckboxes();
             loadData();
         });
     </script>

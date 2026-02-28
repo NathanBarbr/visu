@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Méthodologie - Portail RPG 2023</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #1c1c1e;
+            color: #f5f5f7;
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 80px 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 44, 46, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            display: flex;
+            padding: 6px;
+            gap: 8px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            color: #a1a1a6;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item:hover {
+            color: #f5f5f7;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(10, 132, 255, 0.2);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+        }
+
+        @media (max-width: 700px) {
+            .top-nav {
+                top: auto;
+                bottom: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 90%;
+            }
+        }
+
+        header {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.2rem;
+            font-weight: 500;
+            color: #f5f5f7;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #86868b;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-top: 50px;
+            margin-bottom: 24px;
+            color: #f5f5f7;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3a3a3c;
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #d1d1d6;
+            margin-top: 30px;
+            margin-bottom: 16px;
+        }
+
+        p {
+            color: #a1a1a6;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            background: #2c2c2e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        thead {
+            background-color: #3a3a3c;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #f5f5f7;
+            border-bottom: 2px solid #48484a;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #3a3a3c;
+            color: #d1d1d6;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-geo {
+            background: rgba(10, 132, 255, 0.2);
+            color: #5e5ce6;
+            border: 1px solid rgba(10, 132, 255, 0.3);
+        }
+
+        .badge-agri {
+            background: rgba(48, 209, 88, 0.2);
+            color: #30d158;
+            border: 1px solid rgba(48, 209, 88, 0.3);
+        }
+
+        .badge-stats {
+            background: rgba(255, 159, 10, 0.2);
+            color: #ff9f0a;
+            border: 1px solid rgba(255, 159, 10, 0.3);
+        }
+
+        /* Details / Summary */
+        details {
+            margin: 30px 0;
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 16px 20px;
+            background-color: #3a3a3c;
+            cursor: pointer;
+            font-weight: 500;
+            color: #f5f5f7;
+            font-size: 1rem;
+            user-select: none;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.2s;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::before {
+            content: '▶';
+            font-size: 11px;
+            transition: transform 0.2s;
+            color: #86868b;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        summary:hover {
+            background-color: #48484a;
+        }
+
+        pre {
+            margin: 0;
+            padding: 24px;
+            background-color: #1e1e1e;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            border-top: 1px solid #3a3a3c;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #d4d4d4;
+        }
+
+        .kw {
+            color: #569cd6;
+        }
+
+        /* keyword */
+        .fn {
+            color: #dcdcaa;
+        }
+
+        /* function */
+        .st {
+            color: #ce9178;
+        }
+
+        /* string */
+        .cm {
+            color: #6a9955;
+        }
+
+        /* comment */
+        .nb {
+            color: #b5cea8;
+        }
+
+        /* number */
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Layer -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-item">Accueil</a>
+        <a href="methodology.html" class="nav-item active">Méthodologie</a>
+    </nav>
+
+    <div class="container" style="padding-top: 40px;">
+        <header>
+            <h1>Méthodologie</h1>
+            <div class="subtitle">Comment les données agricoles françaises ont été traitées et visualisées.</div>
+        </header>
+
+        <section>
+            <h2>Présentation de la démarche</h2>
+            <p>
+                Ce projet a pour objectif de rendre accessibles, intelligibles et interactives les données agricoles
+                françaises issues du <strong>Registre Parcellaire Graphique (RPG)</strong>. Ce dernier, géré par
+                l'Agence de Services et de Paiement (ASP) et l'IGN, rassemble les contours géographiques et les
+                déclarations de cultures de plusieurs millions de parcelles sur le territoire.
+            </p>
+            <p>
+                En cartographiant et en agrégeant ces données massives (plus de plusieurs gigaoctets à l'état brut),
+                nous pouvons obtenir un aperçu inédit de l'utilisation des sols, calculer le niveau de morcellement par
+                région, et visualiser la diversité des cultures qui composent le modèle agricole français ("La Ferme
+                France").
+            </p>
+        </section>
+
+        <section>
+            <h2>Sources de données</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Jeu de données</th>
+                        <th>Type</th>
+                        <th>Année</th>
+                        <th>Format original</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Registre Parcellaire Graphique (RPG)</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Polygones et codes cultures des
+                                parcelles</span>
+                        </td>
+                        <td><span class="badge badge-agri">Agriculture</span></td>
+                        <td>2023</td>
+                        <td>.shp / .gpkg</td>
+                        <td><a href="https://geoservices.ign.fr/rpg" target="_blank"
+                                style="color: #0a84ff; text-decoration: none;">IGN & ASP</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contours administratifs</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Régions et Départements de France</span>
+                        </td>
+                        <td><span class="badge badge-geo">Géographie</span></td>
+                        <td>2023</td>
+                        <td>.geojson</td>
+                        <td><a href="https://github.com/gregoiredavid/france-geojson" target="_blank"
+                                style="color: #0a84ff; text-decoration: none;">Admin Express</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nomenclatures Agricoles</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Mapping des codes (ex: MIS -> Maïs)</span>
+                        </td>
+                        <td><span class="badge badge-stats">Nomenclature</span></td>
+                        <td>2023</td>
+                        <td>.csv</td>
+                        <td><a href="https://www.data.gouv.fr/" target="_blank"
+                                style="color: #0a84ff; text-decoration: none;">data.gouv.fr</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Pipelines de traitement des données</h2>
+
+            <h3>1. Échantillonnage Spatial et Géolocalisation (Carte)</h3>
+            <p>
+                La base complète du RPG comportant plusieurs millions de polygones, l'affichage temps réel dans le
+                navigateur (Leaflet, Canvas) poserait d'immenses défis de performance. Afin de permettre une exploration
+                fluide par l'utilisateur, un échantillonnage via la technique de <em>Reservoir Sampling</em> a été
+                opéré, sélectionnant aléatoirement 5 000 parcelles représentatives réparties sur le territoire national.
+                Pour la carte de chaleur, un regroupement au barycentre des polygones (centroïdes) a été utilisé pour
+                calculer la densité locale.
+            </p>
+
+            <h3>2. Calculs d'Agrégats (Groupes de cultures)</h3>
+            <p>
+                Afin de réaliser l'exploration sous forme de bulles (Bubble Chart) et le panorama "Ferme France" (Waffle
+                Chart), une table d'agrégation a été générée avec Python/Pandas. Les 300+ catégories du RPG ont été
+                fusionnées en macro-familles (Céréales, Fourrages, Vignes, Oléagineux, etc.). Les surfaces ont été
+                sommées au niveau national et redimensionnées proportionnellement pour l'affichage de notre Ferme de 500
+                Ha, ou simplement converties en rayon proportionnel (racine carrée de la surface) pour les bulles du
+                cosmos.
+            </p>
+
+            <h3>3. Étude du Morcellement par région</h3>
+            <p>
+                La détermination du morcellement s'est appuyée sur l'aire (surface géométrique) réelle de chaque
+                parcelle. Celles-ci ont été classifiées dans des <em>bins</em> de taille : Très Petite (&lt;1 ha),
+                Petite (1-5 ha), Moyenne (5-15 ha), Grande (15-50 ha), et Très Grande (&gt;50 ha). L'API Turf.js a
+                également permis d'associer en temps réel ou de compiler en amont (selon les vues) la région
+                administrative englobant le centroïde de chaque parcelle (Point-in-Polygon).
+            </p>
+
+            <details>
+                <summary>Voir un exemple de nettoyage de données (Python/Pandas)</summary>
+                <pre><code><span class="kw">import</span> geopandas <span class="kw">as</span> gpd
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># Chargement du shapefile massif du RPG</span>
+<span class="fn">print</span>(<span class="st">"Chargement en cours..."</span>)
+gdf = gpd.<span class="fn">read_file</span>(<span class="st">"PARCELLES_GRAPHIQUES_2023.shp"</span>)
+
+<span class="cm"># Reprojection en WGS84 pour affichage web</span>
+<span class="kw">if</span> gdf.crs != <span class="st">"EPSG:4326"</span>:
+    gdf = gdf.<span class="fn">to_crs</span>(<span class="st">"EPSG:4326"</span>)
+
+<span class="cm"># Regroupement par code culture et somme des surfaces physiques (Ha)</span>
+grp = gdf.<span class="fn">groupby</span>(<span class="st">'CODE_CULTU'</span>)[<span class="st">'SURF_PARC'</span>].<span class="fn">sum</span>().<span class="fn">reset_index</span>()
+
+<span class="cm"># Jointure avec la nomenclature</span>
+nomen = pd.<span class="fn">read_csv</span>(<span class="st">"nomenclature.csv"</span>)
+result = pd.<span class="fn">merge</span>(grp, nomen, on=<span class="st">'CODE_CULTU'</span>)
+
+<span class="cm"># Export pour D3.js</span>
+result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.csv"</span>, index=<span class="kw">False</span>)
+<span class="fn">print</span>(<span class="st">"Export terminé !"</span>)</code></pre>
+            </details>
+        </section>
+
+        <section>
+            <h2>Design et Visualisation</h2>
+            <p>
+                L'interface entière repose sur une philosophie <em>Dark Mode</em> moderne et immersive, inspirée des
+                interfaces géospatiales de pointe. Les graphiques D3.js (Waffle, Bulles de collision, Bar charts
+                combinés) n'utilisent aucune librairie préfabriquée : chaque élément (DOM, Canvas, Scale, Simulation de
+                force) a été écrit manuellement pour correspondre parfaitement au cahier des charges et offrir de
+                micro-interactions fluides.
+            </p>
+            <p>
+                La carte s'appuie sur Leaflet. L'architecture a été conçue sans framework lourd (comme React ou Vue)
+                pour maximiser les performances d'exécution des composants de dataviz complexes, tout en centralisant
+                les styles dans un système global (variables CSS).
+            </p>
+        </section>
+    </div>
+</body>
+
+</html>
