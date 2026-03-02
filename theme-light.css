@@ -384,3 +384,37 @@ body.light-mode .map-card {
 body.light-mode .theme-toggle:hover {
     background: rgba(0, 0, 0, 0.05);
 }
+
+/* =============================================
+   COSMOS BUBBLES SPECIFIC OVERRIDES
+   ============================================= */
+
+body.light-mode #cosmos-viz {
+    background: radial-gradient(circle at center, #ffffff 0%, #e5e5ea 100%) !important;
+}
+
+body.light-mode #cosmos-viz circle[fill="white"] {
+    fill: #f2f2f7 !important;
+}
+
+body.light-mode #cosmos-viz text {
+    fill: #1c1c1e !important;
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9) !important;
+}
+
+body.light-mode #cosmos-viz circle[stroke="white"] {
+    stroke: #1c1c1e !important;
+}
+
+body.light-mode #bubbles-chart>svg>text {
+    fill: #8e8e93 !important;
+}
+
+body.light-mode .bubble {
+    stroke: rgba(0, 0, 0, 0.1) !important;
+}
+
+body.light-mode .bubble:hover,
+body.light-mode .bubble.highlighted {
+    stroke: #1c1c1e !important;
+}
