@@ -1,24 +1,19 @@
 """
-Generate regional fragmentation data (parcel size categories per region).
-Uses spatial join with regions.geojson to correctly assign parcels.
+Generate fine-grained parcel size distribution data per region.
+Uses spatial join (point-in-polygon) with regions.geojson to correctly
+assign each parcel to its region based on its centroid coordinates.
 """
 import json
+import math
 from collections import defaultdict
 
-# Size categories (in hectares)
-SIZE_CATEGORIES = [
-    ("micro", 0, 0.5),        # < 0.5 ha
-    ("petite", 0.5, 3),       # 0.5 - 3 ha
-    ("moyenne", 3, 10),       # 3 - 10 ha
-    ("grande", 10, 50),       # 10 - 50 ha
-    ("tres_grande", 50, float('inf'))  # > 50 ha
-]
-
-output_json = "data_fragmentation_regional.json"
+# Fine-grained bins (in hectares) - logarithmic-ish spacing
+BIN_EDGES = [0, 0.1, 0.2, 0.3, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0,
+             6.0, 8.0, 10.0, 15.0, 20.0, 30.0, 50.0, 100.0]
 
 
 def point_in_polygon(px, py, polygon):
-    """Ray casting algorithm."""
+    """Ray casting algorithm to check if point is inside polygon."""
     n = len(polygon)
     inside = False
     j = n - 1
@@ -34,6 +29,7 @@ def point_in_polygon(px, py, polygon):
 def point_in_multipolygon(px, py, multipolygon_coords):
     """Check if point is in a MultiPolygon geometry."""
     for polygon in multipolygon_coords:
+        # polygon[0] is the outer ring
         if point_in_polygon(px, py, polygon[0]):
             return True
     return False
@@ -43,23 +39,19 @@ def get_centroid(geometry):
     """Get approximate centroid of a geometry."""
     gtype = geometry["type"]
     coords = geometry["coordinates"]
+
     if gtype == "Polygon":
         ring = coords[0]
     elif gtype == "MultiPolygon":
+        # Use the largest polygon
         largest = max(coords, key=lambda p: len(p[0]))
         ring = largest[0]
     else:
         return None, None
+
     cx = sum(p[0] for p in ring) / len(ring)
     cy = sum(p[1] for p in ring) / len(ring)
     return cx, cy
-
-
-def get_size_category(surface_ha):
-    for name, min_val, max_val in SIZE_CATEGORIES:
-        if min_val <= surface_ha < max_val:
-            return name
-    return "tres_grande"
 
 
 def main():
@@ -67,26 +59,35 @@ def main():
     with open("regions.geojson", encoding="utf-8") as f:
         regions_geo = json.load(f)
 
+    # Build region lookup structures
     regions = []
     for feat in regions_geo["features"]:
         name = feat["properties"]["nom"]
         geom = feat["geometry"]
+        # Pre-compute bounding box for fast rejection
         all_coords = []
         if geom["type"] == "Polygon":
             all_coords = geom["coordinates"][0]
         elif geom["type"] == "MultiPolygon":
             for poly in geom["coordinates"]:
                 all_coords.extend(poly[0])
+
         if all_coords:
             xs = [c[0] for c in all_coords]
             ys = [c[1] for c in all_coords]
             bbox = (min(xs), min(ys), max(xs), max(ys))
         else:
             bbox = None
-        regions.append({"name": name, "geometry": geom, "bbox": bbox})
+
+        regions.append({
+            "name": name,
+            "geometry": geom,
+            "bbox": bbox
+        })
 
     print(f"Loaded {len(regions)} regions")
 
+    # Load parcels
     print("Loading parcels...")
     input_file = "parcels_sample_france.geojson"
     try:
@@ -100,8 +101,8 @@ def main():
     features = data["features"]
     print(f"Loaded {len(features)} parcels from {input_file}")
 
-    # Structure: {region: {category: {"count": 0, "surface": 0}}}
-    regional_data = defaultdict(lambda: {cat[0]: {"count": 0, "surface": 0} for cat in SIZE_CATEGORIES})
+    # Assign each parcel to a region via spatial join
+    region_surfaces = defaultdict(list)
     unmatched = 0
 
     for idx, feat in enumerate(features):
@@ -114,76 +115,83 @@ def main():
             unmatched += 1
             continue
 
-        # Find region
-        found_region = None
+        assigned = False
         for reg in regions:
+            # Quick bbox check
             if reg["bbox"]:
                 bx0, by0, bx1, by1 = reg["bbox"]
                 if cx < bx0 or cx > bx1 or cy < by0 or cy > by1:
                     continue
+
             geom = reg["geometry"]
             if geom["type"] == "Polygon":
                 if point_in_polygon(cx, cy, geom["coordinates"][0]):
-                    found_region = reg["name"]
+                    region_surfaces[reg["name"]].append(surface)
+                    assigned = True
                     break
             elif geom["type"] == "MultiPolygon":
                 if point_in_multipolygon(cx, cy, geom["coordinates"]):
-                    found_region = reg["name"]
+                    region_surfaces[reg["name"]].append(surface)
+                    assigned = True
                     break
 
-        if found_region is None:
+        if not assigned:
             unmatched += 1
-            continue
-
-        category = get_size_category(surface)
-        regional_data[found_region][category]["count"] += 1
-        regional_data[found_region][category]["surface"] += surface
 
     print(f"\nUnmatched parcels: {unmatched}")
+    print(f"Regions found: {len(region_surfaces)}")
+    for r, surfs in sorted(region_surfaces.items(), key=lambda x: -len(x[1])):
+        print(f"  {r}: {len(surfs)} parcels, avg={sum(surfs)/len(surfs):.2f} ha, "
+              f"median={sorted(surfs)[len(surfs)//2]:.2f} ha")
 
-    # Convert to final output
-    result = {}
-    for region, categories in regional_data.items():
-        total_count = sum(c["count"] for c in categories.values())
-        total_surface = sum(c["surface"] for c in categories.values())
+    # Build histogram per region
+    result = {
+        "bins": [],
+        "regions": {}
+    }
 
-        if total_count == 0:
+    # Bin labels
+    for i in range(len(BIN_EDGES) - 1):
+        mid = (BIN_EDGES[i] + BIN_EDGES[i+1]) / 2
+        result["bins"].append({
+            "min": BIN_EDGES[i],
+            "max": BIN_EDGES[i+1],
+            "mid": round(mid, 2),
+            "label": f"{BIN_EDGES[i]}-{BIN_EDGES[i+1]} ha"
+        })
+
+    # Compute histogram percentages per region
+    for region, surfaces in sorted(region_surfaces.items()):
+        if len(surfaces) < 50:
             continue
 
-        avg_size = total_surface / total_count
+        total = len(surfaces)
+        counts = [0] * (len(BIN_EDGES) - 1)
 
-        result[region] = {
-            "total_count": total_count,
-            "total_surface": round(total_surface, 2),
-            "avg_size": round(avg_size, 2),
-            "categories": {}
+        for s in surfaces:
+            for i in range(len(BIN_EDGES) - 1):
+                if BIN_EDGES[i] <= s < BIN_EDGES[i+1]:
+                    counts[i] += 1
+                    break
+            else:
+                counts[-1] += 1
+
+        percentages = [round(c / total * 100, 2) for c in counts]
+
+        result["regions"][region] = {
+            "total_parcels": total,
+            "avg_size": round(sum(surfaces) / total, 2),
+            "median_size": round(sorted(surfaces)[total // 2], 2),
+            "percentages": percentages
         }
 
-        for cat_name, data in categories.items():
-            pct_count = (data["count"] / total_count * 100) if total_count > 0 else 0
-            pct_surface = (data["surface"] / total_surface * 100) if total_surface > 0 else 0
-            result[region]["categories"][cat_name] = {
-                "count": data["count"],
-                "surface": round(data["surface"], 2),
-                "pct_count": round(pct_count, 1),
-                "pct_surface": round(pct_surface, 1)
-            }
-
-    # Sort by average size descending
-    result = dict(sorted(result.items(), key=lambda x: x[1]["avg_size"], reverse=True))
-
-    with open(output_json, "w", encoding="utf-8") as f:
+    # Save
+    output_file = "data_distribution_curves.json"
+    with open(output_file, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
 
-    print(f"\nDone! Saved to {output_json}")
-    print(f"Regions processed: {len(result)}")
-    print("\nPreview (avg parcel size):")
-    for region, data in result.items():
-        print(f"  {region}: avg={data['avg_size']:.2f} ha, "
-              f"micro={data['categories']['micro']['pct_count']:.1f}%, "
-              f"petite={data['categories']['petite']['pct_count']:.1f}%, "
-              f"moyenne={data['categories']['moyenne']['pct_count']:.1f}%, "
-              f"grande={data['categories']['grande']['pct_count']:.1f}%")
+    print(f"\nSaved to {output_file}")
+    print(f"Bins: {len(result['bins'])}, Regions: {len(result['regions'])}")
 
 
 if __name__ == "__main__":

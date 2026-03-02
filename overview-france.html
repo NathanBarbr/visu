@@ -13,10 +13,12 @@
         :root {
             --bg-dark: #1c1c1e;
             --card-bg: #2c2c2e;
+            --card-bg-hover: #3a3a3c;
             --text-primary: #f5f5f7;
             --text-secondary: #a1a1a6;
             --text-muted: #86868b;
             --border: #3a3a3c;
+            --accent: #0a84ff;
         }
 
         * {
@@ -30,122 +32,514 @@
             color: var(--text-primary);
             font-family: 'Inter', -apple-system, sans-serif;
             min-height: 100vh;
-            padding: 40px 20px;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            position: relative;
+        /* ─── Top Navigation ─── */
+        .top-nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 44, 46, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            display: flex;
+            padding: 6px;
+            gap: 8px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
-        .back-link {
-            position: absolute;
-            top: 0;
-            left: 0;
-            color: var(--text-muted);
+        .nav-item {
+            padding: 8px 16px;
+            color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.2s;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .back-link:hover {
+        .nav-item:hover {
             color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(10, 132, 255, 0.2);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+        }
+
+        /* ─── Main Layout ─── */
+        .page-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 80px 24px 40px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
-            padding-top: 20px;
+            margin-bottom: 32px;
         }
 
         h1 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 3rem;
+            font-size: 2.6rem;
             font-weight: 500;
-            margin-bottom: 12px;
-            color: var(--text-primary);
+            margin-bottom: 8px;
         }
 
         .subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
-        /* KPI Section */
-        .kpi-section {
+        /* ─── KPI Row ─── */
+        .kpi-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 50px;
+            gap: 16px;
+            margin-bottom: 28px;
         }
 
         .kpi-card {
             background: var(--card-bg);
-            padding: 28px;
-            border-radius: 16px;
+            padding: 20px;
+            border-radius: 14px;
             text-align: center;
             transition: transform 0.3s ease, background 0.3s ease;
         }
 
         .kpi-card:hover {
-            transform: translateY(-4px);
-            background: #3a3a3c;
+            transform: translateY(-3px);
+            background: var(--card-bg-hover);
         }
 
         .kpi-value {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
             font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .kpi-label {
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
 
-        /* Culture Chart Section */
-        .culture-chart-section {
-            margin-bottom: 24px;
+        /* ─── Main Content: Map + Sidebar ─── */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* ─── Map Card ─── */
+        .map-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 28px;
+            position: relative;
+            min-height: 620px;
+        }
+
+        .map-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .map-subtitle {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        #map-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #map-container svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .region-path {
+            stroke: var(--bg-dark);
+            stroke-width: 1.5px;
+            cursor: pointer;
+            transition: opacity 0.2s, filter 0.2s;
+        }
+
+        .region-path:hover {
+            opacity: 0.85;
+            filter: brightness(1.15);
+        }
+
+        .region-path.selected {
+            stroke: var(--accent);
+            stroke-width: 3px;
+            filter: brightness(1.2) drop-shadow(0 0 8px rgba(10, 132, 255, 0.4));
+        }
+
+        .region-label {
+            font-size: 9px;
+            fill: rgba(255, 255, 255, 0.7);
+            text-anchor: middle;
+            pointer-events: none;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Map Legend */
+        .map-legend {
+            position: absolute;
+            bottom: 28px;
+            left: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .map-legend-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .legend-gradient {
+            width: 160px;
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .legend-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* ─── Sidebar ─── */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ─── Regional Portrait Panel ─── */
+        .portrait-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            animation: fadeSlideIn 0.4s ease;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .portrait-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .portrait-surface {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 16px;
+        }
+
+        .dna-bar {
+            display: flex;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            background: var(--bg-dark);
+        }
+
+        .dna-segment {
+            height: 100%;
+            transition: width 0.6s ease-out;
+        }
+
+        .stats-list {
+            list-style: none;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+        }
+
+        .portrait-placeholder {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 30px 10px;
+        }
+
+        .portrait-placeholder .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.4;
+        }
+
+        /* ─── Ranking Card ─── */
+        .ranking-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .ranking-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .ranking-select {
+            appearance: none;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            min-width: 0;
+            max-width: 160px;
+        }
+
+        .ranking-select:focus {
+            border-color: var(--accent);
+        }
+
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 340px;
+            overflow-y: auto;
+        }
+
+        .ranking-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .ranking-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .ranking-list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 8px;
+        }
+
+        .ranking-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .ranking-item.active {
+            background: rgba(10, 132, 255, 0.1);
+        }
+
+        .rank-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            width: 22px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .rank-bar-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .rank-name {
+            font-size: 0.78rem;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .rank-bar-bg {
+            height: 6px;
+            background: var(--bg-dark);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .rank-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease-out;
+        }
+
+        .rank-value {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* ─── Tooltip ─── */
+        #tooltip {
+            position: absolute;
+            pointer-events: none;
+            background: var(--card-bg);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 1000;
+            max-width: 260px;
+        }
+
+        /* ─── Below-fold sections ─── */
+        .section-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 50px 0;
         }
 
         .card {
             background: var(--card-bg);
             border-radius: 16px;
             padding: 32px;
-            transition: transform 0.3s ease, background 0.3s ease;
+            margin-bottom: 24px;
+            transition: background 0.3s ease;
         }
 
         .card:hover {
-            background: #3a3a3c;
+            background: var(--card-bg-hover);
         }
 
         .card h2 {
-            font-family: 'Playfair Display', Georgia, serif;
+            font-family: 'Playfair Display', serif;
             font-size: 1.4rem;
             font-weight: 500;
             margin-bottom: 24px;
-            color: var(--text-primary);
         }
 
+        .chart-container {
+            width: 100%;
+            min-height: 450px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bar {
+            transition: opacity 0.2s;
+        }
+
+        .bar:hover {
+            opacity: 0.7;
+        }
+
+        .domain,
+        .tick line {
+            stroke: var(--border);
+        }
+
+        .tick text {
+            fill: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* Waffle */
         .waffle-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 40px;
-        }
-
-        .waffle-grid {
-            flex-shrink: 0;
-        }
-
-        .legend {
-            flex-shrink: 0;
         }
 
         .legend-item {
@@ -175,7 +569,7 @@
             flex-direction: column;
         }
 
-        .legend-label {
+        .legend-label-text {
             font-weight: 600;
             font-size: 0.85rem;
             color: var(--text-primary);
@@ -200,226 +594,34 @@
             opacity: 0.8;
         }
 
-        /* Regional Portraits */
-        .regions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
 
-        .region-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .region-card:hover {
-            transform: translateY(-4px);
-            border-color: #4a4a4c;
-        }
-
-        .region-card h3 {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-primary);
-        }
-
-        .dna-bar {
-            display: flex;
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 16px 0;
-            background: var(--bg-dark);
-        }
-
-        .dna-segment {
-            height: 100%;
-            transition: width 0.8s ease-out;
-        }
-
-        .stats-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            font-size: 0.85rem;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-
-        .stat-name {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-secondary);
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .stat-value {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-
-        /* Chart container */
-        .chart-container {
-            width: 100%;
-            min-height: 450px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .bar {
-            transition: opacity 0.2s;
-        }
-
-        .bar:hover {
-            opacity: 0.7;
-        }
-
-        .domain,
-        .tick line {
-            stroke: var(--border);
-        }
-
-        .tick text {
-            fill: var(--text-muted);
-            font-size: 0.75rem;
-        }
-
-        .arc path {
-            stroke: var(--card-bg);
-            stroke-width: 2px;
-            transition: opacity 0.2s;
-        }
-
-        .arc path:hover {
-            opacity: 0.85;
-        }
-
-        /* Select styling */
-        .select-wrapper {
-            position: relative;
-            min-width: 250px;
-        }
-
-        select {
-            appearance: none;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            width: 100%;
-            cursor: pointer;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-
-        select:focus {
-            border-color: #0a84ff;
-        }
-
-        #tooltip {
-            position: absolute;
-            pointer-events: none;
-            background: var(--card-bg);
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-size: 0.85rem;
-            opacity: 0;
-            transition: opacity 0.2s;
-            z-index: 100;
-        }
-
-        @media (max-width: 1200px) {
-            .kpi-section {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 700px) {
-            .kpi-section {
+        /* ─ Responsive ─ */
+        @media (max-width: 1100px) {
+            .main-content {
                 grid-template-columns: 1fr;
             }
 
-            h1 {
-                font-size: 2.2rem;
+            .sidebar {
+                flex-direction: row;
+                flex-wrap: wrap;
             }
 
-            .waffle-wrapper {
-                flex-direction: column;
+            .portrait-card,
+            .ranking-card {
+                flex: 1;
+                min-width: 300px;
             }
-        }
-
-        /* Top Navigation Bar */
-        .top-nav {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(44, 44, 46, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            display: flex;
-            padding: 6px;
-            gap: 8px;
-            z-index: 9999;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-item {
-            padding: 8px 16px;
-            color: var(--text-secondary, #a1a1a6);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-item:hover {
-            color: var(--text-primary, #f5f5f7);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-item.active {
-            color: white;
-            background: rgba(10, 132, 255, 0.2);
-            border: 1px solid rgba(10, 132, 255, 0.3);
         }
 
         @media (max-width: 700px) {
+            .kpi-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
             .top-nav {
                 top: auto;
                 bottom: 20px;
@@ -427,12 +629,20 @@
                 justify-content: center;
                 width: 90%;
             }
+
+            .waffle-wrapper {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 
 <body>
-    <!-- Navigation Layer -->
+    <!-- Navigation -->
     <nav class="top-nav">
         <a href="index.html" class="nav-item" title="Menu">Menu</a>
         <a href="overview-france.html" class="nav-item active">National</a>
@@ -441,15 +651,14 @@
         <a href="map.html" class="nav-item">Carte</a>
     </nav>
 
-    <div class="container" style="padding-top: 40px;">
-
+    <div class="page-container">
         <header>
             <h1>Statistiques Nationales</h1>
-            <div class="subtitle">Statistiques nationales et répartition des cultures</div>
+            <div class="subtitle">Vue d'ensemble de l'agriculture française — RPG 2023</div>
         </header>
 
-        <!-- KPI Section -->
-        <div class="kpi-section">
+        <!-- KPI Row -->
+        <div class="kpi-row">
             <div class="kpi-card">
                 <div class="kpi-value" id="kpi-surface">0</div>
                 <div class="kpi-label">Hectares Totaux</div>
@@ -468,87 +677,82 @@
             </div>
         </div>
 
-        <!-- Culture Chart Section -->
-        <div class="culture-chart-section">
-            <div class="card">
-                <h2>Top 15 Cultures (Surface)</h2>
-                <div id="chart-culture" class="chart-container"></div>
+        <!-- Main Content: Map + Sidebar -->
+        <div class="main-content">
+            <!-- Map -->
+            <div class="map-card">
+                <h2>Répartition Géographique</h2>
+                <div class="map-subtitle">Cliquez sur une région pour voir son portrait détaillé</div>
+                <div id="map-container"></div>
+                <div class="map-legend">
+                    <div class="map-legend-title">Surface agricole (ha)</div>
+                    <canvas class="legend-gradient" id="legend-gradient" width="160" height="10"></canvas>
+                    <div class="legend-labels">
+                        <span id="legend-min">0</span>
+                        <span id="legend-max">80k</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Regional Portrait -->
+                <div class="portrait-card" id="portrait-panel">
+                    <div class="portrait-placeholder">
+                        <div class="icon">🗺️</div>
+                        <div>Sélectionnez une région<br>sur la carte</div>
+                    </div>
+                </div>
+
+                <!-- Ranking -->
+                <div class="ranking-card">
+                    <div class="ranking-header">
+                        <h3>Classement</h3>
+                        <select class="ranking-select" id="culture-select">
+                            <option value="" disabled selected>Chargement…</option>
+                        </select>
+                    </div>
+                    <div class="ranking-list" id="ranking-list"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Waffle Chart: La Ferme France -->
+        <!-- ═══ Below-fold: Original Charts ═══ -->
+        <div class="section-divider"></div>
+
+        <!-- Top 15 Cultures -->
+        <div class="card">
+            <h2>Top 15 Cultures (Surface)</h2>
+            <div id="chart-culture" class="chart-container"></div>
+        </div>
+
+        <!-- Waffle Chart -->
         <div class="card">
             <h2>La « Ferme France » — 500 Hectares</h2>
             <div class="waffle-wrapper">
                 <div class="waffle-grid" id="waffle"></div>
-                <div class="legend" id="legend"></div>
+                <div class="legend" id="waffle-legend"></div>
             </div>
-        </div>
-
-        <!-- Regional Ranking Section -->
-        <div class="card" style="margin-bottom: 60px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h2 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-weight: 500;">Classement par
-                    Culture</h2>
-                <div class="select-wrapper">
-                    <select id="culture-select">
-                        <option value="" disabled selected>Chargement...</option>
-                    </select>
-                </div>
-            </div>
-            <p class="subtitle" style="margin-bottom: 24px;">Sélectionnez une culture pour comparer la production entre
-                les régions (classement par surface).</p>
-            <div id="ranking-chart"></div>
         </div>
 
         <!-- Divider -->
-        <div style="height: 1px; background: var(--border); margin: 60px 0;"></div>
+        <div class="section-divider"></div>
 
-        <!-- Regional Portraits Section -->
+        <!-- Regional Portraits -->
         <div style="margin-bottom: 40px;">
             <h2
-                style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.8rem; font-weight: 500; margin-bottom: 30px; text-align: center; color: var(--text-primary);">
+                style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:500;margin-bottom:30px;text-align:center;">
                 Portraits Régionaux</h2>
-            <div id="grid" class="regions-grid"></div>
+            <div id="portraits-grid" class="regions-grid"></div>
         </div>
     </div>
 
     <div id="tooltip"></div>
 
-    <script src="ranking-chart.js"></script>
     <script>
-        const CATEGORIES = {
-            "CEREALES": {
-                label: "Céréales",
-                codes: ["1", "2", "3", "4", "7", "9"],
-                color: "#ffd60a",
-                desc: "Blé, Maïs, Orge, Riz..."
-            },
-            "PRAIRIES": {
-                label: "Prairies & Fourrages",
-                codes: ["17", "18", "19", "20", "21"],
-                color: "#30d158",
-                desc: "Prairies permanentes, temporaires..."
-            },
-            "OLEAGINEUX": {
-                label: "Oléagineux & Protéagineux",
-                codes: ["5", "6", "8", "11", "22"],
-                color: "#ff9f0a",
-                desc: "Colza, Tournesol, Soja..."
-            },
-            "VIGNES": {
-                label: "Vignes & Vergers",
-                codes: ["23", "15", "16"],
-                color: "#bf5af2",
-                desc: "Viticulture & arboriculture"
-            },
-            "AUTRES": {
-                label: "Divers / Jachères",
-                codes: ["24", "25", "28", "12", "13"],
-                color: "#636366",
-                desc: "Jachères, Fleurs, Divers"
-            }
-        };
+        /* ═══════════════════════════════════════
+           CONSTANTS & HELPERS
+           ═══════════════════════════════════════ */
 
         const CODE_LABELS = {
             "PPH": "Prairies permanentes", "SPH": "Surface pastorale", "BTH": "Blé tendre",
@@ -558,58 +762,370 @@
             "JAC": "Jachère", "SOJ": "Soja", "SNE": "Non exploité",
             "NOX": "Noyer", "VRG": "Verger", "SGH": "Seigle",
             "BTP": "Blé détruit", "LIH": "Lin", "SPL": "Surf. pasto. ligneuse",
-            "BOR": "Bordures", "OLI": "Oliviers", "MDI": "Maïs doux"
+            "BOR": "Bordures", "OLI": "Oliviers", "MDI": "Maïs doux",
+            "MIE": "Mélange", "PRL": "Prairie longue", "BTN": "Blé tendre nav.",
+            "ORP": "Orge de printemps", "PTC": "Pomme de terre", "J5M": "Jachère 5 ans",
+            "J6S": "Jachère 6 ans", "BTA": "Bandes tampon", "CAR": "Carottes",
+            "CEE": "Chêne/Estives", "BOP": "Bois/Pâture"
         };
         window.CODE_LABELS = CODE_LABELS;
-        const getLabel = (code) => CODE_LABELS[code] || code;
+        const getLabel = code => CODE_LABELS[code] || code;
 
         const COLORS = {
             "PPH": "#30d158", "SPH": "#34c759", "PTR": "#63e086",
             "BTH": "#ffd60a", "ORH": "#ffcc00", "TTH": "#e6b800",
             "MIS": "#ff9f0a", "TRN": "#ff9500",
             "VRC": "#bf5af2", "VRG": "#af52de",
-            "CZH": "#ffe620",
+            "CZH": "#ffe620", "MIE": "#5ac8fa", "PRL": "#66d4cf",
+            "SPL": "#8e8e93", "BTN": "#e5c100", "SNE": "#636366",
+            "ORP": "#f0c040", "CEE": "#48a868", "BOP": "#7eb77e",
             "DEFAULT": "#636366"
         };
-        const getColor = (code) => COLORS[code] || COLORS["DEFAULT"];
+        const getColor = code => COLORS[code] || COLORS["DEFAULT"];
 
-        let globalData = null;
+        // Name mapping from GeoJSON region name to data_regions.json keys
+        const REGION_NAME_MAP = {
+            "Île-de-France": "Île-de-France",
+            "Centre-Val de Loire": "Centre-Val de Loire",
+            "Bourgogne-Franche-Comté": "Bourgogne-Franche-Comté",
+            "Normandie": "Normandie",
+            "Hauts-de-France": "Hauts-de-France",
+            "Grand Est": "Grand Est",
+            "Pays de la Loire": "Pays de la Loire",
+            "Bretagne": "Bretagne",
+            "Nouvelle-Aquitaine": "Nouvelle-Aquitaine",
+            "Occitanie": "Occitanie",
+            "Auvergne-Rhône-Alpes": "Auvergne-Rhône-Alpes",
+            "Provence-Alpes-Côte d'Azur": "Provence-Alpes-Côte d'Azur",
+            "Corse": "Corse"
+        };
+
+        /* ═══════════════════════════════════════
+           INIT
+           ═══════════════════════════════════════ */
+
+        let regionsGeoJSON = null;
+        let regionsData = null;
+        let rankingData = null;
+        let selectedRegion = null;
 
         async function init() {
             try {
-                const response = await fetch('data_summary_france.json');
-                const data = await response.json();
-                globalData = data;
+                const [summaryRes, regionsGeoRes, regionsDataRes, rankingRes] = await Promise.all([
+                    fetch('data_summary_france.json'),
+                    fetch('regions.geojson'),
+                    fetch('data_regions.json'),
+                    fetch('data_rankings.json')
+                ]);
 
-                updateKPIs(data);
-                renderCultureChart(data.culture);
-                renderWaffleChart(data.group);
+                const summaryData = await summaryRes.json();
+                regionsGeoJSON = await regionsGeoRes.json();
+                regionsData = await regionsDataRes.json();
+                rankingData = await rankingRes.json();
 
-                // Load regional data
-                const regionsResponse = await fetch('data_regions.json');
-                const regionsData = await regionsResponse.json();
-                renderRegionalPortraits(regionsData);
+                updateKPIs(summaryData);
+                renderMap();
+                initRanking();
+                renderCultureChart(summaryData.culture);
+                renderWaffleChart(summaryData.group);
 
-                // Initialize ranking chart
-                if (typeof initRanking === 'function') {
-                    initRanking();
-                }
             } catch (e) {
-                console.error(e);
+                console.error("Init error:", e);
             }
         }
 
-        function updateKPIs(data) {
-            const totalSurface = data.culture.reduce((sum, d) => sum + d.surface, 0);
-            const totalParcels = data.culture.reduce((sum, d) => sum + d.count, 0);
-            const avgSize = totalSurface / totalParcels;
-            const numCultures = data.culture.length;
+        /* ═══════════════════════════════════════
+           KPIs
+           ═══════════════════════════════════════ */
 
-            document.getElementById('kpi-surface').textContent = Math.round(totalSurface).toLocaleString();
-            document.getElementById('kpi-parcels').textContent = totalParcels.toLocaleString();
-            document.getElementById('kpi-avg-size').textContent = avgSize.toFixed(2);
-            document.getElementById('kpi-cultures').textContent = numCultures;
+        function updateKPIs(data) {
+            const totalSurface = data.culture.reduce((s, d) => s + d.surface, 0);
+            const totalParcels = data.culture.reduce((s, d) => s + d.count, 0);
+            const avg = totalSurface / totalParcels;
+
+            animateValue('kpi-surface', 0, Math.round(totalSurface), 1200, v => v.toLocaleString());
+            animateValue('kpi-parcels', 0, totalParcels, 1200, v => v.toLocaleString());
+            animateValue('kpi-avg-size', 0, avg, 1200, v => v.toFixed(2));
+            document.getElementById('kpi-cultures').textContent = data.culture.length;
         }
+
+        function animateValue(id, start, end, duration, formatter) {
+            const el = document.getElementById(id);
+            const startTime = performance.now();
+            function step(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = start + (end - start) * eased;
+                el.textContent = formatter(current);
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+
+        /* ═══════════════════════════════════════
+           CHOROPLETH MAP
+           ═══════════════════════════════════════ */
+
+        function renderMap() {
+            const container = document.getElementById('map-container');
+            const width = container.clientWidth;
+            const height = Math.max(520, width * 0.7);
+
+            // Filter out non-metropolitan regions
+            const features = regionsGeoJSON.features.filter(f =>
+                REGION_NAME_MAP[f.properties.nom] && f.properties.nom !== "Inconnu"
+            );
+
+            // Build surface lookup
+            const surfaceLookup = {};
+            let minSurface = Infinity, maxSurface = 0;
+            features.forEach(f => {
+                const name = REGION_NAME_MAP[f.properties.nom];
+                const s = regionsData[name]?.total_surface || 0;
+                surfaceLookup[f.properties.nom] = s;
+                if (s < minSurface) minSurface = s;
+                if (s > maxSurface) maxSurface = s;
+            });
+
+            // Color scale – warm tones
+            const colorScale = d3.scaleSequential()
+                .domain([minSurface, maxSurface])
+                .interpolator(t => d3.interpolateYlOrBr(0.15 + t * 0.75));
+
+            // Projection
+            const projection = d3.geoConicConformal()
+                .center([2.454071, 46.279229])
+                .scale(width * 3.5)
+                .translate([width / 2, height / 2]);
+
+            const path = d3.geoPath().projection(projection);
+
+            const svg = d3.select('#map-container')
+                .append('svg')
+                .attr('viewBox', `0 0 ${width} ${height}`)
+                .attr('preserveAspectRatio', 'xMidYMid meet');
+
+            // Draw regions
+            svg.selectAll('path')
+                .data(features)
+                .join('path')
+                .attr('d', path)
+                .attr('class', 'region-path')
+                .attr('fill', d => colorScale(surfaceLookup[d.properties.nom] || 0))
+                .attr('data-region', d => d.properties.nom)
+                .on('click', function (event, d) {
+                    const regionName = REGION_NAME_MAP[d.properties.nom];
+                    selectRegion(regionName, d.properties.nom);
+                })
+                .on('mouseover', function (event, d) {
+                    const name = d.properties.nom;
+                    const surface = surfaceLookup[name] || 0;
+                    showTooltip(event, `<strong>${name}</strong><br>${Math.round(surface).toLocaleString()} ha`);
+                })
+                .on('mousemove', moveTooltip)
+                .on('mouseout', hideTooltip);
+
+            // Region labels
+            svg.selectAll('.region-label')
+                .data(features)
+                .join('text')
+                .attr('class', 'region-label')
+                .attr('x', d => path.centroid(d)[0])
+                .attr('y', d => path.centroid(d)[1])
+                .text(d => {
+                    // Abbreviate long names
+                    const n = d.properties.nom;
+                    if (n === "Bourgogne-Franche-Comté") return "BFC";
+                    if (n === "Auvergne-Rhône-Alpes") return "ARA";
+                    if (n === "Provence-Alpes-Côte d'Azur") return "PACA";
+                    if (n === "Nouvelle-Aquitaine") return "N-Aquit.";
+                    if (n === "Hauts-de-France") return "HdF";
+                    if (n === "Centre-Val de Loire") return "CVL";
+                    if (n === "Pays de la Loire") return "PdL";
+                    if (n === "Île-de-France") return "IdF";
+                    return n;
+                });
+
+            // Legend
+            const canvas = document.getElementById('legend-gradient');
+            const ctx = canvas.getContext('2d');
+            for (let i = 0; i < 160; i++) {
+                const t = i / 160;
+                ctx.fillStyle = d3.interpolateYlOrBr(0.15 + t * 0.75);
+                ctx.fillRect(i, 0, 1, 10);
+            }
+            document.getElementById('legend-min').textContent = Math.round(minSurface / 1000) + 'k';
+            document.getElementById('legend-max').textContent = Math.round(maxSurface / 1000) + 'k';
+        }
+
+        /* ═══════════════════════════════════════
+           REGION SELECTION
+           ═══════════════════════════════════════ */
+
+        function selectRegion(dataName, geoName) {
+            selectedRegion = dataName;
+
+            // Update map selection visual
+            d3.selectAll('.region-path')
+                .classed('selected', false);
+            d3.select(`[data-region="${geoName}"]`)
+                .classed('selected', true);
+
+            // Update portrait
+            renderPortrait(dataName);
+
+            // Highlight in ranking
+            updateRankingHighlight(dataName);
+        }
+
+        function renderPortrait(regionName) {
+            const panel = document.getElementById('portrait-panel');
+            const data = regionsData[regionName];
+
+            if (!data) {
+                panel.innerHTML = `<div class="portrait-placeholder">
+                    <div class="icon">❓</div>
+                    <div>Données non disponibles pour ${regionName}</div>
+                </div>`;
+                return;
+            }
+
+            const top5 = data.top_cultures;
+            let html = `<h3>${regionName}</h3>`;
+            html += `<div class="portrait-surface">${Math.round(data.total_surface).toLocaleString()} hectares</div>`;
+
+            // DNA bar
+            html += `<div class="dna-bar">`;
+            top5.forEach(c => {
+                const pct = (c.surface / data.total_surface) * 100;
+                html += `<div class="dna-segment" style="width:${pct}%;background:${getColor(c.code)};" title="${getLabel(c.code)}: ${pct.toFixed(1)}%"></div>`;
+            });
+            html += `<div class="dna-segment" style="flex-grow:1;background:var(--bg-dark);" title="Autres"></div>`;
+            html += `</div>`;
+
+            // Stats
+            html += `<div class="stats-list">`;
+            top5.forEach(c => {
+                const pct = (c.surface / data.total_surface) * 100;
+                html += `
+                    <div class="stat-row">
+                        <div class="stat-name">
+                            <div class="dot" style="background:${getColor(c.code)}"></div>
+                            ${getLabel(c.code)}
+                        </div>
+                        <div class="stat-value">${pct.toFixed(1)}%</div>
+                    </div>`;
+            });
+            html += `</div>`;
+
+            // Link to map
+            html += `<div style="margin-top:16px;text-align:center;">
+                <a href="map.html" style="color:var(--accent);font-size:0.85rem;text-decoration:none;font-weight:500;">
+                    Explorer sur la carte →
+                </a>
+            </div>`;
+
+            panel.innerHTML = html;
+        }
+
+        /* ═══════════════════════════════════════
+           RANKING (Sidebar)
+           ═══════════════════════════════════════ */
+
+        function initRanking() {
+            const select = document.getElementById('culture-select');
+
+            // Populate select sorted by total surface
+            const options = Object.keys(rankingData).map(code => {
+                const total = rankingData[code].reduce((s, r) => s + r.surface, 0);
+                return { code, label: getLabel(code), total };
+            });
+            options.sort((a, b) => b.total - a.total);
+
+            select.innerHTML = '';
+            options.forEach(opt => {
+                const el = document.createElement('option');
+                el.value = opt.code;
+                el.textContent = opt.label;
+                select.appendChild(el);
+            });
+
+            // Default: BTH
+            const defaultCode = rankingData["BTH"] ? "BTH" : options[0]?.code;
+            if (defaultCode) {
+                select.value = defaultCode;
+                renderRanking(defaultCode);
+            }
+
+            select.addEventListener('change', e => renderRanking(e.target.value));
+        }
+
+        function renderRanking(code) {
+            const data = rankingData[code];
+            if (!data) return;
+
+            const list = document.getElementById('ranking-list');
+            const maxSurface = data[0]?.surface || 1;
+
+            // Color based on culture
+            const barColor = getColor(code) !== COLORS["DEFAULT"] ? getColor(code) : "#0a84ff";
+
+            list.innerHTML = data.map((d, i) => {
+                const pct = (d.surface / maxSurface) * 100;
+                const isActive = selectedRegion === d.region;
+                return `
+                    <div class="ranking-item${isActive ? ' active' : ''}" data-rank-region="${d.region}" onclick="onRankingClick('${d.region.replace(/'/g, "\\'")}')">
+                        <div class="rank-number">${i + 1}</div>
+                        <div class="rank-bar-wrapper">
+                            <div class="rank-name">${d.region}</div>
+                            <div class="rank-bar-bg">
+                                <div class="rank-bar-fill" style="width:${pct}%;background:${getColor(code)};"></div>
+                            </div>
+                        </div>
+                        <div class="rank-value">${Math.round(d.surface).toLocaleString()} ha</div>
+                    </div>`;
+            }).join('');
+        }
+
+        function onRankingClick(regionName) {
+            // Find GeoJSON name
+            const geoName = Object.entries(REGION_NAME_MAP).find(([, v]) => v === regionName)?.[0] || regionName;
+            selectRegion(regionName, geoName);
+        }
+
+        function updateRankingHighlight(regionName) {
+            document.querySelectorAll('.ranking-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.rankRegion === regionName);
+            });
+        }
+
+        /* ═══════════════════════════════════════
+           TOOLTIP
+           ═══════════════════════════════════════ */
+
+        const tooltip = document.getElementById('tooltip');
+
+        function showTooltip(event, html) {
+            tooltip.innerHTML = html;
+            tooltip.style.opacity = '1';
+            moveTooltip(event);
+        }
+
+        function moveTooltip(event) {
+            tooltip.style.left = (event.pageX + 15) + 'px';
+            tooltip.style.top = (event.pageY - 28) + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+        }
+
+        /* ═══════════════════════════════════════
+           START
+           ═══════════════════════════════════════ */
+        /* ═══════════════════════════════════════
+           CULTURE BAR CHART
+           ═══════════════════════════════════════ */
 
         function renderCultureChart(cultureData) {
             const top15 = cultureData
@@ -621,10 +1137,10 @@
             const height = 450;
             const margin = { top: 20, right: 40, bottom: 80, left: 100 };
 
-            const svg = d3.select("#chart-culture")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height);
+            const svg = d3.select('#chart-culture')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
 
             const x = d3.scaleBand()
                 .domain(top15.map(d => getLabel(d.code)))
@@ -637,208 +1153,116 @@
 
             const color = d3.scaleOrdinal(d3.schemeTableau10);
 
-            svg.append("g")
-                .selectAll("rect")
+            svg.append('g')
+                .selectAll('rect')
                 .data(top15)
-                .join("rect")
-                .attr("class", "bar")
-                .attr("x", d => x(getLabel(d.code)))
-                .attr("y", d => y(d.surface))
-                .attr("height", d => y(0) - y(d.surface))
-                .attr("width", x.bandwidth())
-                .attr("fill", (d, i) => color(i))
-                .on("mouseover", function (event, d) {
-                    d3.select("#tooltip")
-                        .style("opacity", 1)
-                        .html(`<strong>${getLabel(d.code)}</strong><br>
-                               Surface: <b>${Math.round(d.surface).toLocaleString()} ha</b><br>
-                               Parcelles: <b>${d.count.toLocaleString()}</b>`)
-                        .style("left", (event.pageX + 15) + "px")
-                        .style("top", (event.pageY - 28) + "px");
+                .join('rect')
+                .attr('class', 'bar')
+                .attr('x', d => x(getLabel(d.code)))
+                .attr('y', d => y(d.surface))
+                .attr('height', d => y(0) - y(d.surface))
+                .attr('width', x.bandwidth())
+                .attr('fill', (d, i) => color(i))
+                .attr('rx', 4)
+                .on('mouseover', function (event, d) {
+                    showTooltip(event, `<strong>${getLabel(d.code)}</strong><br>Surface: <b>${Math.round(d.surface).toLocaleString()} ha</b><br>Parcelles: <b>${d.count.toLocaleString()}</b>`);
                 })
-                .on("mouseout", () => d3.select("#tooltip").style("opacity", 0));
+                .on('mousemove', moveTooltip)
+                .on('mouseout', hideTooltip);
 
-            svg.append("g")
-                .attr("transform", `translate(0,${height - margin.bottom})`)
+            svg.append('g')
+                .attr('transform', `translate(0,${height - margin.bottom})`)
                 .call(d3.axisBottom(x))
-                .selectAll("text")
-                .attr("transform", "rotate(-45)")
-                .style("text-anchor", "end")
-                .style("fill", "#86868b")
-                .style("font-size", "0.75rem");
+                .selectAll('text')
+                .attr('transform', 'rotate(-45)')
+                .style('text-anchor', 'end')
+                .style('fill', '#86868b')
+                .style('font-size', '0.75rem');
 
-            svg.append("g")
-                .attr("transform", `translate(${margin.left},0)`)
-                .call(d3.axisLeft(y).ticks(5).tickFormat(d => d3.format(".2s")(d) + " ha"))
-                .style("color", "#86868b");
+            svg.append('g')
+                .attr('transform', `translate(${margin.left},0)`)
+                .call(d3.axisLeft(y).ticks(5).tickFormat(d => d3.format('.2s')(d) + ' ha'))
+                .style('color', '#86868b');
         }
 
+        /* ═══════════════════════════════════════
+           WAFFLE CHART
+           ═══════════════════════════════════════ */
 
+        const CATEGORIES = {
+            "CEREALES": { label: "Céréales", codes: ["1", "2", "3", "4", "7", "9"], color: "#ffd60a" },
+            "PRAIRIES": { label: "Prairies & Fourrages", codes: ["17", "18", "19", "20", "21"], color: "#30d158" },
+            "OLEAGINEUX": { label: "Oléagineux & Protéagineux", codes: ["5", "6", "8", "11", "22"], color: "#ff9f0a" },
+            "VIGNES": { label: "Vignes & Vergers", codes: ["23", "15", "16"], color: "#bf5af2" },
+            "AUTRES": { label: "Divers / Jachères", codes: ["24", "25", "28", "12", "13"], color: "#636366" }
+        };
 
         function renderWaffleChart(groupData) {
-            const totalSurface = groupData.reduce((sum, d) => sum + d.surface, 0);
-
-            function processData(groups) {
-                const dist = {};
-                for (let key in CATEGORIES) dist[key] = 0;
-
-                groups.forEach(g => {
-                    for (let catKey in CATEGORIES) {
-                        if (CATEGORIES[catKey].codes.includes(g.code)) {
-                            dist[catKey] += g.surface;
-                            return;
-                        }
+            const totalSurface = groupData.reduce((s, d) => s + d.surface, 0);
+            const dist = {};
+            for (let key in CATEGORIES) dist[key] = 0;
+            groupData.forEach(g => {
+                for (let catKey in CATEGORIES) {
+                    if (CATEGORIES[catKey].codes.includes(g.code)) {
+                        dist[catKey] += g.surface;
+                        return;
                     }
-                });
+                }
+            });
 
-                return dist;
-            }
-
-            const dist = processData(groupData);
-            renderWaffle(dist, totalSurface);
-            renderLegend(dist, totalSurface);
-        }
-
-        function renderWaffle(dist, totalSurf) {
-            const waffle = document.getElementById('waffle');
-            // 500 units = 25 columns x 20 rows for a more square-like appearance
-            const rows = 20, cols = 25;
-            const unitSize = 22; // Much larger units
-            const gap = 4; // Slightly larger gap for clarity
-
-            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            svg.setAttribute("width", cols * (unitSize + gap));
-            svg.setAttribute("height", rows * (unitSize + gap));
+            // Build waffle
+            const rows = 20, cols = 25, unitSize = 22, gap = 4;
+            const waffleSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            waffleSvg.setAttribute('width', cols * (unitSize + gap));
+            waffleSvg.setAttribute('height', rows * (unitSize + gap));
 
             let units = [];
             for (let cat in dist) {
-                const pct = dist[cat] / totalSurf;
+                const pct = dist[cat] / totalSurface;
                 const count = Math.round(pct * rows * cols);
                 for (let i = 0; i < count; i++) units.push(cat);
             }
-
-            // Fill remaining units if rounding issues occur
-            while (units.length < rows * cols) {
-                units.push("AUTRES");
-            }
+            while (units.length < rows * cols) units.push('AUTRES');
 
             for (let i = 0; i < rows * cols; i++) {
-                const cat = units[i] || "AUTRES";
-                const color = CATEGORIES[cat]?.color || "#636366";
-                const row = Math.floor(i / cols);
-                const col = i % cols;
-
-                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                rect.setAttribute("x", col * (unitSize + gap));
-                rect.setAttribute("y", row * (unitSize + gap));
-                rect.setAttribute("width", unitSize);
-                rect.setAttribute("height", unitSize);
-                rect.setAttribute("rx", 4); // Rounded corners for premium feel
-                rect.setAttribute("fill", color);
-                rect.setAttribute("class", "unit");
-                rect.setAttribute("data-cat", cat);
-
-                rect.onmouseover = (e) => showTooltip(e, CATEGORIES[cat]?.label || "Divers");
-                rect.onmousemove = (e) => moveTooltip(e);
-                rect.onmouseout = () => hideTooltip();
-
-                svg.appendChild(rect);
+                const cat = units[i] || 'AUTRES';
+                const color = CATEGORIES[cat]?.color || '#636366';
+                const row = Math.floor(i / cols), col = i % cols;
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('x', col * (unitSize + gap));
+                rect.setAttribute('y', row * (unitSize + gap));
+                rect.setAttribute('width', unitSize);
+                rect.setAttribute('height', unitSize);
+                rect.setAttribute('rx', 4);
+                rect.setAttribute('fill', color);
+                rect.setAttribute('class', 'unit');
+                rect.setAttribute('data-cat', cat);
+                rect.onmouseover = e => showTooltip(e, CATEGORIES[cat]?.label || 'Divers');
+                rect.onmousemove = moveTooltip;
+                rect.onmouseout = hideTooltip;
+                waffleSvg.appendChild(rect);
             }
+            document.getElementById('waffle').appendChild(waffleSvg);
 
-            waffle.appendChild(svg);
-        }
-
-        function renderLegend(dist, totalSurf) {
-            const legend = document.getElementById('legend');
-
+            // Legend
+            const legend = document.getElementById('waffle-legend');
             for (let cat in dist) {
-                const pct = (dist[cat] / totalSurf) * 100;
+                const pct = (dist[cat] / totalSurface) * 100;
                 if (pct < 0.1) continue;
-
                 const item = document.createElement('div');
                 item.className = 'legend-item';
                 item.innerHTML = `
                     <div class="legend-color" style="background:${CATEGORIES[cat].color}"></div>
                     <div class="legend-text">
-                        <div class="legend-label">${CATEGORIES[cat].label}</div>
+                        <div class="legend-label-text">${CATEGORIES[cat].label}</div>
                         <div class="legend-pct">${pct.toFixed(1)}%</div>
-                    </div>
-                `;
-
-                item.onmouseover = () => {
-                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '0.6');
-                };
-                item.onmouseout = () => {
-                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '1');
-                };
-
+                    </div>`;
+                item.onmouseover = () => document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '0.6');
+                item.onmouseout = () => document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '1');
                 legend.appendChild(item);
             }
         }
 
-        const tooltip = document.getElementById('tooltip');
-
-        function showTooltip(e, text) {
-            tooltip.innerHTML = text;
-            tooltip.style.opacity = '1';
-            moveTooltip(e);
-        }
-
-        function moveTooltip(e) {
-            tooltip.style.left = (e.pageX + 15) + 'px';
-            tooltip.style.top = (e.pageY - 28) + 'px';
-        }
-
-        function hideTooltip() {
-            tooltip.style.opacity = '0';
-        }
-
-        function renderRegionalPortraits(data) {
-            const container = document.getElementById('grid');
-            const regions = Object.keys(data).sort();
-
-            regions.forEach(region => {
-                if (region === "Inconnu" && data[region].total_surface < 100) return;
-
-                const stats = data[region];
-                const card = document.createElement('div');
-                card.className = 'region-card';
-
-                const top5 = stats.top_cultures;
-
-                let html = `<h3>${region}</h3>`;
-
-                // DNA bar
-                html += `<div class="dna-bar">`;
-                top5.forEach(c => {
-                    const pct = (c.surface / stats.total_surface) * 100;
-                    const color = getColor(c.code);
-                    html += `<div class="dna-segment" style="width: ${pct}%; background: ${color};" title="${getLabel(c.code)}: ${Math.round(pct)}%"></div>`;
-                });
-                html += `<div class="dna-segment" style="flex-grow:1; background: var(--bg-dark);" title="Autres"></div>`;
-                html += `</div>`;
-
-                // Stats list
-                html += `<div class="stats-list">`;
-                top5.forEach(c => {
-                    const pct = (c.surface / stats.total_surface) * 100;
-                    const color = getColor(c.code);
-                    html += `
-                        <div class="stat-row">
-                            <div class="stat-name">
-                                <div class="dot" style="background:${color}"></div>
-                                ${getLabel(c.code)}
-                            </div>
-                            <div class="stat-value">${pct.toFixed(1)}%</div>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-
-                card.innerHTML = html;
-                container.appendChild(card);
-            });
-        }
 
         init();
     </script>

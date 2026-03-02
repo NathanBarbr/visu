@@ -43,7 +43,7 @@ Elle croise la surface totale et la surface moyenne par parcelle. Prenez la Vign
 
 
 **[Consultant]** *(Clique sur l'onglet Tailles)*
-« Passons à la vue **Tailles** pour vérifier. Et bien, la rumeur dit vrai : le morcellement est très fort ! Au niveau national, regardez notre Atlas : 97% des parcelles sont classées "Micro", "Petites" ou "Moyennes". Les "Grandes" ou "Très grandes" parcelles sont en réalité très rares (seulement 3%).
+« Passons à la vue **Tailles** pour vérifier. Et bien, la rumeur dit vrai : le morcellement est très fort ! Au niveau national, regardez notre Atlas : près de 95% des parcelles sont classées "Micro", "Petites" ou "Moyennes". Les "Grandes" ou "Très grandes" parcelles sont en réalité très rares (à peine 5%).
 Mais le plus étonnant, c'est la comparaison régionale *(Il pointe le graphique du bas)* : contrairement aux idées reçues, ce modèle de petit parcellaire est incroyablement uniforme ! Que l'on soit en Bretagne ou en Occitanie, la répartition des tailles est quasiment identique, avec une moyenne stable autour de 2.3 hectares. Cela prouve une standardisation inattendue du paysage agricole français. »
 
 

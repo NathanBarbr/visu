@@ -1,482 +1,482 @@
 {
-  "Bretagne": {
-    "total_count": 61228,
-    "total_surface": 141514.0,
-    "avg_size": 2.31,
+  "Corse": {
+    "total_count": 218,
+    "total_surface": 1704.81,
+    "avg_size": 7.82,
     "categories": {
       "micro": {
-        "count": 18906,
-        "surface": 4276.65,
-        "pct_count": 30.9,
-        "pct_surface": 3.0
+        "count": 55,
+        "surface": 11.39,
+        "pct_count": 25.2,
+        "pct_surface": 0.7
       },
       "petite": {
-        "count": 24156,
-        "surface": 26211.28,
-        "pct_count": 39.5,
-        "pct_surface": 18.5
+        "count": 85,
+        "surface": 126.79,
+        "pct_count": 39.0,
+        "pct_surface": 7.4
       },
       "moyenne": {
-        "count": 16308,
-        "surface": 66638.66,
-        "pct_count": 26.6,
-        "pct_surface": 47.1
+        "count": 50,
+        "surface": 278.07,
+        "pct_count": 22.9,
+        "pct_surface": 16.3
       },
       "grande": {
-        "count": 1755,
-        "surface": 30090.9,
-        "pct_count": 2.9,
-        "pct_surface": 21.3
+        "count": 21,
+        "surface": 468.35,
+        "pct_count": 9.6,
+        "pct_surface": 27.5
       },
       "tres_grande": {
-        "count": 103,
-        "surface": 14296.51,
-        "pct_count": 0.2,
-        "pct_surface": 10.1
-      }
-    }
-  },
-  "Autre": {
-    "total_count": 58412,
-    "total_surface": 134610.13,
-    "avg_size": 2.3,
-    "categories": {
-      "micro": {
-        "count": 18010,
-        "surface": 4050.27,
-        "pct_count": 30.8,
-        "pct_surface": 3.0
-      },
-      "petite": {
-        "count": 23304,
-        "surface": 25397.88,
-        "pct_count": 39.9,
-        "pct_surface": 18.9
-      },
-      "moyenne": {
-        "count": 15333,
-        "surface": 61953.53,
-        "pct_count": 26.2,
-        "pct_surface": 46.0
-      },
-      "grande": {
-        "count": 1670,
-        "surface": 28365.9,
-        "pct_count": 2.9,
-        "pct_surface": 21.1
-      },
-      "tres_grande": {
-        "count": 95,
-        "surface": 14842.55,
-        "pct_count": 0.2,
-        "pct_surface": 11.0
-      }
-    }
-  },
-  "Bourgogne-Franche-Comté": {
-    "total_count": 122646,
-    "total_surface": 280516.09,
-    "avg_size": 2.29,
-    "categories": {
-      "micro": {
-        "count": 37912,
-        "surface": 8536.78,
-        "pct_count": 30.9,
-        "pct_surface": 3.0
-      },
-      "petite": {
-        "count": 48499,
-        "surface": 52725.31,
-        "pct_count": 39.5,
-        "pct_surface": 18.8
-      },
-      "moyenne": {
-        "count": 32532,
-        "surface": 131992.45,
-        "pct_count": 26.5,
-        "pct_surface": 47.1
-      },
-      "grande": {
-        "count": 3513,
-        "surface": 58955.81,
-        "pct_count": 2.9,
-        "pct_surface": 21.0
-      },
-      "tres_grande": {
-        "count": 190,
-        "surface": 28305.74,
-        "pct_count": 0.2,
-        "pct_surface": 10.1
-      }
-    }
-  },
-  "Centre-Val de Loire": {
-    "total_count": 91508,
-    "total_surface": 208347.37,
-    "avg_size": 2.28,
-    "categories": {
-      "micro": {
-        "count": 27954,
-        "surface": 6271.38,
-        "pct_count": 30.5,
-        "pct_surface": 3.0
-      },
-      "petite": {
-        "count": 36509,
-        "surface": 39627.38,
-        "pct_count": 39.9,
-        "pct_surface": 19.0
-      },
-      "moyenne": {
-        "count": 24201,
-        "surface": 98634.86,
-        "pct_count": 26.4,
-        "pct_surface": 47.3
-      },
-      "grande": {
-        "count": 2705,
-        "surface": 44867.86,
-        "pct_count": 3.0,
-        "pct_surface": 21.5
-      },
-      "tres_grande": {
-        "count": 139,
-        "surface": 18945.89,
-        "pct_count": 0.2,
-        "pct_surface": 9.1
-      }
-    }
-  },
-  "Normandie": {
-    "total_count": 76546,
-    "total_surface": 173682.84,
-    "avg_size": 2.27,
-    "categories": {
-      "micro": {
-        "count": 23524,
-        "surface": 5290.21,
-        "pct_count": 30.7,
-        "pct_surface": 3.0
-      },
-      "petite": {
-        "count": 30459,
-        "surface": 33073.07,
-        "pct_count": 39.8,
-        "pct_surface": 19.0
-      },
-      "moyenne": {
-        "count": 20223,
-        "surface": 82482.24,
-        "pct_count": 26.4,
-        "pct_surface": 47.5
-      },
-      "grande": {
-        "count": 2219,
-        "surface": 36858.43,
-        "pct_count": 2.9,
-        "pct_surface": 21.2
-      },
-      "tres_grande": {
-        "count": 121,
-        "surface": 15978.89,
-        "pct_count": 0.2,
-        "pct_surface": 9.2
-      }
-    }
-  },
-  "Grand Est": {
-    "total_count": 137062,
-    "total_surface": 309822.59,
-    "avg_size": 2.26,
-    "categories": {
-      "micro": {
-        "count": 42032,
-        "surface": 9510.51,
-        "pct_count": 30.7,
-        "pct_surface": 3.1
-      },
-      "petite": {
-        "count": 54272,
-        "surface": 59014.96,
-        "pct_count": 39.6,
-        "pct_surface": 19.0
-      },
-      "moyenne": {
-        "count": 36636,
-        "surface": 148976.98,
-        "pct_count": 26.7,
+        "count": 7,
+        "surface": 820.21,
+        "pct_count": 3.2,
         "pct_surface": 48.1
-      },
-      "grande": {
-        "count": 3915,
-        "surface": 66065.85,
-        "pct_count": 2.9,
-        "pct_surface": 21.3
-      },
-      "tres_grande": {
-        "count": 207,
-        "surface": 26254.29,
-        "pct_count": 0.2,
-        "pct_surface": 8.5
-      }
-    }
-  },
-  "Provence-Alpes-Côte d'Azur": {
-    "total_count": 46087,
-    "total_surface": 104104.58,
-    "avg_size": 2.26,
-    "categories": {
-      "micro": {
-        "count": 14146,
-        "surface": 3159.99,
-        "pct_count": 30.7,
-        "pct_surface": 3.0
-      },
-      "petite": {
-        "count": 18326,
-        "surface": 19941.05,
-        "pct_count": 39.8,
-        "pct_surface": 19.2
-      },
-      "moyenne": {
-        "count": 12207,
-        "surface": 49331.67,
-        "pct_count": 26.5,
-        "pct_surface": 47.4
-      },
-      "grande": {
-        "count": 1345,
-        "surface": 22372.94,
-        "pct_count": 2.9,
-        "pct_surface": 21.5
-      },
-      "tres_grande": {
-        "count": 63,
-        "surface": 9298.93,
-        "pct_count": 0.1,
-        "pct_surface": 8.9
-      }
-    }
-  },
-  "Occitanie": {
-    "total_count": 183389,
-    "total_surface": 413165.55,
-    "avg_size": 2.25,
-    "categories": {
-      "micro": {
-        "count": 56778,
-        "surface": 12807.43,
-        "pct_count": 31.0,
-        "pct_surface": 3.1
-      },
-      "petite": {
-        "count": 72715,
-        "surface": 78935.71,
-        "pct_count": 39.7,
-        "pct_surface": 19.1
-      },
-      "moyenne": {
-        "count": 48276,
-        "surface": 196434.19,
-        "pct_count": 26.3,
-        "pct_surface": 47.5
-      },
-      "grande": {
-        "count": 5350,
-        "surface": 89371.03,
-        "pct_count": 2.9,
-        "pct_surface": 21.6
-      },
-      "tres_grande": {
-        "count": 270,
-        "surface": 35617.19,
-        "pct_count": 0.1,
-        "pct_surface": 8.6
-      }
-    }
-  },
-  "Nouvelle-Aquitaine": {
-    "total_count": 183511,
-    "total_surface": 411377.56,
-    "avg_size": 2.24,
-    "categories": {
-      "micro": {
-        "count": 56789,
-        "surface": 12824.16,
-        "pct_count": 30.9,
-        "pct_surface": 3.1
-      },
-      "petite": {
-        "count": 72475,
-        "surface": 78818.87,
-        "pct_count": 39.5,
-        "pct_surface": 19.2
-      },
-      "moyenne": {
-        "count": 48751,
-        "surface": 197831.44,
-        "pct_count": 26.6,
-        "pct_surface": 48.1
-      },
-      "grande": {
-        "count": 5234,
-        "surface": 87373.46,
-        "pct_count": 2.9,
-        "pct_surface": 21.2
-      },
-      "tres_grande": {
-        "count": 262,
-        "surface": 34529.63,
-        "pct_count": 0.1,
-        "pct_surface": 8.4
-      }
-    }
-  },
-  "Auvergne-Rhône-Alpes": {
-    "total_count": 137252,
-    "total_surface": 308048.39,
-    "avg_size": 2.24,
-    "categories": {
-      "micro": {
-        "count": 42366,
-        "surface": 9527.41,
-        "pct_count": 30.9,
-        "pct_surface": 3.1
-      },
-      "petite": {
-        "count": 54482,
-        "surface": 59343.1,
-        "pct_count": 39.7,
-        "pct_surface": 19.3
-      },
-      "moyenne": {
-        "count": 36282,
-        "surface": 147525.83,
-        "pct_count": 26.4,
-        "pct_surface": 47.9
-      },
-      "grande": {
-        "count": 3925,
-        "surface": 66292.53,
-        "pct_count": 2.9,
-        "pct_surface": 21.5
-      },
-      "tres_grande": {
-        "count": 197,
-        "surface": 25359.52,
-        "pct_count": 0.1,
-        "pct_surface": 8.2
-      }
-    }
-  },
-  "Hauts-de-France": {
-    "total_count": 61224,
-    "total_surface": 137189.13,
-    "avg_size": 2.24,
-    "categories": {
-      "micro": {
-        "count": 18790,
-        "surface": 4258.19,
-        "pct_count": 30.7,
-        "pct_surface": 3.1
-      },
-      "petite": {
-        "count": 24243,
-        "surface": 26423.57,
-        "pct_count": 39.6,
-        "pct_surface": 19.3
-      },
-      "moyenne": {
-        "count": 16384,
-        "surface": 66496.2,
-        "pct_count": 26.8,
-        "pct_surface": 48.5
-      },
-      "grande": {
-        "count": 1714,
-        "surface": 27939.24,
-        "pct_count": 2.8,
-        "pct_surface": 20.4
-      },
-      "tres_grande": {
-        "count": 93,
-        "surface": 12071.93,
-        "pct_count": 0.2,
-        "pct_surface": 8.8
       }
     }
   },
   "Île-de-France": {
-    "total_count": 122736,
-    "total_surface": 273668.02,
-    "avg_size": 2.23,
+    "total_count": 640,
+    "total_surface": 3077.2,
+    "avg_size": 4.81,
     "categories": {
       "micro": {
-        "count": 37773,
-        "surface": 8564.11,
-        "pct_count": 30.8,
-        "pct_surface": 3.1
+        "count": 176,
+        "surface": 36.89,
+        "pct_count": 27.5,
+        "pct_surface": 1.2
       },
       "petite": {
-        "count": 48839,
-        "surface": 52999.09,
-        "pct_count": 39.8,
-        "pct_surface": 19.4
+        "count": 207,
+        "surface": 289.4,
+        "pct_count": 32.3,
+        "pct_surface": 9.4
       },
       "moyenne": {
-        "count": 32464,
-        "surface": 131357.58,
-        "pct_count": 26.5,
-        "pct_surface": 48.0
+        "count": 147,
+        "surface": 847.24,
+        "pct_count": 23.0,
+        "pct_surface": 27.5
       },
       "grande": {
-        "count": 3506,
-        "surface": 58556.39,
-        "pct_count": 2.9,
-        "pct_surface": 21.4
+        "count": 110,
+        "surface": 1903.67,
+        "pct_count": 17.2,
+        "pct_surface": 61.9
       },
       "tres_grande": {
-        "count": 154,
-        "surface": 22190.85,
+        "count": 0,
+        "surface": 0,
+        "pct_count": 0.0,
+        "pct_surface": 0.0
+      }
+    }
+  },
+  "Centre-Val de Loire": {
+    "total_count": 2882,
+    "total_surface": 11731.36,
+    "avg_size": 4.07,
+    "categories": {
+      "micro": {
+        "count": 845,
+        "surface": 166.92,
+        "pct_count": 29.3,
+        "pct_surface": 1.4
+      },
+      "petite": {
+        "count": 954,
+        "surface": 1379.21,
+        "pct_count": 33.1,
+        "pct_surface": 11.8
+      },
+      "moyenne": {
+        "count": 740,
+        "surface": 4221.11,
+        "pct_count": 25.7,
+        "pct_surface": 36.0
+      },
+      "grande": {
+        "count": 338,
+        "surface": 5624.55,
+        "pct_count": 11.7,
+        "pct_surface": 47.9
+      },
+      "tres_grande": {
+        "count": 5,
+        "surface": 339.57,
+        "pct_count": 0.2,
+        "pct_surface": 2.9
+      }
+    }
+  },
+  "Normandie": {
+    "total_count": 2725,
+    "total_surface": 10276.3,
+    "avg_size": 3.77,
+    "categories": {
+      "micro": {
+        "count": 532,
+        "surface": 103.06,
+        "pct_count": 19.5,
+        "pct_surface": 1.0
+      },
+      "petite": {
+        "count": 1138,
+        "surface": 1804.84,
+        "pct_count": 41.8,
+        "pct_surface": 17.6
+      },
+      "moyenne": {
+        "count": 822,
+        "surface": 4494.33,
+        "pct_count": 30.2,
+        "pct_surface": 43.7
+      },
+      "grande": {
+        "count": 232,
+        "surface": 3802.91,
+        "pct_count": 8.5,
+        "pct_surface": 37.0
+      },
+      "tres_grande": {
+        "count": 1,
+        "surface": 71.16,
+        "pct_count": 0.0,
+        "pct_surface": 0.7
+      }
+    }
+  },
+  "Hauts-de-France": {
+    "total_count": 3017,
+    "total_surface": 11317.52,
+    "avg_size": 3.75,
+    "categories": {
+      "micro": {
+        "count": 710,
+        "surface": 131.37,
+        "pct_count": 23.5,
+        "pct_surface": 1.2
+      },
+      "petite": {
+        "count": 1141,
+        "surface": 1779.46,
+        "pct_count": 37.8,
+        "pct_surface": 15.7
+      },
+      "moyenne": {
+        "count": 888,
+        "surface": 4947.51,
+        "pct_count": 29.4,
+        "pct_surface": 43.7
+      },
+      "grande": {
+        "count": 276,
+        "surface": 4313.78,
+        "pct_count": 9.1,
+        "pct_surface": 38.1
+      },
+      "tres_grande": {
+        "count": 2,
+        "surface": 145.4,
         "pct_count": 0.1,
-        "pct_surface": 8.1
+        "pct_surface": 1.3
+      }
+    }
+  },
+  "Bourgogne-Franche-Comté": {
+    "total_count": 3092,
+    "total_surface": 11405.22,
+    "avg_size": 3.69,
+    "categories": {
+      "micro": {
+        "count": 723,
+        "surface": 143.09,
+        "pct_count": 23.4,
+        "pct_surface": 1.3
+      },
+      "petite": {
+        "count": 1206,
+        "surface": 1847.07,
+        "pct_count": 39.0,
+        "pct_surface": 16.2
+      },
+      "moyenne": {
+        "count": 892,
+        "surface": 4893.61,
+        "pct_count": 28.8,
+        "pct_surface": 42.9
+      },
+      "grande": {
+        "count": 266,
+        "surface": 4238.9,
+        "pct_count": 8.6,
+        "pct_surface": 37.2
+      },
+      "tres_grande": {
+        "count": 5,
+        "surface": 282.55,
+        "pct_count": 0.2,
+        "pct_surface": 2.5
+      }
+    }
+  },
+  "Grand Est": {
+    "total_count": 4439,
+    "total_surface": 15980.35,
+    "avg_size": 3.6,
+    "categories": {
+      "micro": {
+        "count": 1385,
+        "surface": 280.8,
+        "pct_count": 31.2,
+        "pct_surface": 1.8
+      },
+      "petite": {
+        "count": 1520,
+        "surface": 2181.06,
+        "pct_count": 34.2,
+        "pct_surface": 13.6
+      },
+      "moyenne": {
+        "count": 1091,
+        "surface": 6166.51,
+        "pct_count": 24.6,
+        "pct_surface": 38.6
+      },
+      "grande": {
+        "count": 441,
+        "surface": 7242.46,
+        "pct_count": 9.9,
+        "pct_surface": 45.3
+      },
+      "tres_grande": {
+        "count": 2,
+        "surface": 109.52,
+        "pct_count": 0.0,
+        "pct_surface": 0.7
+      }
+    }
+  },
+  "Provence-Alpes-Côte d'Azur": {
+    "total_count": 1578,
+    "total_surface": 5176.44,
+    "avg_size": 3.28,
+    "categories": {
+      "micro": {
+        "count": 628,
+        "surface": 145.81,
+        "pct_count": 39.8,
+        "pct_surface": 2.8
+      },
+      "petite": {
+        "count": 732,
+        "surface": 921.73,
+        "pct_count": 46.4,
+        "pct_surface": 17.8
+      },
+      "moyenne": {
+        "count": 152,
+        "surface": 754.79,
+        "pct_count": 9.6,
+        "pct_surface": 14.6
+      },
+      "grande": {
+        "count": 53,
+        "surface": 1175.79,
+        "pct_count": 3.4,
+        "pct_surface": 22.7
+      },
+      "tres_grande": {
+        "count": 13,
+        "surface": 2178.32,
+        "pct_count": 0.8,
+        "pct_surface": 42.1
       }
     }
   },
   "Pays de la Loire": {
-    "total_count": 76715,
-    "total_surface": 170956.18,
-    "avg_size": 2.23,
+    "total_count": 3882,
+    "total_surface": 10872.36,
+    "avg_size": 2.8,
     "categories": {
       "micro": {
-        "count": 23584,
-        "surface": 5345.35,
-        "pct_count": 30.7,
-        "pct_surface": 3.1
+        "count": 1057,
+        "surface": 206.49,
+        "pct_count": 27.2,
+        "pct_surface": 1.9
       },
       "petite": {
-        "count": 30511,
-        "surface": 33141.75,
-        "pct_count": 39.8,
-        "pct_surface": 19.4
+        "count": 1589,
+        "surface": 2490.82,
+        "pct_count": 40.9,
+        "pct_surface": 22.9
       },
       "moyenne": {
-        "count": 20338,
-        "surface": 82498.47,
-        "pct_count": 26.5,
-        "pct_surface": 48.3
+        "count": 1068,
+        "surface": 5570.99,
+        "pct_count": 27.5,
+        "pct_surface": 51.2
       },
       "grande": {
-        "count": 2173,
-        "surface": 36380.98,
-        "pct_count": 2.8,
-        "pct_surface": 21.3
+        "count": 167,
+        "surface": 2363.79,
+        "pct_count": 4.3,
+        "pct_surface": 21.7
       },
       "tres_grande": {
-        "count": 109,
-        "surface": 13589.63,
+        "count": 1,
+        "surface": 240.27,
+        "pct_count": 0.0,
+        "pct_surface": 2.2
+      }
+    }
+  },
+  "Nouvelle-Aquitaine": {
+    "total_count": 8132,
+    "total_surface": 19977.02,
+    "avg_size": 2.46,
+    "categories": {
+      "micro": {
+        "count": 2194,
+        "surface": 477.17,
+        "pct_count": 27.0,
+        "pct_surface": 2.4
+      },
+      "petite": {
+        "count": 3915,
+        "surface": 5655.1,
+        "pct_count": 48.1,
+        "pct_surface": 28.3
+      },
+      "moyenne": {
+        "count": 1717,
+        "surface": 8909.63,
+        "pct_count": 21.1,
+        "pct_surface": 44.6
+      },
+      "grande": {
+        "count": 302,
+        "surface": 4600.96,
+        "pct_count": 3.7,
+        "pct_surface": 23.0
+      },
+      "tres_grande": {
+        "count": 4,
+        "surface": 334.16,
+        "pct_count": 0.0,
+        "pct_surface": 1.7
+      }
+    }
+  },
+  "Occitanie": {
+    "total_count": 8095,
+    "total_surface": 18930.56,
+    "avg_size": 2.34,
+    "categories": {
+      "micro": {
+        "count": 2618,
+        "surface": 555.07,
+        "pct_count": 32.3,
+        "pct_surface": 2.9
+      },
+      "petite": {
+        "count": 4007,
+        "surface": 5397.99,
+        "pct_count": 49.5,
+        "pct_surface": 28.5
+      },
+      "moyenne": {
+        "count": 1214,
+        "surface": 6194.86,
+        "pct_count": 15.0,
+        "pct_surface": 32.7
+      },
+      "grande": {
+        "count": 239,
+        "surface": 3912.34,
+        "pct_count": 3.0,
+        "pct_surface": 20.7
+      },
+      "tres_grande": {
+        "count": 17,
+        "surface": 2870.3,
+        "pct_count": 0.2,
+        "pct_surface": 15.2
+      }
+    }
+  },
+  "Auvergne-Rhône-Alpes": {
+    "total_count": 6936,
+    "total_surface": 15334.56,
+    "avg_size": 2.21,
+    "categories": {
+      "micro": {
+        "count": 2174,
+        "surface": 491.8,
+        "pct_count": 31.3,
+        "pct_surface": 3.2
+      },
+      "petite": {
+        "count": 3414,
+        "surface": 4699.07,
+        "pct_count": 49.2,
+        "pct_surface": 30.6
+      },
+      "moyenne": {
+        "count": 1122,
+        "surface": 5689.92,
+        "pct_count": 16.2,
+        "pct_surface": 37.1
+      },
+      "grande": {
+        "count": 216,
+        "surface": 3533.56,
+        "pct_count": 3.1,
+        "pct_surface": 23.0
+      },
+      "tres_grande": {
+        "count": 10,
+        "surface": 920.21,
         "pct_count": 0.1,
-        "pct_surface": 7.9
+        "pct_surface": 6.0
+      }
+    }
+  },
+  "Bretagne": {
+    "total_count": 4341,
+    "total_surface": 8163.63,
+    "avg_size": 1.88,
+    "categories": {
+      "micro": {
+        "count": 1189,
+        "surface": 257.6,
+        "pct_count": 27.4,
+        "pct_surface": 3.2
+      },
+      "petite": {
+        "count": 2286,
+        "surface": 3331.52,
+        "pct_count": 52.7,
+        "pct_surface": 40.8
+      },
+      "moyenne": {
+        "count": 820,
+        "surface": 3998.02,
+        "pct_count": 18.9,
+        "pct_surface": 49.0
+      },
+      "grande": {
+        "count": 46,
+        "surface": 576.49,
+        "pct_count": 1.1,
+        "pct_surface": 7.1
+      },
+      "tres_grande": {
+        "count": 0,
+        "surface": 0,
+        "pct_count": 0.0,
+        "pct_surface": 0.0
       }
     }
   }

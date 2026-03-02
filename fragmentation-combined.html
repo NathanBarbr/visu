@@ -119,6 +119,24 @@
             text-align: center;
         }
 
+        /* Dual panel layout */
+        .dual-panel {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 1200px) {
+            .dual-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dual-panel .section-title {
+            font-size: 1.2rem;
+        }
+
         /* Atlas (Waffle) */
         .atlas-wrapper {
             background: var(--card-bg);
@@ -194,7 +212,7 @@
         .chart-wrapper {
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 32px;
+            padding: 20px;
         }
 
         .region-row {
@@ -205,9 +223,9 @@
         }
 
         .region-name {
-            width: 200px;
+            width: 140px;
             flex-shrink: 0;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-primary);
             text-align: right;
         }
@@ -251,6 +269,117 @@
             height: 1px;
             background: var(--border);
             margin: 50px 0;
+        }
+
+        /* Distribution Curves */
+        .curves-wrapper {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .curves-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .curves-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .curve-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .curve-btn:hover {
+            border-color: var(--text-secondary);
+        }
+
+        .curve-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .curve-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .select-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--text-secondary);
+        }
+
+        .region-line {
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: opacity 0.3s, stroke-width 0.2s;
+        }
+
+        .region-area {
+            transition: opacity 0.3s;
+        }
+
+        .curve-axis text {
+            fill: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .curve-axis line,
+        .curve-axis path {
+            stroke: var(--border);
+        }
+
+        .curve-grid line {
+            stroke: var(--border);
+            stroke-opacity: 0.3;
+        }
+
+        .curve-grid path {
+            stroke-width: 0;
         }
 
         /* Tooltip */
@@ -389,11 +518,11 @@
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: var(--color-petite);"></div>
-                <span>Petite (0.5-2 ha)</span>
+                <span>Petite (0.5-3 ha)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: var(--color-moyenne);"></div>
-                <span>Moyenne (2-10 ha)</span>
+                <span>Moyenne (3-10 ha)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: var(--color-grande);"></div>
@@ -416,11 +545,32 @@
 
         <div class="divider"></div>
 
-        <!-- Regional Comparison -->
-        <div class="section">
-            <div class="section-title">Anatomie Régionale — Comparaison des Territoires</div>
-            <div class="chart-wrapper">
-                <div id="regional-chart"></div>
+        <!-- Dual Panel: Regional Comparison + Distribution Curves -->
+        <div class="dual-panel">
+            <!-- Left: Regional Comparison -->
+            <div class="section">
+                <div class="section-title">Anatomie Régionale — Comparaison des Territoires</div>
+                <div class="chart-wrapper">
+                    <div id="regional-chart"></div>
+                </div>
+            </div>
+
+            <!-- Right: Distribution Curves -->
+            <div class="section">
+                <div class="section-title">Profils Régionaux — Courbes de Distribution</div>
+                <div class="curves-wrapper">
+                    <div class="curves-header">
+                        <div style="font-size:0.85rem; color:var(--text-muted)">Superposition des distributions par
+                            taille
+                            de parcelle</div>
+                        <div class="select-actions">
+                            <button class="action-btn" id="btn-select-all">Tout afficher</button>
+                            <button class="action-btn" id="btn-deselect-all">Tout masquer</button>
+                        </div>
+                    </div>
+                    <svg id="curves-svg"></svg>
+                    <div class="curves-legend" id="curves-legend"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -438,17 +588,27 @@
 
         const CATEGORY_LABELS = {
             "micro": "Micro (<0.5 ha)",
-            "petite": "Petite (0.5-2 ha)",
-            "moyenne": "Moyenne (2-10 ha)",
+            "petite": "Petite (0.5-3 ha)",
+            "moyenne": "Moyenne (3-10 ha)",
             "grande": "Grande (10-50 ha)",
             "tres_grande": "Très grande (>50 ha)"
         };
 
         const CATEGORY_ORDER = ["micro", "petite", "moyenne", "grande", "tres_grande"];
 
+        // Distribution curves state
+        const CURVE_COLORS = [
+            "#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff",
+            "#5f27cd", "#01a3a4", "#f368e0", "#ff9f43", "#10ac84",
+            "#ee5253", "#0abde3"
+        ];
+        let curvesData = null;
+        let activeRegionsCurves = new Set();
+        let curvesSvg, cx, cy, cWidth, cHeight, cMargin;
+
         async function init() {
             try {
-                const response = await fetch('data_fragmentation_regional.json');
+                const response = await fetch('data_fragmentation_regional.json?v=' + Date.now());
                 const data = await response.json();
 
                 // Calculate national aggregates for waffle
@@ -457,6 +617,13 @@
 
                 // Render regional chart
                 renderRegionalChart(data);
+
+                // Load and render distribution curves
+                const curvesRes = await fetch('data_distribution_curves.json?v=' + Date.now());
+                curvesData = await curvesRes.json();
+                setupCurves();
+                buildCurvesLegend();
+                updateCurves();
             } catch (e) {
                 console.error("Error loading data:", e);
             }
@@ -649,6 +816,237 @@
 
         function hideTooltip() {
             tooltip.style.opacity = '0';
+        }
+
+        // ========================================
+        // DISTRIBUTION CURVES
+        // ========================================
+
+        function setupCurves() {
+            const container = document.querySelector('.curves-wrapper');
+            cWidth = container.clientWidth - 40;
+            cHeight = 480;
+            cMargin = { top: 20, right: 20, bottom: 50, left: 50 };
+
+            curvesSvg = d3.select("#curves-svg")
+                .attr("width", cWidth)
+                .attr("height", cHeight)
+                .attr("viewBox", [0, 0, cWidth, cHeight]);
+
+            const maxBin = curvesData.bins[curvesData.bins.length - 1].max;
+            cx = d3.scaleLog()
+                .domain([0.08, Math.min(maxBin, 120)])
+                .range([cMargin.left, cWidth - cMargin.right]);
+
+            const allPcts = Object.values(curvesData.regions).flatMap(r => r.percentages);
+            cy = d3.scaleLinear()
+                .domain([0, d3.max(allPcts) * 1.15])
+                .range([cHeight - cMargin.bottom, cMargin.top]);
+
+            // Grid
+            curvesSvg.append("g")
+                .attr("class", "curve-grid")
+                .attr("transform", `translate(0,${cHeight - cMargin.bottom})`)
+                .call(d3.axisBottom(cx)
+                    .tickValues([0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 20, 50, 100])
+                    .tickSize(-(cHeight - cMargin.top - cMargin.bottom))
+                    .tickFormat(""));
+
+            curvesSvg.append("g")
+                .attr("class", "curve-grid")
+                .attr("transform", `translate(${cMargin.left},0)`)
+                .call(d3.axisLeft(cy)
+                    .ticks(6)
+                    .tickSize(-(cWidth - cMargin.left - cMargin.right))
+                    .tickFormat(""));
+
+            // Axes
+            curvesSvg.append("g")
+                .attr("transform", `translate(0,${cHeight - cMargin.bottom})`)
+                .attr("class", "curve-axis")
+                .call(d3.axisBottom(cx)
+                    .tickValues([0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 20, 50, 100])
+                    .tickFormat(d => d >= 1 ? d + " ha" : d + ""));
+
+            curvesSvg.append("g")
+                .attr("transform", `translate(${cMargin.left},0)`)
+                .attr("class", "curve-axis")
+                .call(d3.axisLeft(cy).ticks(6).tickFormat(d => d + "%"));
+
+            // Axis labels
+            curvesSvg.append("text")
+                .attr("x", cWidth / 2)
+                .attr("y", cHeight - 6)
+                .attr("fill", "#94a3b8")
+                .style("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text("Surface de la parcelle (hectares, échelle log)");
+
+            curvesSvg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -cHeight / 2)
+                .attr("y", 16)
+                .attr("fill", "#94a3b8")
+                .style("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text("% des parcelles");
+
+            // Layer groups
+            curvesSvg.append("g").attr("id", "c-areas-layer");
+            curvesSvg.append("g").attr("id", "c-lines-layer");
+            curvesSvg.append("g").attr("id", "c-dots-layer");
+        }
+
+        function buildCurvesLegend() {
+            const container = document.getElementById('curves-legend');
+            const regions = Object.keys(curvesData.regions).sort();
+
+            regions.forEach((region, i) => {
+                const color = CURVE_COLORS[i % CURVE_COLORS.length];
+                const btn = document.createElement('button');
+                btn.className = 'curve-btn active';
+                btn.dataset.region = region;
+                btn.innerHTML = `<span class="curve-dot" style="background:${color}"></span>${region}`;
+
+                activeRegionsCurves.add(region);
+
+                btn.addEventListener('click', () => {
+                    if (activeRegionsCurves.has(region)) {
+                        activeRegionsCurves.delete(region);
+                        btn.classList.remove('active');
+                    } else {
+                        activeRegionsCurves.add(region);
+                        btn.classList.add('active');
+                    }
+                    updateCurves();
+                });
+
+                container.appendChild(btn);
+            });
+
+            document.getElementById('btn-select-all').addEventListener('click', () => {
+                regions.forEach(r => activeRegionsCurves.add(r));
+                document.querySelectorAll('.curve-btn').forEach(b => b.classList.add('active'));
+                updateCurves();
+            });
+
+            document.getElementById('btn-deselect-all').addEventListener('click', () => {
+                activeRegionsCurves.clear();
+                document.querySelectorAll('.curve-btn').forEach(b => b.classList.remove('active'));
+                updateCurves();
+            });
+        }
+
+        function updateCurves() {
+            const regions = Object.keys(curvesData.regions).sort();
+            const line = d3.line()
+                .x((d, i) => cx(curvesData.bins[i].mid))
+                .y(d => cy(d))
+                .curve(d3.curveCardinal.tension(0.4));
+
+            const area = d3.area()
+                .x((d, i) => cx(curvesData.bins[i].mid))
+                .y0(cHeight - cMargin.bottom)
+                .y1(d => cy(d))
+                .curve(d3.curveCardinal.tension(0.4));
+
+            // Areas
+            const areas = curvesSvg.select("#c-areas-layer")
+                .selectAll(".region-area")
+                .data(regions, d => d);
+
+            areas.enter()
+                .append("path")
+                .attr("class", "region-area")
+                .merge(areas)
+                .transition().duration(400)
+                .attr("d", region => area(curvesData.regions[region].percentages))
+                .attr("fill", (d, i) => CURVE_COLORS[i % CURVE_COLORS.length])
+                .attr("opacity", d => activeRegionsCurves.has(d) ? 0.06 : 0);
+
+            areas.exit().remove();
+
+            // Lines
+            const lines = curvesSvg.select("#c-lines-layer")
+                .selectAll(".region-line")
+                .data(regions, d => d);
+
+            lines.enter()
+                .append("path")
+                .attr("class", "region-line")
+                .merge(lines)
+                .transition().duration(400)
+                .attr("d", region => line(curvesData.regions[region].percentages))
+                .attr("stroke", (d, i) => CURVE_COLORS[i % CURVE_COLORS.length])
+                .attr("opacity", d => activeRegionsCurves.has(d) ? 0.85 : 0)
+                .attr("stroke-width", d => activeRegionsCurves.size <= 3 ? 3 : 2);
+
+            lines.exit().remove();
+
+            // Interactive dots
+            const dotsData = [];
+            regions.forEach((region, ri) => {
+                if (!activeRegionsCurves.has(region)) return;
+                curvesData.regions[region].percentages.forEach((pct, bi) => {
+                    dotsData.push({ region, ri, bi, pct });
+                });
+            });
+
+            const dots = curvesSvg.select("#c-dots-layer")
+                .selectAll("circle")
+                .data(dotsData, d => d.region + "-" + d.bi);
+
+            dots.enter()
+                .append("circle")
+                .attr("r", 4)
+                .attr("opacity", 0)
+                .attr("stroke", "white")
+                .attr("stroke-width", 0)
+                .merge(dots)
+                .attr("cx", d => cx(curvesData.bins[d.bi].mid))
+                .attr("cy", d => cy(d.pct))
+                .attr("fill", d => CURVE_COLORS[d.ri % CURVE_COLORS.length])
+                .on("mouseover", function (event, d) {
+                    d3.select(this)
+                        .attr("opacity", 1).attr("r", 7).attr("stroke-width", 2);
+
+                    curvesSvg.selectAll(".region-line")
+                        .attr("opacity", r => r === d.region ? 1 : 0.12)
+                        .attr("stroke-width", r => r === d.region ? 4 : 1.5);
+
+                    const bin = curvesData.bins[d.bi];
+                    const rData = curvesData.regions[d.region];
+                    tooltip.innerHTML = `
+                        <div class="tooltip-title" style="color:${CURVE_COLORS[d.ri % CURVE_COLORS.length]}">${d.region}</div>
+                        <div class="tooltip-row">
+                            <span class="tooltip-label">Taille :</span>
+                            <span class="tooltip-value">${bin.label}</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="tooltip-label">Proportion :</span>
+                            <span class="tooltip-value">${d.pct.toFixed(1)}%</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="tooltip-label">Moy. région :</span>
+                            <span class="tooltip-value">${rData.avg_size} ha</span>
+                        </div>
+                    `;
+                    tooltip.style.opacity = '1';
+                    moveTooltip(event);
+                })
+                .on("mousemove", moveTooltip)
+                .on("mouseout", function () {
+                    d3.select(this)
+                        .attr("opacity", 0).attr("r", 4).attr("stroke-width", 0);
+
+                    curvesSvg.selectAll(".region-line")
+                        .attr("opacity", d => activeRegionsCurves.has(d) ? 0.85 : 0)
+                        .attr("stroke-width", activeRegionsCurves.size <= 3 ? 3 : 2);
+
+                    hideTooltip();
+                });
+
+            dots.exit().remove();
         }
 
         init();
