@@ -430,6 +430,68 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                 les styles dans un système global (variables CSS).
             </p>
         </section>
+
+        <section>
+            <h2>Modifications après l'oral</h2>
+            <p>
+                Suite aux retours formulés lors de la présentation orale, plusieurs améliorations significatives ont été
+                apportées au projet. Ces modifications visent à corriger des erreurs identifiées, à améliorer la
+                lisibilité
+                de nos visualisations et à renforcer la rigueur de notre analyse.
+            </p>
+
+            <h3>1. Correction du bug d'agrégation des données régionales</h3>
+            <p>
+                Comme cela nous a été souligné durant l'oral, les courbes de distribution des tailles de parcelles
+                présentaient une <strong>homogénéité suspecte</strong> entre les régions — les distributions étaient
+                quasi-identiques d'une région à l'autre, ce qui n'est pas réaliste sur le plan agricole.
+            </p>
+            <p>
+                Après investigation, nous avons identifié la source du problème : nos scripts d'agrégation
+                (<code>generate_distribution_curves.py</code> et <code>generate_fragmentation_regional.py</code>)
+                extrayaient les deux premiers chiffres de l'identifiant de parcelle pour déterminer le code département
+                et donc la région d'appartenance. Or, dans notre fichier d'échantillonnage
+                (<code>parcels_sample_france.geojson</code>), les identifiants étaient des numéros aléatoires — et non
+                les identifiants structurés du RPG d'origine. Chaque « région » recevait donc un échantillon
+                aléatoire identique, ce qui expliquait l'uniformité des résultats.
+            </p>
+            <p>
+                La correction a consisté à remplacer l'extraction d'ID par un véritable
+                <strong>join spatial (point-in-polygon)</strong> : le centroïde de chaque parcelle est calculé à partir
+                de sa géométrie réelle, puis confronté aux polygones des régions
+                (<code>regions.geojson</code>) via un algorithme de ray-casting. Les résultats sont désormais bien
+                différenciés — par exemple, la Corse affiche une taille moyenne de 7,82 ha contre 1,88 ha pour la
+                Bretagne, ce qui correspond aux réalités agricoles de ces territoires.
+            </p>
+
+            <h3>2. Refonte de la page nationale avec une carte choroplèthe</h3>
+            <p>
+                Il nous a également été signalé que notre présentation comportait <strong>trop de visualisations
+                    dispersées</strong>, ce qui rendait la lecture moins fluide et la présentation orale trop longue.
+                Pour répondre à cela, nous avons restructuré la page nationale
+                (<code>overview-france.html</code>) autour d'une <strong>carte choroplèthe interactive</strong>
+                en D3.js. Cette carte permet de regrouper les informations régionales en un seul élément visuel :
+                en cliquant sur une région, un panneau latéral affiche le portrait régional détaillé (culture
+                dominante, surface totale, nombre de parcelles) ainsi que le classement des cultures.
+            </p>
+            <p>
+                Ce choix de design réduit le nombre de visualisations séparées tout en conservant — voire en améliorant
+                — la richesse d'information accessible à l'utilisateur.
+            </p>
+
+            <h3>3. Ajout des courbes de distribution en parallèle de la fragmentation</h3>
+            <p>
+                Pour compléter l'analyse du morcellement régional, nous avons ajouté les
+                <strong>courbes de distribution des tailles de parcelles</strong> directement à côté du graphique
+                de fragmentation existant (layout en double panneau). Cette mise en parallèle permet de mieux
+                appréhender le <strong>facteur d'échelle</strong> : les barres de fragmentation montrent les
+                proportions par catégorie (micro, petite, moyenne, grande), tandis que les courbes de distribution
+                révèlent la forme fine de la distribution — écrasée à gauche pour des régions comme PACA
+                (beaucoup de petites parcelles viticoles) ou plus étalée pour les régions de grandes cultures
+                comme l'Île-de-France. Cette complémentarité réduit le biais de lecture lié aux catégories
+                discrètes de taille.
+            </p>
+        </section>
     </div>
 </body>
 
