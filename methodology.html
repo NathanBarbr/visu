@@ -554,12 +554,11 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
             <p>
                 Après investigation, nous avons identifié la source du problème : nos scripts d'agrégation
                 (<code>generate_distribution_curves.py</code> et <code>generate_fragmentation_regional.py</code>)
-                extrayaient les deux premiers chiffres de l'identifiant de parcelle pour déterminer le code département
-                et donc la région d'appartenance. Or, lors de l'étape d'échantillonnage, les identifiants
-                originaux du RPG — qui suivent un format structuré commençant par le code postal — ont été
-                remplacés par des identifiants internes générés séquentiellement. Nous avons confondu ces
-                identifiants numériques avec le format d'origine, ce qui a conduit à une attribution
-                aléatoire des départements. Chaque « région » recevait donc un échantillon
+                extrayaient les deux premiers chiffres de l'identifiant de parcelle, persuadés qu'il s'agissait
+                d'un code postal — et donc que ces chiffres correspondaient au code département.
+                Or, lors de l'échantillonnage, les identifiants originaux du RPG ont été remplacés par des
+                identifiants internes numériques qui ne suivaient plus ce format.
+                Chaque « région » recevait donc un échantillon
                 aléatoire identique, ce qui expliquait l'uniformité des résultats.
             </p>
             <p>
