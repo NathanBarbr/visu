@@ -651,7 +651,7 @@
                         Heatmap
                     </div>
                     <label class="switch">
-                        <input type="checkbox" id="heatmap-toggle" onchange="toggleHeatmap()">
+                        <input type="checkbox" id="heatmap-toggle" checked onchange="toggleHeatmap()">
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -780,7 +780,7 @@
         let map;
         let geojsonLayer;
         let heatmapLayer = null;
-        let isHeatmapActive = false;
+        let isHeatmapActive = true;
         let allData = null;
         let regionsGeo = null;
         let allDataOriginalCount = 0;
