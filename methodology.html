@@ -419,16 +419,121 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
             <h2>Design et Visualisation</h2>
             <p>
                 L'interface entière repose sur une philosophie <em>Dark Mode</em> moderne et immersive, inspirée des
-                interfaces géospatiales de pointe. Les graphiques D3.js (Waffle, Bulles de collision, Bar charts
-                combinés) n'utilisent aucune librairie préfabriquée : chaque élément (DOM, Canvas, Scale, Simulation de
-                force) a été écrit manuellement pour correspondre parfaitement au cahier des charges et offrir de
-                micro-interactions fluides.
-            </p>
-            <p>
-                La carte s'appuie sur Leaflet. L'architecture a été conçue sans framework lourd (comme React ou Vue)
+                interfaces géospatiales de pointe. L'architecture a été conçue sans framework lourd (comme React ou Vue)
                 pour maximiser les performances d'exécution des composants de dataviz complexes, tout en centralisant
                 les styles dans un système global (variables CSS).
             </p>
+
+            <h3>Stack technique par visualisation</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Visualisation</th>
+                        <th>Page</th>
+                        <th>Technologie</th>
+                        <th>Détails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Carte choroplèthe</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Vue nationale interactive</span>
+                        </td>
+                        <td>National</td>
+                        <td><span class="badge badge-geo">D3.js v7</span></td>
+                        <td>Projection Mercator, GeoJSON des régions, colorimétrie par surface totale, interactivité au
+                            clic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Carte parcellaire + Heatmap</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Exploration des parcelles</span>
+                        </td>
+                        <td>Carte</td>
+                        <td><span class="badge badge-geo">Leaflet 1.9</span></td>
+                        <td>Tuiles OSM, plugin leaflet.heat, Turf.js pour le point-in-polygon côté client, filtres
+                            dynamiques</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cosmos des Bulles</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Simulation de force physique</span>
+                        </td>
+                        <td>Bulles</td>
+                        <td><span class="badge badge-geo">D3.js v7</span></td>
+                        <td>d3-force (collision, centrage), rayons proportionnels (√surface), Canvas pour performance
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Waffle Chart</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Ferme France — 100 parcelles</span>
+                        </td>
+                        <td>Tailles</td>
+                        <td><span class="badge badge-geo">SVG natif</span></td>
+                        <td>Grille 10×10, chaque carré = 1% des parcelles, tooltips interactifs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Barres de fragmentation</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Comparaison régionale</span>
+                        </td>
+                        <td>Tailles</td>
+                        <td><span class="badge badge-geo">HTML/CSS</span></td>
+                        <td>Barres empilées (flexbox), 5 catégories de taille, taille moyenne affichée</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Courbes de distribution</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Densité par région</span>
+                        </td>
+                        <td>Tailles</td>
+                        <td><span class="badge badge-geo">D3.js v7</span></td>
+                        <td>d3.line + d3.area, échelle logarithmique (d3.scaleLog), courbe cardinale lissée, toggle par
+                            région</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Classement des cultures</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Ranking interactif</span>
+                        </td>
+                        <td>National</td>
+                        <td><span class="badge badge-geo">D3.js v7</span></td>
+                        <td>Barres horizontales animées, dropdown culture, mise à jour dynamique</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Top 15 Cultures</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Bar chart horizontal</span>
+                        </td>
+                        <td>National</td>
+                        <td><span class="badge badge-geo">D3.js v7</span></td>
+                        <td>Axes automatiques, gradient de couleurs, tooltips avec surfaces détaillées</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Traitement des données</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Outil</th>
+                        <th>Rôle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Python 3</strong></td>
+                        <td>Scripts de génération des JSON (agrégation, échantillonnage, join spatial point-in-polygon)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shapely / PyProj</strong></td>
+                        <td>Parsing WKB du GeoPackage, reprojection Lambert-93 → WGS84, calcul des centroïdes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SQLite</strong></td>
+                        <td>Accès au GeoPackage RPG (requêtes SQL sur les parcelles)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Turf.js</strong></td>
+                        <td>Point-in-polygon côté client pour la carte Leaflet (assignation région en temps réel)</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
         <section>
