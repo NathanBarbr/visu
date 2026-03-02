@@ -445,15 +445,6 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                             clic</td>
                     </tr>
                     <tr>
-                        <td><strong>Carte parcellaire + Heatmap</strong><br>
-                            <span style="font-size: 12px; color: #86868b;">Exploration des parcelles</span>
-                        </td>
-                        <td>Carte</td>
-                        <td><span class="badge badge-geo">Leaflet 1.9</span></td>
-                        <td>Tuiles OSM, plugin leaflet.heat, Turf.js pour le point-in-polygon côté client, filtres
-                            dynamiques</td>
-                    </tr>
-                    <tr>
                         <td><strong>Cosmos des Bulles</strong><br>
                             <span style="font-size: 12px; color: #86868b;">Simulation de force physique</span>
                         </td>
@@ -461,22 +452,6 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                         <td><span class="badge badge-geo">D3.js v7</span></td>
                         <td>d3-force (collision, centrage), rayons proportionnels (√surface), Canvas pour performance
                         </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Waffle Chart</strong><br>
-                            <span style="font-size: 12px; color: #86868b;">Ferme France — 100 parcelles</span>
-                        </td>
-                        <td>Tailles</td>
-                        <td><span class="badge badge-geo">SVG natif</span></td>
-                        <td>Grille 10×10, chaque carré = 1% des parcelles, tooltips interactifs</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Barres de fragmentation</strong><br>
-                            <span style="font-size: 12px; color: #86868b;">Comparaison régionale</span>
-                        </td>
-                        <td>Tailles</td>
-                        <td><span class="badge badge-geo">HTML/CSS</span></td>
-                        <td>Barres empilées (flexbox), 5 catégories de taille, taille moyenne affichée</td>
                     </tr>
                     <tr>
                         <td><strong>Courbes de distribution</strong><br>
@@ -502,6 +477,31 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                         <td>National</td>
                         <td><span class="badge badge-geo">D3.js v7</span></td>
                         <td>Axes automatiques, gradient de couleurs, tooltips avec surfaces détaillées</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Carte parcellaire + Heatmap</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Exploration des parcelles</span>
+                        </td>
+                        <td>Carte</td>
+                        <td><span class="badge badge-geo">Leaflet 1.9</span></td>
+                        <td>Tuiles OSM, plugin leaflet.heat, Turf.js pour le point-in-polygon côté client, filtres
+                            dynamiques</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Waffle Chart</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Ferme France — 100 parcelles</span>
+                        </td>
+                        <td>Tailles</td>
+                        <td><span class="badge badge-geo">SVG natif</span></td>
+                        <td>Grille 10×10, chaque carré = 1% des parcelles, tooltips interactifs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Barres de fragmentation</strong><br>
+                            <span style="font-size: 12px; color: #86868b;">Comparaison régionale</span>
+                        </td>
+                        <td>Tailles</td>
+                        <td><span class="badge badge-geo">HTML/CSS</span></td>
+                        <td>Barres empilées (flexbox), 5 catégories de taille, taille moyenne affichée</td>
                     </tr>
                 </tbody>
             </table>
@@ -555,9 +555,11 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                 Après investigation, nous avons identifié la source du problème : nos scripts d'agrégation
                 (<code>generate_distribution_curves.py</code> et <code>generate_fragmentation_regional.py</code>)
                 extrayaient les deux premiers chiffres de l'identifiant de parcelle pour déterminer le code département
-                et donc la région d'appartenance. Or, dans notre fichier d'échantillonnage
-                (<code>parcels_sample_france.geojson</code>), les identifiants étaient des numéros aléatoires — et non
-                les identifiants structurés du RPG d'origine. Chaque « région » recevait donc un échantillon
+                et donc la région d'appartenance. Or, lors de l'étape d'échantillonnage, les identifiants
+                originaux du RPG — qui suivent un format structuré commençant par le code postal — ont été
+                remplacés par des identifiants internes générés séquentiellement. Nous avons confondu ces
+                identifiants numériques avec le format d'origine, ce qui a conduit à une attribution
+                aléatoire des départements. Chaque « région » recevait donc un échantillon
                 aléatoire identique, ce qui expliquait l'uniformité des résultats.
             </p>
             <p>
