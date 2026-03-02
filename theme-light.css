@@ -1,0 +1,386 @@
+/* =============================================
+   LIGHT MODE OVERRIDES
+   Applied when body has class "light-mode"
+   ============================================= */
+
+body.light-mode {
+    background-color: #f2f2f7 !important;
+    color: #1c1c1e !important;
+}
+
+/* CSS Variable overrides */
+body.light-mode {
+    --bg-dark: #f2f2f7;
+    --card-bg: #ffffff;
+    --card-bg-hover: #f0f0f2;
+    --text-primary: #1c1c1e;
+    --text-secondary: #636366;
+    --text-muted: #8e8e93;
+    --border: #d1d1d6;
+    --accent: #007aff;
+    --accent-hover: #0056b3;
+    --success: #28a745;
+    --warning: #ff9500;
+    --danger: #ff3b30;
+}
+
+/* Nav bar */
+body.light-mode .top-nav {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.light-mode .nav-item {
+    color: #636366 !important;
+}
+
+body.light-mode .nav-item:hover {
+    color: #1c1c1e !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-mode .nav-item.active {
+    color: #007aff !important;
+    background: rgba(0, 122, 255, 0.1) !important;
+    border-color: rgba(0, 122, 255, 0.2) !important;
+}
+
+/* Cards */
+body.light-mode .card,
+body.light-mode .chart-wrapper,
+body.light-mode .curves-wrapper,
+body.light-mode .atlas-wrapper,
+body.light-mode .stats-panel,
+body.light-mode .legend {
+    background: #ffffff !important;
+    border-color: #e5e5ea !important;
+}
+
+body.light-mode .card:hover {
+    background: #f8f8fa !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.light-mode .card-hero {
+    background: linear-gradient(145deg, #ffffff 0%, #f2f2f7 100%) !important;
+    border-color: #d1d1d6 !important;
+}
+
+body.light-mode .card-hero:hover {
+    background: linear-gradient(145deg, #f8f8fa 0%, #ffffff 100%) !important;
+}
+
+/* Text colors */
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode .card h2,
+body.light-mode .sidebar-title,
+body.light-mode .section-title {
+    color: #1c1c1e !important;
+}
+
+body.light-mode p,
+body.light-mode .card p,
+body.light-mode .subtitle,
+body.light-mode .sidebar-subtitle {
+    color: #636366 !important;
+}
+
+body.light-mode .section-label,
+body.light-mode .card-number,
+body.light-mode .control-label {
+    color: #8e8e93 !important;
+}
+
+/* Dividers */
+body.light-mode .divider {
+    background: #d1d1d6 !important;
+}
+
+/* Tables (methodology) */
+body.light-mode table {
+    background: #ffffff !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+body.light-mode thead {
+    background-color: #f2f2f7 !important;
+}
+
+body.light-mode th {
+    color: #1c1c1e !important;
+    border-bottom-color: #d1d1d6 !important;
+}
+
+body.light-mode td {
+    color: #3a3a3c !important;
+    border-bottom-color: #e5e5ea !important;
+}
+
+body.light-mode tr:hover td {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Code blocks */
+body.light-mode details {
+    background: #ffffff !important;
+    border-color: #d1d1d6 !important;
+}
+
+body.light-mode summary {
+    background-color: #f2f2f7 !important;
+    color: #1c1c1e !important;
+}
+
+body.light-mode summary:hover {
+    background-color: #e5e5ea !important;
+}
+
+body.light-mode pre {
+    background-color: #f8f8fa !important;
+    border-top-color: #e5e5ea !important;
+}
+
+body.light-mode code {
+    color: #1c1c1e !important;
+}
+
+/* Badges */
+body.light-mode .badge-geo {
+    background: rgba(0, 122, 255, 0.1) !important;
+    color: #007aff !important;
+    border-color: rgba(0, 122, 255, 0.2) !important;
+}
+
+body.light-mode .badge-agri {
+    background: rgba(40, 167, 69, 0.1) !important;
+    color: #28a745 !important;
+    border-color: rgba(40, 167, 69, 0.2) !important;
+}
+
+body.light-mode .badge-stats {
+    background: rgba(255, 149, 0, 0.1) !important;
+    color: #ff9500 !important;
+    border-color: rgba(255, 149, 0, 0.2) !important;
+}
+
+/* Region bars / chart elements */
+body.light-mode .region-name {
+    color: #1c1c1e !important;
+}
+
+body.light-mode .avg-size {
+    color: #8e8e93 !important;
+}
+
+body.light-mode .avg-size strong {
+    color: #1c1c1e !important;
+}
+
+body.light-mode .bar-container {
+    background: #e5e5ea !important;
+}
+
+/* Curve buttons */
+body.light-mode .curve-btn {
+    border-color: #d1d1d6 !important;
+    color: #636366 !important;
+}
+
+body.light-mode .curve-btn.active {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border-color: #8e8e93 !important;
+    color: #1c1c1e !important;
+}
+
+body.light-mode .action-btn {
+    border-color: #d1d1d6 !important;
+    color: #636366 !important;
+}
+
+body.light-mode .action-btn:hover {
+    color: #1c1c1e !important;
+    border-color: #8e8e93 !important;
+}
+
+/* D3 axes */
+body.light-mode .curve-axis text {
+    fill: #636366 !important;
+}
+
+body.light-mode .curve-axis line,
+body.light-mode .curve-axis path {
+    stroke: #d1d1d6 !important;
+}
+
+body.light-mode .curve-grid line {
+    stroke: #e5e5ea !important;
+    stroke-opacity: 0.6 !important;
+}
+
+/* Tooltip */
+body.light-mode #tooltip {
+    background: #ffffff !important;
+    border-color: #d1d1d6 !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+}
+
+body.light-mode .tooltip-title {
+    color: #1c1c1e !important;
+}
+
+body.light-mode .tooltip-label {
+    color: #8e8e93 !important;
+}
+
+body.light-mode .tooltip-value {
+    color: #1c1c1e !important;
+}
+
+/* Waffle units */
+body.light-mode .unit {
+    stroke: #f2f2f7 !important;
+}
+
+/* Legend items */
+body.light-mode .waffle-legend-item {
+    background: #f2f2f7 !important;
+}
+
+body.light-mode .waffle-legend-label,
+body.light-mode .waffle-legend-pct {
+    color: #1c1c1e !important;
+}
+
+body.light-mode .legend-label {
+    color: #1c1c1e !important;
+}
+
+body.light-mode .legend-title {
+    color: #636366 !important;
+}
+
+/* KPI cards (overview) */
+body.light-mode .kpi-card {
+    background: #ffffff !important;
+    border-color: #e5e5ea !important;
+}
+
+body.light-mode .kpi-value {
+    color: #1c1c1e !important;
+}
+
+body.light-mode .kpi-label {
+    color: #8e8e93 !important;
+}
+
+/* Map sidebar */
+body.light-mode #sidebar {
+    background: #ffffff !important;
+    border-right-color: #d1d1d6 !important;
+}
+
+body.light-mode .sidebar-header {
+    background: linear-gradient(180deg, #ffffff 0%, transparent 100%) !important;
+    border-bottom-color: #e5e5ea !important;
+}
+
+body.light-mode .search-input {
+    background: #f2f2f7 !important;
+    border-color: #d1d1d6 !important;
+    color: #1c1c1e !important;
+}
+
+body.light-mode .chip {
+    background: #f2f2f7 !important;
+    color: #636366 !important;
+    border-color: #d1d1d6 !important;
+}
+
+body.light-mode .region-list {
+    background: #f2f2f7 !important;
+    border-color: #d1d1d6 !important;
+}
+
+body.light-mode .region-item:hover {
+    background: #e5e5ea !important;
+}
+
+body.light-mode .region-item label {
+    color: #1c1c1e !important;
+}
+
+body.light-mode .stat-row {
+    border-bottom-color: #e5e5ea !important;
+}
+
+body.light-mode .stat-label {
+    color: #636366 !important;
+}
+
+body.light-mode .toggle-container {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border-color: #d1d1d6 !important;
+}
+
+body.light-mode .toggle-label {
+    color: #1c1c1e !important;
+}
+
+body.light-mode .region-action-btn {
+    border-color: #d1d1d6 !important;
+    color: #636366 !important;
+}
+
+/* Heatmap legend */
+body.light-mode #heatmap-legend {
+    background: #ffffff !important;
+    border-color: #d1d1d6 !important;
+}
+
+/* Leaflet overrides */
+body.light-mode .leaflet-control-zoom a {
+    background: #ffffff !important;
+    color: #1c1c1e !important;
+    border-color: #d1d1d6 !important;
+}
+
+body.light-mode .leaflet-popup-content-wrapper {
+    background: #ffffff !important;
+    color: #1c1c1e !important;
+    border-color: #d1d1d6 !important;
+}
+
+body.light-mode .leaflet-popup-tip {
+    background: #ffffff !important;
+}
+
+/* Portrait panel (overview) */
+body.light-mode .portrait-panel,
+body.light-mode .ranking-card,
+body.light-mode .map-card {
+    background: #ffffff !important;
+    border-color: #e5e5ea !important;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    padding: 6px 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.light-mode .theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
