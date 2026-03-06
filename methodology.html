@@ -119,11 +119,21 @@
             margin-bottom: 16px;
         }
 
-        p {
+        p,
+        li {
             color: #a1a1a6;
             font-size: 1rem;
             line-height: 1.7;
             margin-bottom: 20px;
+        }
+
+        ul {
+            padding-left: 24px;
+            margin-bottom: 24px;
+        }
+
+        li {
+            margin-bottom: 12px;
         }
 
         /* Table Styles */
@@ -600,6 +610,19 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                 comme l'Île-de-France. Cette complémentarité réduit le biais de lecture lié aux catégories
                 discrètes de taille.
             </p>
+            <h3>4. Améliorations ergonomiques et clarifications visuelles</h3>
+            <ul>
+                <li><strong>Unités systématiques :</strong> Ajout systématique des unités de mesure (hectares, nombre de
+                    parcelles, etc.) dans toutes les légendes, info-bulles et axes pour éviter toute ambiguïté de
+                    lecture lors de l'exploration des données.</li>
+                <li><strong>Clarification des catégories de taille :</strong> Pour répondre aux interrogations sur les
+                    dénominations arbitraires (comme "Micro"), les seuils exacts en hectares sont désormais
+                    explicitement affichés dans les légendes (ex: <em>Très petite &lt; 1 ha</em>). L'ajout des courbes
+                    de distribution en continu permet de s'affranchir des limites de ces classes discrètes.</li>
+                <li><strong>Lisibilité de la Heatmap :</strong> La carte de chaleur a été retravaillée au niveau de son
+                    opacité pour ressortir plus nettement sur le fond de carte. Une légende a été ajoutée pour préciser
+                    la nature <em>relative</em> de cette échelle de densité.</li>
+            </ul>
         </section>
     </div>
 </body>
