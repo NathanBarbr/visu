@@ -315,8 +315,6 @@
                 déclarations de cultures de plusieurs millions de parcelles sur le territoire.
             </p>
             <p>
-                En cartographiant et en agrégeant ces données massives (plus de plusieurs gigaoctets à l'état brut),
-                nous pouvons obtenir un aperçu inédit de l'utilisation des sols, calculer le niveau de morcellement par
                 région, et visualiser la diversité des cultures qui composent le modèle agricole français ("La Ferme
                 France").
             </p>
@@ -610,15 +608,18 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                 comme l'Île-de-France. Cette complémentarité réduit le biais de lecture lié aux catégories
                 discrètes de taille.
             </p>
-            <h3>4. Améliorations ergonomiques et clarifications visuelles</h3>
+            <h3>4. Améliorations ergonomiques et expertises métier</h3>
             <ul>
                 <li><strong>Unités systématiques :</strong> Ajout systématique des unités de mesure (hectares, nombre de
                     parcelles, etc.) dans toutes les légendes, info-bulles et axes pour éviter toute ambiguïté de
                     lecture lors de l'exploration des données.</li>
-                <li><strong>Clarification des catégories de taille :</strong> Pour répondre aux interrogations sur les
-                    dénominations arbitraires (comme "Micro"), les seuils exacts en hectares sont désormais
-                    explicitement affichés dans les légendes (ex: <em>Très petite &lt; 1 ha</em>). L'ajout des courbes
-                    de distribution en continu permet de s'affranchir des limites de ces classes discrètes.</li>
+                <li><strong>Affinage des seuils avec un exploitant agricole :</strong> Pour répondre aux interrogations
+                    sur les dénominations de taille initiales (comme "Micro" ou "Très grande"), les catégories ont été
+                    redéfinies <em>après notre oral</em> suite à l'intervention de <strong>M. Valéry Foliard</strong>,
+                    exploitant agricole en Mayenne. Son expertise terrain a permis d'aligner nos seuils analytiques sur
+                    des réalités d'exploitation concrètes. Les seuils exacts en hectares sont désormais explicitement
+                    affichés dans les légendes (ex: <em>Très petite &lt; 1 ha</em>), et l'ajout des courbes de
+                    distribution en continu permet de s'affranchir des limites de ces classes discrètes.</li>
                 <li><strong>Lisibilité de la Heatmap :</strong> La carte de chaleur a été retravaillée au niveau de son
                     opacité pour ressortir plus nettement sur le fond de carte. Une légende a été ajoutée pour préciser
                     la nature <em>relative</em> de cette échelle de densité.</li>
