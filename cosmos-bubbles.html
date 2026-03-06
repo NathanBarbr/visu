@@ -812,7 +812,7 @@
                 .attr("cy", d => y(d.surface))
                 .attr("r", d => z(d.count))
                 .style("fill", d => groupColorScale(d.groupCode))
-                .style("opacity", 0.7)
+                .style("opacity", 0.8)
                 .attr("data-code", d => d.code)
                 .attr("data-group", d => d.groupCode)
                 .on("mouseover", function (event, d) {
@@ -836,10 +836,10 @@
                     tooltip.style("opacity", 0);
                 });
 
-            // Labels for big bubbles
+            // Labels for big bubbles only (reduce text overplotting)
             svg.append("g")
                 .selectAll("text")
-                .data(dataset.filter(d => d.count > 100000 || d.surface > 500000))
+                .data(dataset.filter(d => d.count > 250000 || d.surface > 1000000))
                 .join("text")
                 .attr("class", "bubble-label")
                 .attr("x", d => x(d.avgSize))
