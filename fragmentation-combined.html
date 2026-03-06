@@ -303,268 +303,265 @@
 
         /* Divider */
         .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 50px 0;
+        }
 
-            /* Divider */
-            .divider {
-                height: 1px;
-                background: var(--border);
-                margin: 50px 0;
+        /* Distribution Curves */
+        .curves-wrapper {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .curves-axes-legend {
+            position: absolute;
+            top: 75px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .curves-axes-legend h4 {
+            margin: 0 0 8px 0;
+            color: var(--text-primary);
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .curves-axes-legend div {
+            margin-bottom: 4px;
+        }
+
+        .curves-axes-legend div:last-child {
+            margin-bottom: 0;
+        }
+
+        .curves-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .curves-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: flex-start;
+            margin-top: 12px;
+            max-height: 128px;
+            overflow: auto;
+            padding-right: 4px;
+        }
+
+        .curve-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .curve-btn:hover {
+            border-color: var(--text-secondary);
+        }
+
+        .curve-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .curve-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .select-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--text-secondary);
+        }
+
+        .region-line {
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: opacity 0.3s, stroke-width 0.2s;
+        }
+
+        .region-area {
+            transition: opacity 0.3s;
+        }
+
+        .curve-axis text {
+            fill: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .curve-axis line,
+        .curve-axis path {
+            stroke: var(--border);
+        }
+
+        .curve-grid line {
+            stroke: var(--border);
+            stroke-opacity: 0.3;
+        }
+
+        /* Tooltip */
+        #tooltip {
+            position: fixed;
+            pointer-events: none;
+            background: var(--card-bg);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 4px;
+        }
+
+        .tooltip-label {
+            color: var(--text-muted);
+        }
+
+        .tooltip-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
             }
 
-            /* Distribution Curves */
-            .curves-wrapper {
-                background: var(--card-bg);
-                border-radius: 16px;
-                padding: 20px;
-                position: relative;
-            }
-
-            .curves-axes-legend {
-                position: absolute;
-                top: 75px;
-                right: 30px;
-                background: rgba(0, 0, 0, 0.5);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-                padding: 12px 16px;
-                border-radius: 10px;
-                border: 1px solid var(--border);
+            .region-name {
+                width: 92px;
                 font-size: 0.75rem;
-                color: var(--text-secondary);
-                z-index: 10;
-                pointer-events: none;
             }
 
-            .curves-axes-legend h4 {
-                margin: 0 0 8px 0;
-                color: var(--text-primary);
-                font-family: 'Playfair Display', serif;
-                font-weight: 500;
-                font-size: 0.9rem;
-            }
-
-            .curves-axes-legend div {
-                margin-bottom: 4px;
-            }
-
-            .curves-axes-legend div:last-child {
-                margin-bottom: 0;
-            }
-
-            .curves-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 16px;
-                flex-wrap: wrap;
+            .legend {
                 gap: 12px;
             }
 
-            .curves-legend {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 6px;
-                justify-content: flex-start;
-                margin-top: 12px;
-                max-height: 128px;
-                overflow: auto;
-                padding-right: 4px;
-            }
-
-            .curve-btn {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                padding: 5px 12px;
-                border-radius: 16px;
-                border: 1px solid var(--border);
-                background: transparent;
-                color: var(--text-muted);
+            .legend-item {
                 font-size: 0.75rem;
-                cursor: pointer;
-                transition: all 0.25s ease;
-                font-family: 'Inter', sans-serif;
             }
 
-            .curve-btn:hover {
-                border-color: var(--text-secondary);
+            .waffle-legend {
+                justify-content: flex-start;
             }
+        }
 
-            .curve-btn.active {
-                background: rgba(255, 255, 255, 0.08);
-                border-color: rgba(255, 255, 255, 0.2);
-                color: var(--text-primary);
-            }
+        /* Top Navigation Bar */
+        .top-nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 44, 46, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            display: flex;
+            padding: 6px;
+            gap: 8px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
 
-            .curve-dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                flex-shrink: 0;
-            }
+        .nav-item {
+            padding: 8px 16px;
+            color: var(--text-secondary, #a1a1a6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-            .select-actions {
-                display: flex;
-                gap: 6px;
-            }
+        .nav-item:hover {
+            color: var(--text-primary, #f5f5f7);
+            background: rgba(255, 255, 255, 0.1);
+        }
 
-            .action-btn {
-                padding: 4px 10px;
-                border-radius: 6px;
-                border: 1px solid var(--border);
-                background: transparent;
-                color: var(--text-muted);
-                font-size: 0.65rem;
-                cursor: pointer;
-                transition: all 0.2s;
-                font-family: 'Inter', sans-serif;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
+        .nav-item.active {
+            color: white;
+            background: rgba(10, 132, 255, 0.2);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+        }
 
-            .action-btn:hover {
-                color: var(--text-primary);
-                border-color: var(--text-secondary);
-            }
-
-            .region-line {
-                fill: none;
-                stroke-width: 2.5;
-                stroke-linecap: round;
-                stroke-linejoin: round;
-                transition: opacity 0.3s, stroke-width 0.2s;
-            }
-
-            .region-area {
-                transition: opacity 0.3s;
-            }
-
-            .curve-axis text {
-                fill: var(--text-muted);
-                font-size: 11px;
-            }
-
-            .curve-axis line,
-            .curve-axis path {
-                stroke: var(--border);
-            }
-
-            .curve-grid line {
-                stroke: var(--border);
-                stroke-opacity: 0.3;
-            }
-
-            /* Tooltip */
-            #tooltip {
-                position: fixed;
-                pointer-events: none;
-                background: var(--card-bg);
-                padding: 12px 16px;
-                border-radius: 8px;
-                border: 1px solid var(--border);
-                font-size: 0.85rem;
-                opacity: 0;
-                transition: opacity 0.15s;
-                z-index: 1000;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            }
-
-            .tooltip-title {
-                font-weight: 600;
-                margin-bottom: 8px;
-                color: var(--text-primary);
-            }
-
-            .tooltip-row {
-                display: flex;
-                justify-content: space-between;
-                gap: 16px;
-                margin-bottom: 4px;
-            }
-
-            .tooltip-label {
-                color: var(--text-muted);
-            }
-
-            .tooltip-value {
-                color: var(--text-primary);
-                font-weight: 500;
-            }
-
-            @media (max-width: 768px) {
-                h1 {
-                    font-size: 2rem;
-                }
-
-                .region-name {
-                    width: 92px;
-                    font-size: 0.75rem;
-                }
-
-                .legend {
-                    gap: 12px;
-                }
-
-                .legend-item {
-                    font-size: 0.75rem;
-                }
-
-                .waffle-legend {
-                    justify-content: flex-start;
-                }
-            }
-
-            /* Top Navigation Bar */
+        @media (max-width: 700px) {
             .top-nav {
-                position: fixed;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(44, 44, 46, 0.75);
-                backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(16px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 30px;
-                display: flex;
-                padding: 6px;
-                gap: 8px;
-                z-index: 9999;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+                top: auto;
+                bottom: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 90%;
             }
-
-            .nav-item {
-                padding: 8px 16px;
-                color: var(--text-secondary, #a1a1a6);
-                text-decoration: none;
-                font-size: 0.9rem;
-                font-weight: 500;
-                border-radius: 20px;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .nav-item:hover {
-                color: var(--text-primary, #f5f5f7);
-                background: rgba(255, 255, 255, 0.1);
-            }
-
-            .nav-item.active {
-                color: white;
-                background: rgba(10, 132, 255, 0.2);
-                border: 1px solid rgba(10, 132, 255, 0.3);
-            }
-
-            @media (max-width: 700px) {
-                .top-nav {
-                    top: auto;
-                    bottom: 20px;
-                    flex-wrap: wrap;
-                    justify-content: center;
-                    width: 90%;
-                }
-            }
+        }
     </style>
     <link rel="stylesheet" href="theme-light.css">
     <script src="theme.js"></script>
@@ -649,140 +646,163 @@
                     <div id="regional-chart"></div>
                 </div>
             </div>
+
+            <!-- Right: Distribution Curves -->
+            <div class="section">
+                <div class="section-title">Profils Régionaux — Courbes de Distribution</div>
+                <div class="curves-wrapper">
+                    <div class="curves-header">
+                        <div style="font-size:0.85rem; color:var(--text-muted)">Superposition des distributions par
+                            taille de parcelle</div>
+                        <div class="select-actions">
+                            <button class="action-btn" id="btn-select-all">Tout afficher</button>
+                            <button class="action-btn" id="btn-deselect-all">Tout masquer</button>
+                        </div>
+                    </div>
+                    <div class="curves-axes-legend">
+                        <h4>Guide de lecture</h4>
+                        <div><strong>Axe X :</strong> Surface de la parcelle (ha)</div>
+                        <div><strong>Axe Y :</strong> Proportion des parcelles (%)</div>
+                    </div>
+                    <svg id="curves-svg"></svg>
+                    <div class="curves-legend" id="curves-legend"></div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div id="tooltip"></div>
+    <div id="tooltip" class="tooltip"></div>
 
-        <script>
-            const CATEGORY_COLORS = {
-                "micro": "#ff453a",
-                "petite": "#ff9f0a",
-                "moyenne": "#ffd60a",
-                "grande": "#30d158",
-                "tres_grande": "#0a84ff"
-            };
+    <script>
+        const CATEGORY_COLORS = {
+            "micro": "#ff453a",
+            "petite": "#ff9f0a",
+            "moyenne": "#ffd60a",
+            "grande": "#30d158",
+            "tres_grande": "#0a84ff"
+        };
 
-            const CATEGORY_LABELS = {
-                "micro": "Micro (<0.5 ha)",
-                "petite": "Petite (0.5-3 ha)",
-                "moyenne": "Moyenne (3-10 ha)",
-                "grande": "Grande (10-50 ha)",
-                "tres_grande": "Très grande (>50 ha)"
-            };
+        const CATEGORY_LABELS = {
+            "micro": "Micro (<0.5 ha)",
+            "petite": "Petite (0.5-3 ha)",
+            "moyenne": "Moyenne (3-10 ha)",
+            "grande": "Grande (10-50 ha)",
+            "tres_grande": "Très grande (>50 ha)"
+        };
 
-            const CATEGORY_ORDER = ["micro", "petite", "moyenne", "grande", "tres_grande"];
+        const CATEGORY_ORDER = ["micro", "petite", "moyenne", "grande", "tres_grande"];
 
-            // Distribution curves state
-            const CURVE_COLORS = [
-                "#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff",
-                "#5f27cd", "#01a3a4", "#f368e0", "#ff9f43", "#10ac84",
-                "#ee5253", "#0abde3"
-            ];
-            let curvesData = null;
-            let activeRegionsCurves = new Set();
-            let curvesSvg, cx, cy, cWidth, cHeight, cMargin;
+        // Distribution curves state
+        const CURVE_COLORS = [
+            "#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff",
+            "#5f27cd", "#01a3a4", "#f368e0", "#ff9f43", "#10ac84",
+            "#ee5253", "#0abde3"
+        ];
+        let curvesData = null;
+        let activeRegionsCurves = new Set();
+        let curvesSvg, cx, cy, cWidth, cHeight, cMargin;
 
-            async function init() {
-                try {
-                    const response = await fetch('data_fragmentation_regional.json?v=' + Date.now());
-                    const data = await response.json();
+        async function init() {
+            try {
+                const response = await fetch('data_fragmentation_regional.json?v=' + Date.now());
+                const data = await response.json();
 
-                    // Calculate national aggregates for waffle
-                    const national = calculateNational(data);
-                    renderWaffle(national);
+                // Calculate national aggregates for waffle
+                const national = calculateNational(data);
+                renderWaffle(national);
 
-                    // Render regional chart
-                    renderRegionalChart(data);
+                // Render regional chart
+                renderRegionalChart(data);
 
-                    // Load and render distribution curves
-                    const curvesRes = await fetch('data_distribution_curves.json?v=' + Date.now());
-                    curvesData = await curvesRes.json();
-                    setupCurves();
-                    buildCurvesLegend();
-                    updateCurves();
-                } catch (e) {
-                    console.error("Error loading data:", e);
-                }
+                // Load and render distribution curves
+                const curvesRes = await fetch('data_distribution_curves.json?v=' + Date.now());
+                curvesData = await curvesRes.json();
+                setupCurves();
+                buildCurvesLegend();
+                updateCurves();
+            } catch (e) {
+                console.error("Error loading data:", e);
+            }
+        }
+
+        function calculateNational(data) {
+            const totals = {};
+            CATEGORY_ORDER.forEach(cat => totals[cat] = { count: 0, surface: 0 });
+
+            Object.values(data).forEach(region => {
+                if (!region.categories) return;
+                CATEGORY_ORDER.forEach(cat => {
+                    if (region.categories[cat]) {
+                        totals[cat].count += region.categories[cat].count;
+                        totals[cat].surface += region.categories[cat].surface;
+                    }
+                });
+            });
+
+            const totalCount = Object.values(totals).reduce((sum, t) => sum + t.count, 0);
+            const totalSurface = Object.values(totals).reduce((sum, t) => sum + t.surface, 0);
+
+            return { totals, totalCount, totalSurface };
+        }
+
+        function renderWaffle(national) {
+            const container = document.getElementById('waffle');
+            const legendContainer = document.getElementById('waffle-legend');
+
+            const rows = 10, cols = 10;
+            const unitSize = 28;
+            const gap = 4;
+
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", cols * (unitSize + gap));
+            svg.setAttribute("height", rows * (unitSize + gap));
+
+            // Build units array
+            let units = [];
+            CATEGORY_ORDER.forEach(cat => {
+                const pct = national.totals[cat].count / national.totalCount;
+                const count = Math.round(pct * 100);
+                for (let i = 0; i < count; i++) units.push(cat);
+            });
+
+            // Fill to exactly 100
+            while (units.length < 100) units.push("moyenne");
+            units = units.slice(0, 100);
+
+            // Render units
+            for (let i = 0; i < 100; i++) {
+                const cat = units[i];
+                const color = CATEGORY_COLORS[cat];
+                const row = Math.floor(i / cols);
+                const col = i % cols;
+
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", col * (unitSize + gap));
+                rect.setAttribute("y", row * (unitSize + gap));
+                rect.setAttribute("width", unitSize);
+                rect.setAttribute("height", unitSize);
+                rect.setAttribute("rx", 5);
+                rect.setAttribute("fill", color);
+                rect.setAttribute("class", "unit");
+                rect.setAttribute("data-cat", cat);
+
+                rect.addEventListener('mouseover', (e) => showTooltipWaffle(e, cat, national));
+                rect.addEventListener('mousemove', moveTooltip);
+                rect.addEventListener('mouseout', hideTooltip);
+
+                svg.appendChild(rect);
             }
 
-            function calculateNational(data) {
-                const totals = {};
-                CATEGORY_ORDER.forEach(cat => totals[cat] = { count: 0, surface: 0 });
+            container.appendChild(svg);
 
-                Object.values(data).forEach(region => {
-                    if (!region.categories) return;
-                    CATEGORY_ORDER.forEach(cat => {
-                        if (region.categories[cat]) {
-                            totals[cat].count += region.categories[cat].count;
-                            totals[cat].surface += region.categories[cat].surface;
-                        }
-                    });
-                });
+            // Render legend
+            CATEGORY_ORDER.forEach(cat => {
+                const count = national.totals[cat].count;
+                const pct = (count / national.totalCount * 100).toFixed(1);
 
-                const totalCount = Object.values(totals).reduce((sum, t) => sum + t.count, 0);
-                const totalSurface = Object.values(totals).reduce((sum, t) => sum + t.surface, 0);
-
-                return { totals, totalCount, totalSurface };
-            }
-
-            function renderWaffle(national) {
-                const container = document.getElementById('waffle');
-                const legendContainer = document.getElementById('waffle-legend');
-
-                const rows = 10, cols = 10;
-                const unitSize = 28;
-                const gap = 4;
-
-                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute("width", cols * (unitSize + gap));
-                svg.setAttribute("height", rows * (unitSize + gap));
-
-                // Build units array
-                let units = [];
-                CATEGORY_ORDER.forEach(cat => {
-                    const pct = national.totals[cat].count / national.totalCount;
-                    const count = Math.round(pct * 100);
-                    for (let i = 0; i < count; i++) units.push(cat);
-                });
-
-                // Fill to exactly 100
-                while (units.length < 100) units.push("moyenne");
-                units = units.slice(0, 100);
-
-                // Render units
-                for (let i = 0; i < 100; i++) {
-                    const cat = units[i];
-                    const color = CATEGORY_COLORS[cat];
-                    const row = Math.floor(i / cols);
-                    const col = i % cols;
-
-                    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                    rect.setAttribute("x", col * (unitSize + gap));
-                    rect.setAttribute("y", row * (unitSize + gap));
-                    rect.setAttribute("width", unitSize);
-                    rect.setAttribute("height", unitSize);
-                    rect.setAttribute("rx", 5);
-                    rect.setAttribute("fill", color);
-                    rect.setAttribute("class", "unit");
-                    rect.setAttribute("data-cat", cat);
-
-                    rect.addEventListener('mouseover', (e) => showTooltipWaffle(e, cat, national));
-                    rect.addEventListener('mousemove', moveTooltip);
-                    rect.addEventListener('mouseout', hideTooltip);
-
-                    svg.appendChild(rect);
-                }
-
-                container.appendChild(svg);
-
-                // Render legend
-                CATEGORY_ORDER.forEach(cat => {
-                    const count = national.totals[cat].count;
-                    const pct = (count / national.totalCount * 100).toFixed(1);
-
-                    const item = document.createElement('div');
-                    item.className = 'waffle-legend-item';
-                    item.innerHTML = `
+                const item = document.createElement('div');
+                item.className = 'waffle-legend-item';
+                item.innerHTML = `
                     <div class="waffle-legend-color" style="background: ${CATEGORY_COLORS[cat]}"></div>
                     <div class="waffle-legend-text">
                         <div class="waffle-legend-label">${CATEGORY_LABELS[cat]}</div>
@@ -790,72 +810,72 @@
                     </div>
                 `;
 
-                    item.addEventListener('mouseover', () => {
-                        document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '0.6');
-                    });
-                    item.addEventListener('mouseout', () => {
-                        document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '1');
-                    });
-
-                    legendContainer.appendChild(item);
+                item.addEventListener('mouseover', () => {
+                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '0.6');
                 });
-            }
-
-            function renderRegionalChart(data) {
-                const container = document.getElementById('regional-chart');
-
-                const regions = Object.entries(data)
-                    .filter(([name]) => name !== "Autre")
-                    .sort((a, b) => b[1].avg_size - a[1].avg_size);
-
-                regions.forEach(([regionName, regionData]) => {
-                    const row = document.createElement('div');
-                    row.className = 'region-row';
-
-                    const nameDiv = document.createElement('div');
-                    nameDiv.className = 'region-name';
-                    nameDiv.textContent = regionName;
-                    row.appendChild(nameDiv);
-
-                    const barContainer = document.createElement('div');
-                    barContainer.className = 'bar-container';
-
-                    CATEGORY_ORDER.forEach(cat => {
-                        const catData = regionData.categories[cat];
-                        if (!catData || catData.pct_count === 0) return;
-
-                        const segment = document.createElement('div');
-                        segment.className = 'bar-segment';
-                        segment.style.width = catData.pct_count + '%';
-                        segment.style.background = CATEGORY_COLORS[cat];
-
-                        segment.addEventListener('mouseover', (e) => showTooltipRegion(e, regionName, cat, catData));
-                        segment.addEventListener('mousemove', moveTooltip);
-                        segment.addEventListener('mouseout', hideTooltip);
-
-                        barContainer.appendChild(segment);
-                    });
-
-                    row.appendChild(barContainer);
-
-                    const avgDiv = document.createElement('div');
-                    avgDiv.className = 'avg-size';
-                    avgDiv.title = 'Surface moyenne par parcelle';
-                    avgDiv.innerHTML = `<strong>${regionData.avg_size.toFixed(1)}</strong> ha`;
-                    row.appendChild(avgDiv);
-
-                    container.appendChild(row);
+                item.addEventListener('mouseout', () => {
+                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '1');
                 });
-            }
 
-            const tooltip = document.getElementById('tooltip');
+                legendContainer.appendChild(item);
+            });
+        }
 
-            function showTooltipWaffle(e, cat, national) {
-                const data = national.totals[cat];
-                const pctCount = (data.count / national.totalCount * 100).toFixed(1);
-                const pctSurface = (data.surface / national.totalSurface * 100).toFixed(1);
+        function renderRegionalChart(data) {
+            const container = document.getElementById('regional-chart');
 
-                tooltip.innerHTML = `
+            const regions = Object.entries(data)
+                .filter(([name]) => name !== "Autre")
+                .sort((a, b) => b[1].avg_size - a[1].avg_size);
+
+            regions.forEach(([regionName, regionData]) => {
+                const row = document.createElement('div');
+                row.className = 'region-row';
+
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'region-name';
+                nameDiv.textContent = regionName;
+                row.appendChild(nameDiv);
+
+                const barContainer = document.createElement('div');
+                barContainer.className = 'bar-container';
+
+                CATEGORY_ORDER.forEach(cat => {
+                    const catData = regionData.categories[cat];
+                    if (!catData || catData.pct_count === 0) return;
+
+                    const segment = document.createElement('div');
+                    segment.className = 'bar-segment';
+                    segment.style.width = catData.pct_count + '%';
+                    segment.style.background = CATEGORY_COLORS[cat];
+
+                    segment.addEventListener('mouseover', (e) => showTooltipRegion(e, regionName, cat, catData));
+                    segment.addEventListener('mousemove', moveTooltip);
+                    segment.addEventListener('mouseout', hideTooltip);
+
+                    barContainer.appendChild(segment);
+                });
+
+                row.appendChild(barContainer);
+
+                const avgDiv = document.createElement('div');
+                avgDiv.className = 'avg-size';
+                avgDiv.title = 'Surface moyenne par parcelle';
+                avgDiv.innerHTML = `<strong>${regionData.avg_size.toFixed(1)}</strong> ha`;
+                row.appendChild(avgDiv);
+
+                container.appendChild(row);
+            });
+        }
+
+        const tooltip = document.getElementById('tooltip');
+
+        function showTooltipWaffle(e, cat, national) {
+            const data = national.totals[cat];
+            const pctCount = (data.count / national.totalCount * 100).toFixed(1);
+            const pctSurface = (data.surface / national.totalSurface * 100).toFixed(1);
+
+            tooltip.innerHTML = `
                 <div class="tooltip-title">${CATEGORY_LABELS[cat]}</div>
                 <div class="tooltip-row">
                     <span class="tooltip-label">Parcelles:</span>
@@ -866,12 +886,12 @@
                     <span class="tooltip-value">${Math.round(data.surface).toLocaleString()} ha (${pctSurface}%)</span>
                 </div>
             `;
-                tooltip.style.opacity = '1';
-                moveTooltip(e);
-            }
+            tooltip.style.opacity = '1';
+            moveTooltip(e);
+        }
 
-            function showTooltipRegion(e, region, category, data) {
-                tooltip.innerHTML = `
+        function showTooltipRegion(e, region, category, data) {
+            tooltip.innerHTML = `
                 <div class="tooltip-title">${region} — ${CATEGORY_LABELS[category]}</div>
                 <div class="tooltip-row">
                     <span class="tooltip-label">Parcelles:</span>
@@ -882,228 +902,228 @@
                     <span class="tooltip-value">${Math.round(data.surface).toLocaleString()} ha (${data.pct_surface}%)</span>
                 </div>
             `;
-                tooltip.style.opacity = '1';
-                moveTooltip(e);
-            }
+            tooltip.style.opacity = '1';
+            moveTooltip(e);
+        }
 
-            function moveTooltip(e) {
-                tooltip.style.left = (e.clientX + 15) + 'px';
-                tooltip.style.top = (e.clientY - 10) + 'px';
-            }
+        function moveTooltip(e) {
+            tooltip.style.left = (e.clientX + 15) + 'px';
+            tooltip.style.top = (e.clientY - 10) + 'px';
+        }
 
-            function hideTooltip() {
-                tooltip.style.opacity = '0';
-            }
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+        }
 
-            // ========================================
-            // DISTRIBUTION CURVES
-            // ========================================
+        // ========================================
+        // DISTRIBUTION CURVES
+        // ========================================
 
-            function setupCurves() {
-                const container = document.querySelector('.curves-wrapper');
-                cWidth = container.clientWidth - 40;
-                cHeight = 480;
-                cMargin = { top: 20, right: 20, bottom: 50, left: 42 };
+        function setupCurves() {
+            const container = document.querySelector('.curves-wrapper');
+            cWidth = container.clientWidth - 40;
+            cHeight = 480;
+            cMargin = { top: 20, right: 20, bottom: 50, left: 42 };
 
-                curvesSvg = d3.select("#curves-svg")
-                    .attr("width", cWidth)
-                    .attr("height", cHeight)
-                    .attr("viewBox", [0, 0, cWidth, cHeight]);
+            curvesSvg = d3.select("#curves-svg")
+                .attr("width", cWidth)
+                .attr("height", cHeight)
+                .attr("viewBox", [0, 0, cWidth, cHeight]);
 
-                const maxBin = curvesData.bins[curvesData.bins.length - 1].max;
-                const minBinMid = curvesData.bins[0].mid; // Dynamique au lieu de 0.08
-                cx = d3.scaleLog()
-                    .domain([minBinMid, Math.min(maxBin, 120)])
-                    .range([cMargin.left, cWidth - cMargin.right]);
+            const maxBin = curvesData.bins[curvesData.bins.length - 1].max;
+            const minBinMid = curvesData.bins[0].mid; // Dynamique au lieu de 0.08
+            cx = d3.scaleLog()
+                .domain([minBinMid, Math.min(maxBin, 120)])
+                .range([cMargin.left, cWidth - cMargin.right]);
 
-                const allPcts = Object.values(curvesData.regions).flatMap(r => r.percentages);
-                cy = d3.scaleLinear()
-                    .domain([0, d3.max(allPcts) * 1.15])
-                    .range([cHeight - cMargin.bottom, cMargin.top]);
+            const allPcts = Object.values(curvesData.regions).flatMap(r => r.percentages);
+            cy = d3.scaleLinear()
+                .domain([0, d3.max(allPcts) * 1.15])
+                .range([cHeight - cMargin.bottom, cMargin.top]);
 
-                // Grid
-                curvesSvg.append("g")
-                    .attr("class", "curve-grid")
-                    .attr("transform", `translate(0,${cHeight - cMargin.bottom})`)
-                    .call(d3.axisBottom(cx)
-                        .tickValues([0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 20, 50, 100])
-                        .tickSize(-(cHeight - cMargin.top - cMargin.bottom))
-                        .tickFormat(""));
+            // Grid
+            curvesSvg.append("g")
+                .attr("class", "curve-grid")
+                .attr("transform", `translate(0,${cHeight - cMargin.bottom})`)
+                .call(d3.axisBottom(cx)
+                    .tickValues([0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 20, 50, 100])
+                    .tickSize(-(cHeight - cMargin.top - cMargin.bottom))
+                    .tickFormat(""));
 
-                curvesSvg.append("g")
-                    .attr("class", "curve-grid")
-                    .attr("transform", `translate(${cMargin.left},0)`)
-                    .call(d3.axisLeft(cy)
-                        .ticks(4)
-                        .tickSize(-(cWidth - cMargin.left - cMargin.right))
-                        .tickFormat(""));
+            curvesSvg.append("g")
+                .attr("class", "curve-grid")
+                .attr("transform", `translate(${cMargin.left},0)`)
+                .call(d3.axisLeft(cy)
+                    .ticks(4)
+                    .tickSize(-(cWidth - cMargin.left - cMargin.right))
+                    .tickFormat(""));
 
-                // Axes
-                curvesSvg.append("g")
-                    .attr("transform", `translate(0,${cHeight - cMargin.bottom})`)
-                    .attr("class", "curve-axis")
-                    .call(d3.axisBottom(cx)
-                        .tickValues([0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 20, 50, 100])
-                        .tickFormat(d => d >= 1 ? d + " ha" : d + ""));
+            // Axes
+            curvesSvg.append("g")
+                .attr("transform", `translate(0,${cHeight - cMargin.bottom})`)
+                .attr("class", "curve-axis")
+                .call(d3.axisBottom(cx)
+                    .tickValues([0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 20, 50, 100])
+                    .tickFormat(d => d >= 1 ? d + " ha" : d + ""));
 
-                curvesSvg.append("g")
-                    .attr("transform", `translate(${cMargin.left},0)`)
-                    .attr("class", "curve-axis")
-                    .call(d3.axisLeft(cy).ticks(4).tickFormat(d => d + "%"));
+            curvesSvg.append("g")
+                .attr("transform", `translate(${cMargin.left},0)`)
+                .attr("class", "curve-axis")
+                .call(d3.axisLeft(cy).ticks(4).tickFormat(d => d + "%"));
 
-                // Axis labels
-                curvesSvg.append("text")
-                    .attr("x", cWidth / 2)
-                    .attr("y", cHeight - 6)
-                    .attr("fill", "#94a3b8")
-                    .style("text-anchor", "middle")
-                    .style("font-size", "12px")
-                    .text("Surface de la parcelle (hectares, échelle log)");
+            // Axis labels
+            curvesSvg.append("text")
+                .attr("x", cWidth / 2)
+                .attr("y", cHeight - 6)
+                .attr("fill", "#94a3b8")
+                .style("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text("Surface de la parcelle (hectares, échelle log)");
 
-                curvesSvg.append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("x", -cHeight / 2)
-                    .attr("y", 16)
-                    .attr("fill", "#94a3b8")
-                    .style("text-anchor", "middle")
-                    .style("font-size", "12px")
-                    .text("% des parcelles");
+            curvesSvg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -cHeight / 2)
+                .attr("y", 16)
+                .attr("fill", "#94a3b8")
+                .style("text-anchor", "middle")
+                .style("font-size", "12px")
+                .text("% des parcelles");
 
-                // Clipping path to prevent lines bleeding outside the graph area
-                curvesSvg.append("clipPath")
-                    .attr("id", "curves-clip")
-                    .append("rect")
-                    .attr("x", cMargin.left)
-                    .attr("y", cMargin.top)
-                    .attr("width", cWidth - cMargin.left - cMargin.right)
-                    .attr("height", cHeight - cMargin.top - cMargin.bottom);
+            // Clipping path to prevent lines bleeding outside the graph area
+            curvesSvg.append("clipPath")
+                .attr("id", "curves-clip")
+                .append("rect")
+                .attr("x", cMargin.left)
+                .attr("y", cMargin.top)
+                .attr("width", cWidth - cMargin.left - cMargin.right)
+                .attr("height", cHeight - cMargin.top - cMargin.bottom);
 
-                // Layer groups
-                curvesSvg.append("g").attr("id", "c-areas-layer").attr("clip-path", "url(#curves-clip)");
-                curvesSvg.append("g").attr("id", "c-lines-layer").attr("clip-path", "url(#curves-clip)");
-                curvesSvg.append("g").attr("id", "c-dots-layer").attr("clip-path", "url(#curves-clip)");
-            }
+            // Layer groups
+            curvesSvg.append("g").attr("id", "c-areas-layer").attr("clip-path", "url(#curves-clip)");
+            curvesSvg.append("g").attr("id", "c-lines-layer").attr("clip-path", "url(#curves-clip)");
+            curvesSvg.append("g").attr("id", "c-dots-layer").attr("clip-path", "url(#curves-clip)");
+        }
 
-            function buildCurvesLegend() {
-                const container = document.getElementById('curves-legend');
-                const regions = Object.keys(curvesData.regions).sort();
+        function buildCurvesLegend() {
+            const container = document.getElementById('curves-legend');
+            const regions = Object.keys(curvesData.regions).sort();
 
-                regions.forEach((region, i) => {
-                    const color = CURVE_COLORS[i % CURVE_COLORS.length];
-                    const btn = document.createElement('button');
-                    btn.className = 'curve-btn active';
-                    btn.dataset.region = region;
-                    btn.innerHTML = `<span class="curve-dot" style="background:${color}"></span>${region}`;
+            regions.forEach((region, i) => {
+                const color = CURVE_COLORS[i % CURVE_COLORS.length];
+                const btn = document.createElement('button');
+                btn.className = 'curve-btn active';
+                btn.dataset.region = region;
+                btn.innerHTML = `<span class="curve-dot" style="background:${color}"></span>${region}`;
 
-                    activeRegionsCurves.add(region);
+                activeRegionsCurves.add(region);
 
-                    btn.addEventListener('click', () => {
-                        if (activeRegionsCurves.has(region)) {
-                            activeRegionsCurves.delete(region);
-                            btn.classList.remove('active');
-                        } else {
-                            activeRegionsCurves.add(region);
-                            btn.classList.add('active');
-                        }
-                        updateCurves();
-                    });
-
-                    container.appendChild(btn);
-                });
-
-                document.getElementById('btn-select-all').addEventListener('click', () => {
-                    regions.forEach(r => activeRegionsCurves.add(r));
-                    document.querySelectorAll('.curve-btn').forEach(b => b.classList.add('active'));
+                btn.addEventListener('click', () => {
+                    if (activeRegionsCurves.has(region)) {
+                        activeRegionsCurves.delete(region);
+                        btn.classList.remove('active');
+                    } else {
+                        activeRegionsCurves.add(region);
+                        btn.classList.add('active');
+                    }
                     updateCurves();
                 });
 
-                document.getElementById('btn-deselect-all').addEventListener('click', () => {
-                    activeRegionsCurves.clear();
-                    document.querySelectorAll('.curve-btn').forEach(b => b.classList.remove('active'));
-                    updateCurves();
+                container.appendChild(btn);
+            });
+
+            document.getElementById('btn-select-all').addEventListener('click', () => {
+                regions.forEach(r => activeRegionsCurves.add(r));
+                document.querySelectorAll('.curve-btn').forEach(b => b.classList.add('active'));
+                updateCurves();
+            });
+
+            document.getElementById('btn-deselect-all').addEventListener('click', () => {
+                activeRegionsCurves.clear();
+                document.querySelectorAll('.curve-btn').forEach(b => b.classList.remove('active'));
+                updateCurves();
+            });
+        }
+
+        function updateCurves() {
+            const regions = Object.keys(curvesData.regions).sort();
+            const line = d3.line()
+                .x((d, i) => cx(curvesData.bins[i].mid))
+                .y(d => cy(d))
+                .curve(d3.curveCardinal.tension(0.4));
+
+            const area = d3.area()
+                .x((d, i) => cx(curvesData.bins[i].mid))
+                .y0(cHeight - cMargin.bottom)
+                .y1(d => cy(d))
+                .curve(d3.curveCardinal.tension(0.4));
+
+            // Areas
+            const areas = curvesSvg.select("#c-areas-layer")
+                .selectAll(".region-area")
+                .data(regions, d => d);
+
+            areas.enter()
+                .append("path")
+                .attr("class", "region-area")
+                .merge(areas)
+                .transition().duration(400)
+                .attr("d", region => area(curvesData.regions[region].percentages))
+                .attr("fill", (d, i) => CURVE_COLORS[i % CURVE_COLORS.length])
+                .attr("opacity", d => activeRegionsCurves.has(d) ? 0.06 : 0);
+
+            areas.exit().remove();
+
+            // Lines
+            const lines = curvesSvg.select("#c-lines-layer")
+                .selectAll(".region-line")
+                .data(regions, d => d);
+
+            lines.enter()
+                .append("path")
+                .attr("class", "region-line")
+                .merge(lines)
+                .transition().duration(400)
+                .attr("d", region => line(curvesData.regions[region].percentages))
+                .attr("stroke", (d, i) => CURVE_COLORS[i % CURVE_COLORS.length])
+                .attr("opacity", d => activeRegionsCurves.has(d) ? 0.85 : 0)
+                .attr("stroke-width", d => activeRegionsCurves.size <= 3 ? 3 : 2);
+
+            lines.exit().remove();
+
+            // Interactive dots
+            const dotsData = [];
+            regions.forEach((region, ri) => {
+                if (!activeRegionsCurves.has(region)) return;
+                curvesData.regions[region].percentages.forEach((pct, bi) => {
+                    dotsData.push({ region, ri, bi, pct });
                 });
-            }
+            });
 
-            function updateCurves() {
-                const regions = Object.keys(curvesData.regions).sort();
-                const line = d3.line()
-                    .x((d, i) => cx(curvesData.bins[i].mid))
-                    .y(d => cy(d))
-                    .curve(d3.curveCardinal.tension(0.4));
+            const dots = curvesSvg.select("#c-dots-layer")
+                .selectAll("circle")
+                .data(dotsData, d => d.region + "-" + d.bi);
 
-                const area = d3.area()
-                    .x((d, i) => cx(curvesData.bins[i].mid))
-                    .y0(cHeight - cMargin.bottom)
-                    .y1(d => cy(d))
-                    .curve(d3.curveCardinal.tension(0.4));
+            dots.enter()
+                .append("circle")
+                .attr("r", 4)
+                .attr("opacity", 0)
+                .attr("stroke", "white")
+                .attr("stroke-width", 0)
+                .merge(dots)
+                .attr("cx", d => cx(curvesData.bins[d.bi].mid))
+                .attr("cy", d => cy(d.pct))
+                .attr("fill", d => CURVE_COLORS[d.ri % CURVE_COLORS.length])
+                .on("mouseover", function (event, d) {
+                    d3.select(this)
+                        .attr("opacity", 1).attr("r", 7).attr("stroke-width", 2);
 
-                // Areas
-                const areas = curvesSvg.select("#c-areas-layer")
-                    .selectAll(".region-area")
-                    .data(regions, d => d);
+                    curvesSvg.selectAll(".region-line")
+                        .attr("opacity", r => r === d.region ? 1 : 0.12)
+                        .attr("stroke-width", r => r === d.region ? 4 : 1.5);
 
-                areas.enter()
-                    .append("path")
-                    .attr("class", "region-area")
-                    .merge(areas)
-                    .transition().duration(400)
-                    .attr("d", region => area(curvesData.regions[region].percentages))
-                    .attr("fill", (d, i) => CURVE_COLORS[i % CURVE_COLORS.length])
-                    .attr("opacity", d => activeRegionsCurves.has(d) ? 0.06 : 0);
-
-                areas.exit().remove();
-
-                // Lines
-                const lines = curvesSvg.select("#c-lines-layer")
-                    .selectAll(".region-line")
-                    .data(regions, d => d);
-
-                lines.enter()
-                    .append("path")
-                    .attr("class", "region-line")
-                    .merge(lines)
-                    .transition().duration(400)
-                    .attr("d", region => line(curvesData.regions[region].percentages))
-                    .attr("stroke", (d, i) => CURVE_COLORS[i % CURVE_COLORS.length])
-                    .attr("opacity", d => activeRegionsCurves.has(d) ? 0.85 : 0)
-                    .attr("stroke-width", d => activeRegionsCurves.size <= 3 ? 3 : 2);
-
-                lines.exit().remove();
-
-                // Interactive dots
-                const dotsData = [];
-                regions.forEach((region, ri) => {
-                    if (!activeRegionsCurves.has(region)) return;
-                    curvesData.regions[region].percentages.forEach((pct, bi) => {
-                        dotsData.push({ region, ri, bi, pct });
-                    });
-                });
-
-                const dots = curvesSvg.select("#c-dots-layer")
-                    .selectAll("circle")
-                    .data(dotsData, d => d.region + "-" + d.bi);
-
-                dots.enter()
-                    .append("circle")
-                    .attr("r", 4)
-                    .attr("opacity", 0)
-                    .attr("stroke", "white")
-                    .attr("stroke-width", 0)
-                    .merge(dots)
-                    .attr("cx", d => cx(curvesData.bins[d.bi].mid))
-                    .attr("cy", d => cy(d.pct))
-                    .attr("fill", d => CURVE_COLORS[d.ri % CURVE_COLORS.length])
-                    .on("mouseover", function (event, d) {
-                        d3.select(this)
-                            .attr("opacity", 1).attr("r", 7).attr("stroke-width", 2);
-
-                        curvesSvg.selectAll(".region-line")
-                            .attr("opacity", r => r === d.region ? 1 : 0.12)
-                            .attr("stroke-width", r => r === d.region ? 4 : 1.5);
-
-                        const bin = curvesData.bins[d.bi];
-                        const rData = curvesData.regions[d.region];
-                        tooltip.innerHTML = `
+                    const bin = curvesData.bins[d.bi];
+                    const rData = curvesData.regions[d.region];
+                    tooltip.innerHTML = `
                         <div class="tooltip-title" style="color:${CURVE_COLORS[d.ri % CURVE_COLORS.length]}">${d.region}</div>
                         <div class="tooltip-row">
                             <span class="tooltip-label">Taille :</span>
@@ -1118,26 +1138,26 @@
                             <span class="tooltip-value">${rData.avg_size} ha</span>
                         </div>
                     `;
-                        tooltip.style.opacity = '1';
-                        moveTooltip(event);
-                    })
-                    .on("mousemove", moveTooltip)
-                    .on("mouseout", function () {
-                        d3.select(this)
-                            .attr("opacity", 0).attr("r", 4).attr("stroke-width", 0);
+                    tooltip.style.opacity = '1';
+                    moveTooltip(event);
+                })
+                .on("mousemove", moveTooltip)
+                .on("mouseout", function () {
+                    d3.select(this)
+                        .attr("opacity", 0).attr("r", 4).attr("stroke-width", 0);
 
-                        curvesSvg.selectAll(".region-line")
-                            .attr("opacity", d => activeRegionsCurves.has(d) ? 0.85 : 0)
-                            .attr("stroke-width", activeRegionsCurves.size <= 3 ? 3 : 2);
+                    curvesSvg.selectAll(".region-line")
+                        .attr("opacity", d => activeRegionsCurves.has(d) ? 0.85 : 0)
+                        .attr("stroke-width", activeRegionsCurves.size <= 3 ? 3 : 2);
 
-                        hideTooltip();
-                    });
+                    hideTooltip();
+                });
 
-                dots.exit().remove();
-            }
+            dots.exit().remove();
+        }
 
-            init();
-        </script>
+        init();
+    </script>
 </body>
 
 </html>
