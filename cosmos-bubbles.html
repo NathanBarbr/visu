@@ -261,70 +261,80 @@
 
         /* Cosmos sidebar info */
         .cosmos-info {
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            max-width: 280px;
-            z-index: 10;
+            border-top: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
             opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            flex-shrink: 0;
         }
 
         .cosmos-info.active {
             opacity: 1;
-            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .cosmos-info-left {
+            flex: 1;
+            min-width: 0;
         }
 
         .cosmos-info h3 {
             font-family: 'Playfair Display', serif;
             font-weight: 500;
-            font-size: 1.2rem;
-            margin-bottom: 12px;
+            font-size: 1.25rem;
+            margin: 0;
             color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .cosmos-info .meta {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 4px;
+        }
+
+        .cosmos-stats-row {
+            display: flex;
+            align-items: center;
+            gap: 32px;
         }
 
         .cosmos-stat {
             display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .cosmos-stat:last-child {
-            border-bottom: none;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .cosmos-stat-label {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
         }
 
         .cosmos-stat-value {
             color: var(--text-primary);
             font-weight: 600;
+            font-size: 1.1rem;
+            font-family: 'Playfair Display', serif;
         }
 
         .click-hint {
-            margin-top: 12px;
-            padding: 10px;
+            padding: 8px 14px;
             background: rgba(10, 132, 255, 0.15);
             border-radius: 8px;
             font-size: 0.8rem;
             color: var(--accent-blue);
-            text-align: center;
+            white-space: nowrap;
         }
 
         /* Connection indicator */
@@ -422,18 +432,22 @@
             </div>
             <div id="cosmos-viz"></div>
             <div id="cosmos-info" class="cosmos-info">
-                <div class="meta" id="cosmos-meta">Groupe de Culture</div>
-                <h3 id="cosmos-name">--</h3>
-                <div class="cosmos-stat">
-                    <span class="cosmos-stat-label">Surface</span>
-                    <span class="cosmos-stat-value" id="cosmos-surface">0 ha</span>
+                <div class="cosmos-info-left">
+                    <div class="meta" id="cosmos-meta">Groupe de Culture</div>
+                    <h3 id="cosmos-name">Survolez une bulle</h3>
                 </div>
-                <div class="cosmos-stat">
-                    <span class="cosmos-stat-label">Parcelles</span>
-                    <span class="cosmos-stat-value" id="cosmos-count">0</span>
-                </div>
-                <div class="click-hint" id="cosmos-hint">
-                    Cliquez pour filtrer →
+                <div class="cosmos-stats-row">
+                    <div class="cosmos-stat">
+                        <span class="cosmos-stat-label">Surface</span>
+                        <span class="cosmos-stat-value" id="cosmos-surface">--</span>
+                    </div>
+                    <div class="cosmos-stat">
+                        <span class="cosmos-stat-label">Parcelles</span>
+                        <span class="cosmos-stat-value" id="cosmos-count">--</span>
+                    </div>
+                    <div class="click-hint" id="cosmos-hint" style="display: none;">
+                        Cliquez pour filtrer →
+                    </div>
                 </div>
             </div>
         </div>
