@@ -172,6 +172,15 @@
             margin-bottom: 30px;
         }
 
+        .waffle-note {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            max-width: 420px;
+        }
+
         .waffle-legend {
             display: flex;
             gap: 12px;
@@ -607,7 +616,10 @@
         <div class="section">
             <div class="section-title">Atlas National — 100 Parcelles Représentatives</div>
             <div class="atlas-wrapper">
-                <div class="waffle-container" id="waffle"></div>
+                <div class="waffle-container">
+                    <div id="waffle"></div>
+                    <div class="waffle-note">Chaque carré représente 1% des parcelles françaises. La couleur indique leur classe de taille.</div>
+                </div>
                 <div class="waffle-legend" id="waffle-legend"></div>
             </div>
         </div>
