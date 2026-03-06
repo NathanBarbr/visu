@@ -188,6 +188,16 @@
             justify-content: center;
         }
 
+        .waffle-legend-title {
+            width: 100%;
+            margin-bottom: 2px;
+            text-align: center;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
         .waffle-legend-item {
             display: flex;
             align-items: center;
@@ -620,7 +630,9 @@
                     <div id="waffle"></div>
                     <div class="waffle-note">Chaque carré représente 1% des parcelles françaises. La couleur indique leur classe de taille.</div>
                 </div>
-                <div class="waffle-legend" id="waffle-legend"></div>
+                <div class="waffle-legend" id="waffle-legend">
+                    <div class="waffle-legend-title">Légende : part des parcelles par classe de taille</div>
+                </div>
             </div>
         </div>
 
