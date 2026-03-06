@@ -709,9 +709,11 @@
     <div id="heatmap-legend" class="legend hidden"
         style="position: absolute; right: 20px; bottom: 30px; z-index: 1000; width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
         <div class="legend-title">Densité des parcelles agricoles</div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-top: -8px; margin-bottom: 16px; line-height: 1.4;">
-            Représente la concentration locale des parcelles filtrées (pondérée par leur surface).
-        </p>
+        <div
+            style="font-size: 11px; color: var(--text-muted); margin-top: -8px; margin-bottom: 16px; line-height: 1.4;">
+            Densité relative basée sur un échantillon uniforme de 5 000 parcelles (pondération par surface). L'échelle
+            visuelle n'a pas de valeur absolue.
+        </div>
 
         <!-- Barre de gradient pour la Heatmap -->
         <div style="width: 100%;">
@@ -722,9 +724,6 @@
                 style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-primary); font-weight: 500;">
                 <span>Faible densité</span>
                 <span>Forte densité</span>
-            </div>
-            <div style="text-align: center; font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-                Densité pondérée par la surface (ha)
             </div>
         </div>
     </div>
