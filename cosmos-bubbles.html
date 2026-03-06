@@ -228,6 +228,12 @@
             text-anchor: middle;
             pointer-events: none;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            transition: opacity 0.3s;
+        }
+
+        .bubble-label.filtered-out {
+            display: none !important;
+            opacity: 0 !important;
         }
 
         /* Legend */
@@ -837,7 +843,7 @@
                 });
 
             // Labels for big bubbles only (reduce text overplotting)
-            svg.append("g")
+            const labels = svg.append("g")
                 .selectAll("text")
                 .data(dataset.filter(d => d.count > 250000 || d.surface > 1000000))
                 .join("text")
@@ -848,7 +854,7 @@
                 .text(d => d.label.length > 12 ? d.label.substring(0, 10) + "..." : d.label);
 
             // Store for filtering
-            bubblesViz = { svg, bubbles, dataset };
+            bubblesViz = { svg, bubbles, labels, dataset };
         }
 
         // ========================================
@@ -862,10 +868,14 @@
             badge.classList.add('active');
             document.getElementById('filter-name').textContent = groupName;
 
-            // Filter bubbles
+            // Filter bubbles and labels
             bubblesViz.bubbles
                 .classed("filtered-out", d => d.groupCode !== groupCode)
                 .classed("highlighted", d => d.groupCode === groupCode);
+
+            if (bubblesViz.labels) {
+                bubblesViz.labels.classed("filtered-out", d => d.groupCode !== groupCode);
+            }
 
             updateStats(groupCode);
         }
@@ -879,6 +889,10 @@
             bubblesViz.bubbles
                 .classed("filtered-out", false)
                 .classed("highlighted", false);
+
+            if (bubblesViz.labels) {
+                bubblesViz.labels.classed("filtered-out", false);
+            }
 
             // Reset cosmos zoom
             if (window.cosmosRoot) {
@@ -894,6 +908,10 @@
             bubblesViz.bubbles
                 .classed("filtered-out", d => d.groupCode !== groupCode)
                 .classed("highlighted", d => d.groupCode === groupCode);
+
+            if (bubblesViz.labels) {
+                bubblesViz.labels.classed("filtered-out", d => d.groupCode !== groupCode);
+            }
         }
 
         function highlightBubbleByCode(cultureCode) {
@@ -902,12 +920,20 @@
             bubblesViz.bubbles
                 .classed("filtered-out", d => d.code !== cultureCode)
                 .classed("highlighted", d => d.code === cultureCode);
+
+            if (bubblesViz.labels) {
+                bubblesViz.labels.classed("filtered-out", d => d.code !== cultureCode);
+            }
         }
 
         function clearBubbleHighlights() {
             bubblesViz.bubbles
                 .classed("filtered-out", false)
                 .classed("highlighted", false);
+
+            if (bubblesViz.labels) {
+                bubblesViz.labels.classed("filtered-out", false);
+            }
         }
 
         function updateStats(filterGroupCode = null) {
