@@ -539,34 +539,60 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 40px;
+            gap: 32px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .waffle-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .waffle-caption {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            min-width: 260px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            margin-bottom: 12px;
-            padding: 12px;
-            background: var(--bg-dark);
-            border-radius: 10px;
+            gap: 12px;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, border-color 0.2s, background 0.2s;
         }
 
         .legend-item:hover {
-            transform: translateX(6px);
+            transform: translateX(4px);
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .legend-color {
             width: 14px;
             height: 14px;
             border-radius: 4px;
-            margin-right: 12px;
+            flex-shrink: 0;
         }
 
         .legend-text {
             display: flex;
             flex-direction: column;
+            gap: 4px;
         }
 
         .legend-label-text {
@@ -576,10 +602,8 @@
         }
 
         .legend-pct {
-            font-family: 'Playfair Display', serif;
-            font-weight: 500;
-            font-size: 1rem;
-            color: var(--text-primary);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
         }
 
         .unit {
@@ -632,6 +656,15 @@
 
             .waffle-wrapper {
                 flex-direction: column;
+                align-items: stretch;
+            }
+
+            .waffle-grid {
+                align-items: center;
+            }
+
+            .legend {
+                min-width: 0;
             }
 
             .sidebar {
@@ -731,9 +764,12 @@
 
         <!-- Waffle Chart -->
         <div class="card">
-            <h2>La « Ferme France » — 500 Hectares</h2>
+            <h2>La « Ferme France » — 500 Hectares en 100 carrés</h2>
             <div class="waffle-wrapper">
-                <div class="waffle-grid" id="waffle"></div>
+                <div class="waffle-grid">
+                    <div id="waffle"></div>
+                    <div class="waffle-caption">100 carrÃ©s, 1 carrÃ© = 1% de la surface, soit 5 hectares.</div>
+                </div>
                 <div class="legend" id="waffle-legend"></div>
             </div>
         </div>
@@ -1202,6 +1238,8 @@
 
         function renderWaffleChart(groupData) {
             const totalSurface = groupData.reduce((s, d) => s + d.surface, 0);
+            document.getElementById('waffle').innerHTML = '';
+            document.getElementById('waffle-legend').innerHTML = '';
             const dist = {};
             for (let key in CATEGORIES) dist[key] = 0;
             groupData.forEach(g => {
@@ -1214,7 +1252,7 @@
             });
 
             // Build waffle
-            const rows = 20, cols = 25, unitSize = 22, gap = 4;
+            const rows = 10, cols = 10, unitSize = 24, gap = 5;
             const waffleSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             waffleSvg.setAttribute('width', cols * (unitSize + gap));
             waffleSvg.setAttribute('height', rows * (unitSize + gap));
@@ -1226,6 +1264,7 @@
                 for (let i = 0; i < count; i++) units.push(cat);
             }
             while (units.length < rows * cols) units.push('AUTRES');
+            units = units.slice(0, rows * cols);
 
             for (let i = 0; i < rows * cols; i++) {
                 const cat = units[i] || 'AUTRES';
