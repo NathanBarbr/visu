@@ -1016,7 +1016,7 @@
                             <div class="dot" style="background:${getColor(c.code)}"></div>
                             ${getLabel(c.code)}
                         </div>
-                        <div class="stat-value">${pct.toFixed(1)}%</div>
+                        <div class="stat-value">${pct.toFixed(1)}% de la surface</div>
                     </div>`;
             });
             html += `</div>`;
@@ -1258,7 +1258,7 @@
                     <div class="legend-color" style="background:${CATEGORIES[cat].color}"></div>
                     <div class="legend-text">
                         <div class="legend-label-text">${CATEGORIES[cat].label}</div>
-                        <div class="legend-pct">${pct.toFixed(1)}%</div>
+                        <div class="legend-pct">${pct.toFixed(1)}% de la surface</div>
                     </div>`;
                 item.onmouseover = () => document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '0.6');
                 item.onmouseout = () => document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '1');

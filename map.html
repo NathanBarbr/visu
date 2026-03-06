@@ -681,7 +681,7 @@
 
             <!-- Legend -->
             <div class="legend">
-                <div class="legend-title">Légende des cultures</div>
+                <div class="legend-title">Légende des cultures (surface en ha)</div>
                 <div class="legend-item">
                     <div class="legend-color" style="background: #10b981;"></div>
                     <span class="legend-label">PPH - Prairies permanentes</span>
@@ -716,12 +716,15 @@
         <!-- Barre de gradient pour la Heatmap -->
         <div style="width: 100%;">
             <div
-                style="height: 10px; border-radius: 5px; background: linear-gradient(to right, blue, lime, red); margin-bottom: 6px;">
+                style="height: 10px; border-radius: 5px; background: linear-gradient(to right, blue, cyan, lime, yellow, red); margin-bottom: 6px;">
             </div>
             <div
                 style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-primary); font-weight: 500;">
                 <span>Faible densité</span>
                 <span>Forte densité</span>
+            </div>
+            <div style="text-align: center; font-size: 10px; color: var(--text-muted); margin-top: 4px;">
+                Densité pondérée par la surface (ha)
             </div>
         </div>
     </div>
@@ -772,11 +775,11 @@
         ];
 
         const SIZES = {
-            "micro": { label: "Micro (<0.5 ha)" },
-            "petite": { label: "Petite (0.5-3 ha)" },
-            "moyenne": { label: "Moyenne (3-10 ha)" },
-            "grande": { label: "Grande (10-50 ha)" },
-            "tres_grande": { label: "Très grande (>50 ha)" }
+            "micro": { label: "Micro (< 0.5 ha)" },
+            "petite": { label: "Petite (0.5–3 ha)" },
+            "moyenne": { label: "Moyenne (3–10 ha)" },
+            "grande": { label: "Grande (10–50 ha)" },
+            "tres_grande": { label: "Très grande (> 50 ha)" }
         };
 
         // State
@@ -1087,10 +1090,12 @@
                 });
 
                 heatmapLayer = L.heatLayer(heatData, {
-                    radius: 25,
-                    blur: 15,
+                    radius: 30,
+                    blur: 10,
                     maxZoom: 10,
-                    gradient: { 0.4: 'blue', 0.65: 'lime', 1: 'red' }
+                    max: 1.0,
+                    minOpacity: 0.25,
+                    gradient: { 0.2: 'blue', 0.45: 'cyan', 0.65: 'lime', 0.85: 'yellow', 1: 'red' }
                 }).addTo(map);
 
             } else {
@@ -1162,7 +1167,7 @@
             const popupContent = `
                 <div class="popup-title">${p.culture || 'Culture inconnue'}</div>
                 <div class="popup-info">
-                    <strong>Surface:</strong> ${p.surface ? p.surface.toFixed(2) : 'N/A'} ha<br>
+                    <strong>Surface:</strong> ${p.surface ? p.surface.toFixed(2) + ' ha' : 'N/A'}<br>
                     <strong>Région:</strong> ${p.regionName || 'Inconnue'}<br>
                     <strong>ID:</strong> ${p.id || 'N/A'}
                 </div>

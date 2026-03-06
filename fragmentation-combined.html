@@ -515,25 +515,37 @@
 
         <!-- Legend -->
         <div class="legend">
-            <div class="legend-item">
-                <div class="legend-color" style="background: var(--color-micro);"></div>
-                <span>Micro (&lt;0.5 ha)</span>
+            <div class="legend-item" style="flex-direction: column; align-items: center; gap: 4px;">
+                <div style="width: 200px; height: 12px; border-radius: 6px; background: linear-gradient(to right, #ff453a, #ff9f0a, #ffd60a, #30d158, #0a84ff);"></div>
+                <div style="display: flex; justify-content: space-between; width: 200px; font-size: 0.7rem; color: var(--text-muted);">
+                    <span>0 ha</span>
+                    <span>0.5 ha</span>
+                    <span>3 ha</span>
+                    <span>10 ha</span>
+                    <span>50+ ha</span>
+                </div>
             </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: var(--color-petite);"></div>
-                <span>Petite (0.5-3 ha)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: var(--color-moyenne);"></div>
-                <span>Moyenne (3-10 ha)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: var(--color-grande);"></div>
-                <span>Grande (10-50 ha)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: var(--color-tres-grande);"></div>
-                <span>Très grande (&gt;50 ha)</span>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--color-micro);"></div>
+                    <span>Micro (&lt;0.5 ha)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--color-petite);"></div>
+                    <span>Petite (0.5–3 ha)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--color-moyenne);"></div>
+                    <span>Moyenne (3–10 ha)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--color-grande);"></div>
+                    <span>Grande (10–50 ha)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--color-tres-grande);"></div>
+                    <span>Très grande (&gt;50 ha)</span>
+                </div>
             </div>
         </div>
 
@@ -712,8 +724,8 @@
                 item.innerHTML = `
                     <div class="waffle-legend-color" style="background: ${CATEGORY_COLORS[cat]}"></div>
                     <div class="waffle-legend-text">
-                        <div class="waffle-legend-label">${CATEGORY_LABELS[cat].split(' ')[0]}</div>
-                        <div class="waffle-legend-pct">${pct}%</div>
+                        <div class="waffle-legend-label">${CATEGORY_LABELS[cat]}</div>
+                        <div class="waffle-legend-pct">${pct}% des parcelles</div>
                     </div>
                 `;
 
@@ -767,7 +779,8 @@
 
                 const avgDiv = document.createElement('div');
                 avgDiv.className = 'avg-size';
-                avgDiv.innerHTML = `<strong>${regionData.avg_size.toFixed(2)}</strong> ha`;
+                avgDiv.title = 'Surface moyenne par parcelle';
+                avgDiv.innerHTML = `<strong>${regionData.avg_size.toFixed(2)}</strong> ha/parc.`;
                 row.appendChild(avgDiv);
 
                 container.appendChild(row);
