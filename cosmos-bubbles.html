@@ -835,8 +835,10 @@
                         .style("left", Math.min(event.pageX + 15, window.innerWidth - 300) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
-                .on("mouseout", function () {
-                    if (!currentFilter || d3.select(this).attr("data-group") === currentFilter.groupCode) {
+                .on("mouseout", function (event, d) {
+                    if (currentFilter && d.groupCode === currentFilter.groupCode) {
+                        d3.select(this).classed("highlighted", true);
+                    } else {
                         d3.select(this).classed("highlighted", false);
                     }
                     tooltip.style("opacity", 0);
