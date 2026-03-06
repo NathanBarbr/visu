@@ -555,6 +555,8 @@
             font-size: 0.78rem;
             color: var(--text-muted);
             letter-spacing: 0.02em;
+            line-height: 1.5;
+            max-width: 360px;
         }
 
         .legend {
@@ -764,11 +766,11 @@
 
         <!-- Waffle Chart -->
         <div class="card">
-            <h2>La « Ferme France » — 500 Hectares en 100 carrés</h2>
+            <h2>La « Ferme France » — 100 Hectares</h2>
             <div class="waffle-wrapper">
                 <div class="waffle-grid">
                     <div id="waffle"></div>
-                    <div class="waffle-caption">100 carrÃ©s, 1 carrÃ© = 1% de la surface, soit 5 hectares.</div>
+                    <div class="waffle-caption">Miniature en 100 carrés : 1 carré = 1 hectare, soit 1% de la surface totale des parcelles françaises.</div>
                 </div>
                 <div class="legend" id="waffle-legend"></div>
             </div>
@@ -1297,7 +1299,7 @@
                     <div class="legend-color" style="background:${CATEGORIES[cat].color}"></div>
                     <div class="legend-text">
                         <div class="legend-label-text">${CATEGORIES[cat].label}</div>
-                        <div class="legend-pct">${pct.toFixed(1)}% de la surface</div>
+                        <div class="legend-pct">${pct.toFixed(1)}% de la surface totale des parcelles françaises</div>
                     </div>`;
                 item.onmouseover = () => document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '0.6');
                 item.onmouseout = () => document.querySelectorAll(`[data-cat="${cat}"]`).forEach(u => u.style.opacity = '1');
