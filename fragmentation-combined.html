@@ -516,8 +516,11 @@
         <!-- Legend -->
         <div class="legend">
             <div class="legend-item" style="flex-direction: column; align-items: center; gap: 4px;">
-                <div style="width: 200px; height: 12px; border-radius: 6px; background: linear-gradient(to right, #ff453a, #ff9f0a, #ffd60a, #30d158, #0a84ff);"></div>
-                <div style="display: flex; justify-content: space-between; width: 200px; font-size: 0.7rem; color: var(--text-muted);">
+                <div
+                    style="width: 200px; height: 12px; border-radius: 6px; background: linear-gradient(to right, #ff453a, #ff9f0a, #ffd60a, #30d158, #0a84ff);">
+                </div>
+                <div
+                    style="display: flex; justify-content: space-between; width: 200px; font-size: 0.7rem; color: var(--text-muted);">
                     <span>0 ha</span>
                     <span>0.5 ha</span>
                     <span>3 ha</span>
@@ -850,8 +853,9 @@
                 .attr("viewBox", [0, 0, cWidth, cHeight]);
 
             const maxBin = curvesData.bins[curvesData.bins.length - 1].max;
+            const minBinMid = curvesData.bins[0].mid; // Dynamique au lieu de 0.08
             cx = d3.scaleLog()
-                .domain([0.08, Math.min(maxBin, 120)])
+                .domain([minBinMid, Math.min(maxBin, 120)])
                 .range([cMargin.left, cWidth - cMargin.right]);
 
             const allPcts = Object.values(curvesData.regions).flatMap(r => r.percentages);
@@ -907,10 +911,19 @@
                 .style("font-size", "12px")
                 .text("% des parcelles");
 
+            // Clipping path to prevent lines bleeding outside the graph area
+            curvesSvg.append("clipPath")
+                .attr("id", "curves-clip")
+                .append("rect")
+                .attr("x", cMargin.left)
+                .attr("y", cMargin.top)
+                .attr("width", cWidth - cMargin.left - cMargin.right)
+                .attr("height", cHeight - cMargin.top - cMargin.bottom);
+
             // Layer groups
-            curvesSvg.append("g").attr("id", "c-areas-layer");
-            curvesSvg.append("g").attr("id", "c-lines-layer");
-            curvesSvg.append("g").attr("id", "c-dots-layer");
+            curvesSvg.append("g").attr("id", "c-areas-layer").attr("clip-path", "url(#curves-clip)");
+            curvesSvg.append("g").attr("id", "c-lines-layer").attr("clip-path", "url(#curves-clip)");
+            curvesSvg.append("g").attr("id", "c-dots-layer").attr("clip-path", "url(#curves-clip)");
         }
 
         function buildCurvesLegend() {
