@@ -753,6 +753,9 @@
                 .domain([1000, d3.max(dataset, d => d.surface) * 1.5])
                 .range([height - margin.bottom, margin.top]);
 
+            const yTickValues = [1000, 10000, 100000, 1000000, 5000000, 10000000]
+                .filter(value => value >= y.domain()[0] && value <= y.domain()[1]);
+
             const z = d3.scaleSqrt()
                 .domain([0, d3.max(dataset, d => d.count)])
                 .range([4, 45]);
@@ -766,7 +769,7 @@
             svg.append("g")
                 .attr("class", "grid")
                 .attr("transform", `translate(${margin.left},0)`)
-                .call(d3.axisLeft(y).ticks(5).tickSize(-(width - margin.left - margin.right)).tickFormat(""));
+                .call(d3.axisLeft(y).tickValues(yTickValues).tickSize(-(width - margin.left - margin.right)).tickFormat(""));
 
             // Axes
             svg.append("g")
@@ -776,7 +779,7 @@
 
             svg.append("g")
                 .attr("transform", `translate(${margin.left},0)`)
-                .call(d3.axisLeft(y).ticks(5, "~s").tickFormat(d => d3.format('.2s')(d) + ' ha'))
+                .call(d3.axisLeft(y).tickValues(yTickValues).tickFormat(d => d3.format('.2s')(d) + ' ha'))
                 .attr("class", "axis");
 
             // Axis Labels
