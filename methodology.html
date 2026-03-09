@@ -399,7 +399,8 @@
                         <td>2023</td>
                         <td>.pdf</td>
                         <td><a href="https://www.telepac.agriculture.gouv.fr/telepac/pdf/tas/2023/Dossier-PAC-2023_notice_cultures-precisions.pdf"
-                                target="_blank" style="color: #0a84ff; text-decoration: none;">TelePAC - Notice cultures 2023</a></td>
+                                target="_blank" style="color: #0a84ff; text-decoration: none;">TelePAC - Notice cultures
+                                2023</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -684,6 +685,40 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                 <li><strong>Lisibilité de la Heatmap :</strong> La carte de chaleur a été retravaillée au niveau de son
                     opacité pour ressortir plus nettement sur le fond de carte. Une légende a été ajoutée pour préciser
                     la nature <em>relative</em> de cette échelle de densité.</li>
+            </ul>
+        </section>
+        <section style="margin-top: 40px; margin-bottom: 20px;">
+            <h2>Limites et bugs connus</h2>
+            <p>Malgré les efforts d'optimisation et de correction, le projet présente certaines limites identifiées :
+            </p>
+            <ul>
+                <li><strong>Échantillonnage spatial :</strong> Pour des raisons de performance du navigateur, la carte
+                    interactive n'affiche qu'un échantillon aléatoire de 5 000 parcelles parmi plusieurs millions. Les
+                    macro-tendances sont représentées, mais la vue locale n'est pas exhaustive.</li>
+                <li><strong>Géoréférencement Turf.js :</strong> L'assignation des régions par point-in-polygon dans
+                    Leaflet peut dans de très rares cas assigner une mauvaise région si le centroïde d'une parcelle
+                    frontalière tombe légèrement à l'extérieur de la géométrie simplifiée de la région.</li>
+                <li><strong>Visualisation sur mobile :</strong> Certaines visualisations en D3.js (notamment le Cosmos
+                    des bulles) ne sont pas parfaitement adaptées aux très petits écrans et peuvent subir des problèmes
+                    d'occlusion (chevauchement).</li>
+            </ul>
+        </section>
+
+        <section style="margin-bottom: 40px;">
+            <h2>Crédits et sources</h2>
+            <p>L'ensemble des données et bibliothèques utilisées dans ce projet doivent être créditées :</p>
+            <ul>
+                <li><strong>Données RPG (ASP / IGN) :</strong> Les jeux de données du Registre Parcellaire Graphique
+                    sont exploités sous Licence Ouverte (Etalab). Accessibles sur <a
+                        href="https://geoservices.ign.fr/rpg" target="_blank"
+                        style="color: #0a84ff; text-decoration: none;">geoservices.ign.fr</a>.</li>
+                <li><strong>Contours administratifs :</strong> Limites régionales fournies par Admin Express (IGN).</li>
+                <li><strong>Bibliothèques Front-end :</strong> Les visualisations reposent sur <a
+                        href="https://d3js.org/" target="_blank"
+                        style="color: #0a84ff; text-decoration: none;">D3.js</a>, <a href="https://leafletjs.com/"
+                        target="_blank" style="color: #0a84ff; text-decoration: none;">Leaflet</a> et <a
+                        href="https://turfjs.org/" target="_blank"
+                        style="color: #0a84ff; text-decoration: none;">Turf.js</a>.</li>
             </ul>
         </section>
     </div>
