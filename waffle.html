@@ -91,7 +91,7 @@
 
         .waffle-grid {
             display: grid;
-            grid-template-columns: repeat(25, 1fr);
+            grid-template-columns: repeat(10, 1fr);
             gap: 3px;
             width: 550px;
             padding: 16px;
@@ -196,8 +196,8 @@
 
         <header>
             <h1>La « Ferme France »</h1>
-            <div class="subtitle">Si l'agriculture française tenait dans 500 carrés</div>
-            <div class="scale-info">1 carré ≈ 60 000 hectares</div>
+            <div class="subtitle">Si l'agriculture française tenait dans 100 carrés</div>
+            <div class="scale-info">1 carré = 1% de la surface (~280 000 hectares)</div>
         </header>
 
         <div class="content">
@@ -276,7 +276,7 @@
                 totalSurf += g.surface;
             });
 
-            const TOTAL_UNITS = 500;
+            const TOTAL_UNITS = 100;
             const distribution = [];
 
             Object.entries(totals).forEach(([key, val]) => {
