@@ -344,17 +344,21 @@
                 taille moyenne de parcelle et de morcellement.
             </p>
 
-            <h2>Limites</h2>
+            <h2>Limites et bugs connus</h2>
             <p>
-                Le projet repose en partie sur des agregations et sur un echantillon pour certaines vues interactives,
-                notamment la carte. Il est donc adapte a l'exploration et a la comparaison, mais pas a une lecture
-                exhaustive et fine de chaque parcelle du RPG.
+                Malgré les efforts d'optimisation et de correction, le projet présente certaines limites identifiées :
             </p>
-            <p>
-                Les classes de taille retenues simplifient aussi des distributions continues. Elles sont utiles pour
-                comparer rapidement les territoires, mais elles ne rendent pas toute la diversite des situations
-                locales.
-            </p>
+            <ul>
+                <li><strong>Échantillonnage spatial :</strong> Pour des raisons de performance du navigateur, la carte
+                    interactive n'affiche qu'un échantillon aléatoire de 5 000 parcelles parmi plusieurs millions. Les
+                    macro-tendances sont représentées, mais la vue locale n'est pas exhaustive.</li>
+                <li><strong>Géoréférencement Turf.js :</strong> L'assignation des régions par point-in-polygon dans
+                    Leaflet peut dans de très rares cas assigner une mauvaise région si le centroïde d'une parcelle
+                    frontalière tombe légèrement à l'extérieur de la géométrie simplifiée de la région.</li>
+                <li><strong>Visualisation sur mobile :</strong> Certaines visualisations en D3.js (notamment le Cosmos
+                    des bulles) ne sont pas parfaitement adaptées aux très petits écrans et peuvent subir des problèmes
+                    d'occlusion (chevauchement).</li>
+            </ul>
         </section>
 
         <section>
@@ -689,23 +693,6 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                     la nature <em>relative</em> de cette échelle de densité.</li>
             </ul>
         </section>
-        <section style="margin-top: 40px; margin-bottom: 20px;">
-            <h2>Limites et bugs connus</h2>
-            <p>Malgré les efforts d'optimisation et de correction, le projet présente certaines limites identifiées :
-            </p>
-            <ul>
-                <li><strong>Échantillonnage spatial :</strong> Pour des raisons de performance du navigateur, la carte
-                    interactive n'affiche qu'un échantillon aléatoire de 5 000 parcelles parmi plusieurs millions. Les
-                    macro-tendances sont représentées, mais la vue locale n'est pas exhaustive.</li>
-                <li><strong>Géoréférencement Turf.js :</strong> L'assignation des régions par point-in-polygon dans
-                    Leaflet peut dans de très rares cas assigner une mauvaise région si le centroïde d'une parcelle
-                    frontalière tombe légèrement à l'extérieur de la géométrie simplifiée de la région.</li>
-                <li><strong>Visualisation sur mobile :</strong> Certaines visualisations en D3.js (notamment le Cosmos
-                    des bulles) ne sont pas parfaitement adaptées aux très petits écrans et peuvent subir des problèmes
-                    d'occlusion (chevauchement).</li>
-            </ul>
-        </section>
-
     </div>
 </body>
 
