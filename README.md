@@ -2,6 +2,8 @@
 
 Ce dossier contient le mini-portail de visualisation autour des donnees RPG 2023.
 
+**Source des données :** Les données du Registre Parcellaire Graphique (RPG) utilisées dans ce projet ont été téléchargées depuis [https://geoservices.ign.fr/rpg](https://geoservices.ign.fr/rpg).
+
 Le point d'entree principal est [index.html](/c:/Users/natha/PycharmProjects/visu/projet/index.html). Les autres fichiers HTML correspondent soit a des visualisations finales, soit a des prototypes ou vues intermediaires.
 
 ## Vue d'ensemble
