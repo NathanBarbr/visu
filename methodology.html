@@ -315,8 +315,8 @@
                 déclarations de cultures de plusieurs millions de parcelles sur le territoire.
             </p>
             <p>
-                région, et visualiser la diversité des cultures qui composent le modèle agricole français ("La Ferme
-                France").
+                L'application permet d'explorer les spécificités de chaque région et de visualiser la diversité des
+                cultures qui composent le modèle agricole français ("La Ferme France").
             </p>
         </section>
 
@@ -373,11 +373,10 @@
 
             <h3>1. Échantillonnage Spatial et Géolocalisation (Carte)</h3>
             <p>
-                La base complète du RPG comportant plusieurs millions de polygones, l'affichage temps réel dans le
-                navigateur (Leaflet, Canvas) poserait d'immenses défis de performance. Afin de permettre une exploration
-                fluide par l'utilisateur, un échantillonnage via la technique de <em>Reservoir Sampling</em> a été
-                opéré, sélectionnant aléatoirement 5 000 parcelles représentatives réparties sur le territoire national.
-                Pour la carte de chaleur, un regroupement au barycentre des polygones (centroïdes) a été utilisé pour
+                La base complète du RPG comportant plusieurs millions de polygones, son affichage en temps réel dans le
+                navigateur poserait des problèmes de performance. Pour permettre une exploration
+                fluide, un échantillonnage aléatoire de 5 000 parcelles a été
+                réalisé. Pour la carte de chaleur, un regroupement au barycentre des polygones a été utilisé pour
                 calculer la densité locale.
             </p>
 
@@ -428,12 +427,6 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
 
         <section>
             <h2>Design et Visualisation</h2>
-            <p>
-                L'interface entière repose sur une philosophie <em>Dark Mode</em> moderne et immersive, inspirée des
-                interfaces géospatiales de pointe. L'architecture a été conçue sans framework lourd (comme React ou Vue)
-                pour maximiser les performances d'exécution des composants de dataviz complexes, tout en centralisant
-                les styles dans un système global (variables CSS).
-            </p>
 
             <h3>Conception et Maquettes (Croquis)</h3>
             <p>
@@ -521,7 +514,7 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                     </tr>
                     <tr>
                         <td><strong>Waffle Chart</strong><br>
-                            <span style="font-size: 12px; color: #86868b;">Ferme France — 100 parcelles</span>
+                            <span style="font-size: 12px; color: #86868b;">Ferme France : 100 parcelles</span>
                         </td>
                         <td>Tailles</td>
                         <td><span class="badge badge-geo">SVG natif</span></td>
@@ -597,14 +590,14 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
             <h3>2. Correction du bug d'agrégation des données régionales</h3>
             <p>
                 Comme cela nous a été souligné durant l'oral, les courbes de distribution des tailles de parcelles
-                présentaient une <strong>homogénéité suspecte</strong> entre les régions — les distributions étaient
+                présentaient une <strong>homogénéité suspecte</strong> entre les régions, les distributions étaient
                 quasi-identiques d'une région à l'autre, ce qui n'est pas réaliste sur le plan agricole.
             </p>
             <p>
                 Après investigation, nous avons identifié la source du problème : nos scripts d'agrégation
                 (<code>generate_distribution_curves.py</code> et <code>generate_fragmentation_regional.py</code>)
                 extrayaient les deux premiers chiffres de l'identifiant de parcelle, persuadés qu'il s'agissait
-                d'un code postal — et donc que ces chiffres correspondaient au code département.
+                d'un code postal, et donc que ces chiffres correspondaient au code département.
                 Or, lors de l'échantillonnage, les identifiants originaux du RPG ont été remplacés par des
                 identifiants internes numériques qui ne suivaient plus ce format.
                 Chaque « région » recevait donc un échantillon
@@ -615,7 +608,7 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                 <strong>join spatial (point-in-polygon)</strong> : le centroïde de chaque parcelle est calculé à partir
                 de sa géométrie réelle, puis confronté aux polygones des régions
                 (<code>regions.geojson</code>) via un algorithme de ray-casting. Les résultats sont désormais bien
-                différenciés — par exemple, la Corse affiche une taille moyenne de 7,82 ha contre 1,88 ha pour la
+                différenciés : par exemple, la Corse affiche une taille moyenne de 7,82 ha contre 1,88 ha pour la
                 Bretagne, ce qui correspond aux réalités agricoles de ces territoires.
             </p>
 
@@ -630,8 +623,8 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                 dominante, surface totale, nombre de parcelles) ainsi que le classement des cultures.
             </p>
             <p>
-                Ce choix de design réduit le nombre de visualisations séparées tout en conservant — voire en améliorant
-                — la richesse d'information accessible à l'utilisateur.
+                Ce choix de design réduit le nombre de visualisations séparées tout en conservant, voire en améliorant,
+                la richesse d'information accessible à l'utilisateur.
             </p>
 
             <h3>4. Ajout des courbes de distribution en parallèle de la fragmentation</h3>
@@ -641,7 +634,7 @@ result.<span class="fn">to_csv</span>(<span class="st">"cultures_statistiques.cs
                 de fragmentation existant (layout en double panneau). Cette mise en parallèle permet de mieux
                 appréhender le <strong>facteur d'échelle</strong> : les barres de fragmentation montrent les
                 proportions par catégorie (micro, petite, moyenne, grande), tandis que les courbes de distribution
-                révèlent la forme fine de la distribution — écrasée à gauche pour des régions comme PACA
+                révèlent la forme fine de la distribution, écrasée à gauche pour des régions comme PACA
                 (beaucoup de petites parcelles viticoles) ou plus étalée pour les régions de grandes cultures
                 comme l'Île-de-France. Cette complémentarité réduit le biais de lecture lié aux catégories
                 discrètes de taille.
