@@ -13,7 +13,7 @@ Le point d'entree principal est [index.html](/c:/Users/natha/PycharmProjects/vis
 | [index.html](/c:/Users/natha/PycharmProjects/visu/projet/index.html) | Portail d'accueil | Menu principal qui renvoie vers les visualisations du projet. |
 | [map.html](/c:/Users/natha/PycharmProjects/visu/projet/map.html) | Carte interactive France | Carte des parcelles avec filtres, recherche et heatmap. |
 | [overview-france.html](/c:/Users/natha/PycharmProjects/visu/projet/overview-france.html) | Statistiques nationales | Vue nationale avec KPIs, carte choroplethe, classement des regions, top cultures et "Ferme France". |
-| [cosmos-bubbles.html](/c:/Users/natha/PycharmProjects/visu/projet/cosmos-bubbles.html) | Nuage de bulles | Compare les cultures par surface totale, taille moyenne des parcelles et nombre de parcelles. |
+| [cosmos-bubbles.html](/c:/Users/natha/PycharmProjects/visu/projet/cosmos-bubbles.html) | Modèles d'Exploitation | Compare les cultures par surface totale, taille moyenne des parcelles et nombre de parcelles. |
 | [fragmentation-combined.html](/c:/Users/natha/PycharmProjects/visu/projet/fragmentation-combined.html) | Tailles des parcelles | Combine atlas national, comparaison regionale et courbes de distribution des tailles. |
 | [methodology.html](/c:/Users/natha/PycharmProjects/visu/projet/methodology.html) | Methodologie | Documentation du pipeline, des choix de design et des transformations. |
 
@@ -52,7 +52,7 @@ Le point d'entree principal est [index.html](/c:/Users/natha/PycharmProjects/vis
 - [data_rankings.json](/c:/Users/natha/PycharmProjects/visu/projet/data_rankings.json) : classements regionaux par culture.
 - [regions.geojson](/c:/Users/natha/PycharmProjects/visu/projet/regions.geojson) : geometries de la carte.
 
-### 4. Nuage de bulles
+### 4. Modèles d'Exploitation
 
 - [cosmos-bubbles.html](/c:/Users/natha/PycharmProjects/visu/projet/cosmos-bubbles.html) : visualisation finale.
 - [data_summary_france.json](/c:/Users/natha/PycharmProjects/visu/projet/data_summary_france.json) : surface et nombre de parcelles par culture.
